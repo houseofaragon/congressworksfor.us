@@ -1,0 +1,9 @@
+{
+  "generator-react-webpack": {
+    "appName": "voting-app",
+    "style": "scss",
+    "cssmodules": true,
+    "postcss": true,
+    "generatedWithVersion": 4
+  }
+}
