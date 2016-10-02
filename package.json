@@ -13,7 +13,7 @@
     "release:major": "npm version prerelease && git push --follow-tags && npm publish --tag beta",
     "release:minor": "npm version prerelease && git push --follow-tags && npm publish --tag beta",
     "release:patch": "npm version prerelease && git push --follow-tags && npm publish --tag beta",
-    "serve:dev": "webpack-dev-server --open --env dev",
+    "serve:dev": "webpack-dev-server --open --public --env dev",
     "serve:dist": "webpack-dev-server --open --env dist -p --progress",
     "start": "npm run serve:dev",
     "test": "karma start",
@@ -73,11 +73,16 @@
     "webpack-dev-server": "^2.0.0-beta"
   },
   "dependencies": {
+    "es6-promise": "^4.0.3",
+    "fetch-everywhere": "^1.0.5",
+    "isomorphic-fetch": "^2.2.1",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
     "react-redux": "^4.4.5",
     "react-router": "^2.0.0",
+    "react-router-redux": "^4.0.6",
     "redux": "^3.6.0",
-    "redux-logger": "^2.6.1"
+    "redux-logger": "^2.6.1",
+    "redux-thunk": "^2.1.0"
   }
 }

@@ -6,10 +6,10 @@ class Landing extends React.Component {
     return (
       <div className="index">
         <div className="notice">
-          <h1>Donald</h1>
+          <h1>-</h1>
         </div>
         <div className="notice">
-          <h1>Hillary</h1>
+          <h1>-</h1>
         </div>
       </div>
     )

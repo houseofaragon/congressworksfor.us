@@ -8,16 +8,19 @@
  */
 /* Populated by react-webpack-redux:reducer */
 // import { combineReducers } from 'redux'
-import { SET_SEARCH_TERM } from '../actions/index'
+import { SET_SEARCH_TERM, SET_SEARCH_RESULTS } from '../actions/index'
 
 const initialState = {
-  searchTerm: ''
+  searchTerm: '',
+  results: []
 }
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_SEARCH_TERM:
       return reduceSearchTerm(state, action)
+    case SET_SEARCH_RESULTS:
+      return reduceSearchResults(state, action)
     default:
       return state
   }
@@ -25,7 +28,13 @@ const reducer = (state = initialState, action) => {
 
 const reduceSearchTerm = (state, action) => {
   const newState = {}
-  Object.assign(newState, state, {searchTerm: action.value})
+  Object.assign(newState, state, {searchTerm: action.searchTerm})
+  return newState
+}
+
+const reduceSearchResults = (state, action) => {
+  const newState = {}
+  Object.assign(newState, state, {results: action.results, searchTerm: action.searchTerm})
   return newState
 }
 
