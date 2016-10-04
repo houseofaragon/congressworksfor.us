@@ -1,6 +1,7 @@
 import promise from 'es6-promise'
 promise.polyfill()
 import fetch from 'isomorphic-fetch'
+import { browserHistory } from 'react-router'
 // import { normalize } from 'normalizr'
 // import { arrayOfResults } from '../schemas/result'
 
@@ -56,7 +57,6 @@ export const mergeEntities = (entities) => (
 )
 
 export const fetchSearchResults = (searchTerm) => (dispatch) => {
-  console.log('fetching')
   const searchURL = `https://www.govtrack.us/api/v2/bill?q=${searchTerm}&order_by=-current_status_date`
   const personURL = `https://www.govtrack.us/api/v2/person?q=${searchTerm}`
 
@@ -64,7 +64,7 @@ export const fetchSearchResults = (searchTerm) => (dispatch) => {
     return fetch(url)
     .then(response => response.json())
     .then(data => data.objects)
-    .catch(function (error) {
+    .catch((error) => {
       console.log('request failed', error)
     })
   }
@@ -73,13 +73,17 @@ export const fetchSearchResults = (searchTerm) => (dispatch) => {
     return fetch(url)
     .then(response => response.json())
     .then(data => data.objects)
-    .catch(function (error) {
+    .catch((error) => {
       console.log('request failed', error)
     })
   }
   Promise.all([fetchBills(searchURL), fetchPersons(personURL)])
     .then(results => {
-      return dispatch(setSearchResults(results, searchTerm))
+      dispatch(setSearchResults(results, searchTerm))
+      browserHistory.push('browse')
+    }).catch((error) => {
+      console.log('request failed', error)
+      browserHistory.push('browse')
     })
 }
 
@@ -88,7 +92,7 @@ export const fetchBill = (id) => (dispatch) => {
   return fetch(url)
     .then(response => response.json())
     .then(data => dispatch(setBill(data)))
-    .catch(function (error) {
+    .catch((error) => {
       console.log('request failed', error)
     })
 }
@@ -112,7 +116,7 @@ export const fetchPerson = (id) => (dispatch) => {
   return fetch(url)
     .then(response => response.json())
     .then(data => dispatch(setLegislator(data)))
-    .catch(function (error) {
+    .catch((error) => {
       console.log('request failed', error)
     })
 }

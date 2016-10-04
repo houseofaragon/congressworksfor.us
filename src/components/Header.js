@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, browserHistory } from 'react-router'
+import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { SET_SEARCH_TERM, SET_SEARCH_RESULTS, fetchSearchResults } from '../actions/index'
@@ -15,7 +15,6 @@ class Header extends React.Component {
   }
   getSearchResults (e) {
     this.props.fetchSearchResults(this.refs.term.value)
-    browserHistory.push('browse')
     e.preventDefault()
   }
   render () {

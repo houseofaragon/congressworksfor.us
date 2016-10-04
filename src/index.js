@@ -11,6 +11,7 @@ import Vote from './components/Vote'
 import Person from './components/Person'
 
 const { Router, Route, IndexRoute, browserHistory } = require('react-router')
+
 const store = configureStore()
 
 render(
@@ -18,7 +19,7 @@ render(
     <Router history={browserHistory}>
       <Route path='/' component={Layout} >
         <IndexRoute component={Landing} />
-        <Route path='browse' component={Browse} />
+        <Route path='/browse' component={Browse} />
         <Route path='/bill/:id' component={Details} />
         <Route path='/bill/:id/votes' component={Votes} />
         <Route path='/bill/:id/votes/:number' component={Vote} />

@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Bill from './Bill'
+import Person from './Person'
 
 class Browse extends React.Component {
   render () {
@@ -8,7 +9,10 @@ class Browse extends React.Component {
     return (
       <div className='container'>
         <div className='show-results'>
-          {results.map((item, idx) => <Bill key={idx} { ...item} />)}
+          <h1>Bills</h1>
+          {results[0].map((item, idx) => <Bill key={idx} { ...item} />)}
+          <h1>Legislators</h1>
+          {results[1].map((item, idx) => <Person key={idx} { ...item} />)}
         </div>
       </div>
     )

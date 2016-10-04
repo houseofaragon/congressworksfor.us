@@ -6,7 +6,7 @@ const Bill = (props) => (
     <div className='show-card'>
       <div className='show-card-text'>
         <h3 style={{color: '#000'}} className='show-card-title'>
-          {props.title}
+          {props.title_without_number}
         </h3>
       </div>
     </div>

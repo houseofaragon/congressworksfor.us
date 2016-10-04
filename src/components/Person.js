@@ -7,7 +7,7 @@ import { fetchPerson } from '../actions/index'
 
 class Person extends React.Component {
   componentDidMount () {
-    this.props.fetchPerson(this.props.params.id)
+    this.props.fetchPerson(this.props.id)
   }
   render () {
     const { person } = this.props || {}
