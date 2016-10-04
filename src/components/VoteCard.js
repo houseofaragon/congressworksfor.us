@@ -1,11 +1,13 @@
 import React from 'react'
+import { Link } from 'react-router'
 
 const VoteCard = (props) => (
   <div className='show-card'>
     <div className='show-card-text'>
-      <h3 style={{color: '#000'}} className='show-card-title'>
+      <Link to={`/person/${props.person.id}`}>
         {props.option.value} - {props.person.name}
-      </h3>
+      </Link>
+      <pre><code>{JSON.stringify(props, null, 4)}</code></pre>
     </div>
   </div>
 )

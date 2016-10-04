@@ -1,12 +1,13 @@
 // import { combineReducers } from 'redux'
-import { SET_SEARCH_TERM, SET_SEARCH_RESULTS, MERGE_ENTITIES, SET_BILL, SET_VOTES } from '../actions/index'
+import { SET_SEARCH_TERM, SET_SEARCH_RESULTS, MERGE_ENTITIES, SET_BILL, SET_VOTES, SET_LEGISLATOR } from '../actions/index'
 import merge from 'lodash/fp/merge'
 
 const initialState = {
   searchTerm: '',
   results: [],
   bill: {},
-  votes: []
+  votes: [],
+  person: {}
 }
 
 const reducer = (state = initialState, action) => {
@@ -21,6 +22,8 @@ const reducer = (state = initialState, action) => {
       return reduceSetBill(state, action)
     case SET_VOTES:
       return reduceSetVotes(state, action)
+    case SET_LEGISLATOR:
+      return reduceSetLegislator(state, action)
     default:
       return state
   }
@@ -47,6 +50,12 @@ const reduceSetBill = (state, action) => {
 const reduceSetVotes = (state, action) => {
   const newState = {}
   Object.assign(newState, state, {votes: action.votes})
+  return newState
+}
+
+const reduceSetLegislator = (state, action) => {
+  const newState = {}
+  Object.assign(newState, state, {person: action.person})
   return newState
 }
 

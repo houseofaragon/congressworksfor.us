@@ -8,6 +8,7 @@ import Browse from './components/Browse'
 import Details from './components/Details'
 import Votes from './components/Votes'
 import Vote from './components/Vote'
+import Person from './components/Person'
 
 const { Router, Route, IndexRoute, browserHistory } = require('react-router')
 const store = configureStore()
@@ -21,6 +22,7 @@ render(
         <Route path='/bill/:id' component={Details} />
         <Route path='/bill/:id/votes' component={Votes} />
         <Route path='/bill/:id/votes/:number' component={Vote} />
+        <Route path='/person/:id' component={Person} />
       </Route>
     </Router>
   </Provider>,

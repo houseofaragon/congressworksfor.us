@@ -8,6 +8,7 @@ export const SET_SEARCH_TERM = 'SET_SEARCH_TERM'
 export const SET_SEARCH_RESULTS = 'SET_SEARCH_RESULTS'
 export const SET_BILL = 'SET_BILL'
 export const SET_VOTES = 'SET_VOTES'
+export const SET_LEGISLATOR = 'SET_LEGISLATOR'
 
 // export const MERGE_ENTITIES = 'MERGE_ENTITIES'
 
@@ -40,6 +41,13 @@ export const setVotes = (votes) => (
   }
 )
 
+export const setLegislator = (person) => (
+  {
+    type: SET_LEGISLATOR,
+    person: person
+  }
+)
+
 export const mergeEntities = (entities) => (
   {
     type: 'MERGE_ENTITIES',
@@ -49,13 +57,29 @@ export const mergeEntities = (entities) => (
 
 export const fetchSearchResults = (searchTerm) => (dispatch) => {
   console.log('fetching')
-  const url = `https://www.govtrack.us/api/v2/bill?q=${searchTerm}&order_by=-current_status_date`
-  return fetch(url)
+  const searchURL = `https://www.govtrack.us/api/v2/bill?q=${searchTerm}&order_by=-current_status_date`
+  const personURL = `https://www.govtrack.us/api/v2/person?q=${searchTerm}`
+
+  const fetchBills = (url) => {
+    return fetch(url)
     .then(response => response.json())
-    .then(data => {
-      dispatch(setSearchResults(data.objects, searchTerm))
-    }).catch(function (error) {
+    .then(data => data.objects)
+    .catch(function (error) {
       console.log('request failed', error)
+    })
+  }
+
+  const fetchPersons = (url) => {
+    return fetch(url)
+    .then(response => response.json())
+    .then(data => data.objects)
+    .catch(function (error) {
+      console.log('request failed', error)
+    })
+  }
+  Promise.all([fetchBills(searchURL), fetchPersons(personURL)])
+    .then(results => {
+      return dispatch(setSearchResults(results, searchTerm))
     })
 }
 
@@ -63,9 +87,8 @@ export const fetchBill = (id) => (dispatch) => {
   const url = `https://www.govtrack.us/api/v2/bill/${id}`
   return fetch(url)
     .then(response => response.json())
-    .then(data => {
-      dispatch(setBill(data))
-    }).catch(function (error) {
+    .then(data => dispatch(setBill(data)))
+    .catch(function (error) {
       console.log('request failed', error)
     })
 }
@@ -84,15 +107,12 @@ export const fetchVote = (id) => (dispatch) => {
     .then(data => dispatch(setVotes(data.objects)))
 }
 
-// fetch('https://www.govtrack.us/api/v2/vote_voter/?vote=' + obj.id)
-
-export const fetchLegislators = (searchTerm) => (dispatch) => {
-  const url = 'https://congress.api.sunlightfoundation.com/legislators?apikey=a922e6b7b1004c37b7508366cd7500ac'
+export const fetchPerson = (id) => (dispatch) => {
+  const url = `https://www.govtrack.us/api/v2/person/${id}`
   return fetch(url)
     .then(response => response.json())
-    .then(data => {
-      dispatch(setSearchResults(data.results, searchTerm))
-    }).catch(function (error) {
+    .then(data => dispatch(setLegislator(data)))
+    .catch(function (error) {
       console.log('request failed', error)
     })
 }
