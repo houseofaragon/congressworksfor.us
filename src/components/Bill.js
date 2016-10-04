@@ -1,14 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router'
+
 const Bill = (props) => (
-  <Link to='/'>
+  <Link to={`/bill/${props.id}`}>
     <div className='show-card'>
       <div className='show-card-text'>
         <h3 style={{color: '#000'}} className='show-card-title'>
-          <h1> {props.result}</h1>
-            {props.result.map(item => {
-              <li>{item}</li>
-            })}
+          {props.title}
         </h3>
       </div>
     </div>
@@ -16,7 +14,9 @@ const Bill = (props) => (
 )
 
 Bill.propTypes = {
-  result: React.PropTypes.object
+  title: React.PropTypes.string,
+  title_without_number: React.PropTypes.string,
+  id: React.PropTypes.number.isRequired
 }
 
 export default Bill

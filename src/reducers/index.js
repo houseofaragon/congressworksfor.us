@@ -1,18 +1,12 @@
-/* Combine all available reducers to a single root reducer.
- *
- * CAUTION: When using the generators, this file is modified in some places.
- *          This is done via AST traversal - Some of your formatting may be lost
- *          in the process - no functionality should be broken though.
- *          This modifications only run once when the generator is invoked - if
- *          you edit them, they are not updated again.
- */
-/* Populated by react-webpack-redux:reducer */
 // import { combineReducers } from 'redux'
-import { SET_SEARCH_TERM, SET_SEARCH_RESULTS } from '../actions/index'
+import { SET_SEARCH_TERM, SET_SEARCH_RESULTS, MERGE_ENTITIES, SET_BILL, SET_VOTES } from '../actions/index'
+import merge from 'lodash/fp/merge'
 
 const initialState = {
   searchTerm: '',
-  results: []
+  results: [],
+  bill: {},
+  votes: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -21,6 +15,12 @@ const reducer = (state = initialState, action) => {
       return reduceSearchTerm(state, action)
     case SET_SEARCH_RESULTS:
       return reduceSearchResults(state, action)
+    case MERGE_ENTITIES:
+      return reduceMergeEntities(state, action)
+    case SET_BILL:
+      return reduceSetBill(state, action)
+    case SET_VOTES:
+      return reduceSetVotes(state, action)
     default:
       return state
   }
@@ -36,6 +36,22 @@ const reduceSearchResults = (state, action) => {
   const newState = {}
   Object.assign(newState, state, {results: action.results, searchTerm: action.searchTerm})
   return newState
+}
+
+const reduceSetBill = (state, action) => {
+  const newState = {}
+  Object.assign(newState, state, {bill: action.bill})
+  return newState
+}
+
+const reduceSetVotes = (state, action) => {
+  const newState = {}
+  Object.assign(newState, state, {votes: action.votes})
+  return newState
+}
+
+const reduceMergeEntities = (state, action) => {
+  return merge(action.entities, state, {})
 }
 
 export default reducer

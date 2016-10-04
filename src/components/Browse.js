@@ -4,18 +4,11 @@ import Bill from './Bill'
 
 class Browse extends React.Component {
   render () {
-    const { results, searchTerm } = this.props
+    const { results } = this.props
     return (
       <div className='container'>
         <div className='show-results'>
-          {results[0]}
-          {results.map((result, index) => {
-            <div>
-              <p>result[index]</p>
-              <Bill key={result.bill_id} result={result} />
-            </div>
-          })}
-          {searchTerm}
+          {results.map((item, idx) => <Bill key={idx} { ...item} />)}
         </div>
       </div>
     )

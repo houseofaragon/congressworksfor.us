@@ -3,6 +3,7 @@ import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { SET_SEARCH_TERM, SET_SEARCH_RESULTS, fetchSearchResults } from '../actions/index'
+
 class Header extends React.Component {
   constructor (props) {
     super(props)
@@ -23,9 +24,10 @@ class Header extends React.Component {
         <h1 className='brand'>
           <Link to='/' className='brand-link' />
         </h1>
+        <Link to='/bills'> Bills </Link>
+        <Link to='/legislators'> Legislators </Link>
         <form onSubmit={this.getSearchResults}>
           <input type='text' ref='term' className='search-input' placeholder='Search' value={this.props.searchTerm} onChange={this.handleSearchTermChange} />
-
         </form>
       </header>
     )
