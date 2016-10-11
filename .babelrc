@@ -2,7 +2,7 @@
   "presets": [
     "es2015-native-modules",
     "react",
-    "airbnb"
+    "airbnb",
   ],
   "plugins": [
     "transform-decorators-legacy",

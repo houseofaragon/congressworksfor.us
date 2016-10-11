@@ -1,7 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import AppBar from 'material-ui/AppBar'
+import FlatButton from 'material-ui/FlatButton'
+import TextField from 'material-ui/TextField'
+
 import { SET_SEARCH_TERM, SET_SEARCH_RESULTS, fetchSearchResults } from '../actions/index'
 
 class Header extends React.Component {
@@ -11,28 +15,43 @@ class Header extends React.Component {
     this.getSearchResults = this.getSearchResults.bind(this)
   }
   handleSearchTermChange (e) {
-    this.props.setSearchTerm(this.refs.term.value)
+    this.props.setSearchTerm(this.refs.term.getValue())
   }
   getSearchResults (e) {
-    this.props.fetchSearchResults(this.refs.term.value)
+    this.props.fetchSearchResults(this.refs.term.getValue())
     e.preventDefault()
+  }
+  handleTouchTap () {
+    browserHistory.push('/')
   }
   render () {
     return (
-      <header className='header'>
-        <h1 className='brand'>
-          <Link to='/' className='brand-link' />
-        </h1>
-        <Link to='/bills'> Bills </Link>
-        <Link to='/legislators'> Legislators </Link>
+      <AppBar
+        title={<span style={styles.title}>Vote</span>}
+        onTitleTouchTap={this.handleTouchTap}
+      >
+        <div>
+          <FlatButton label="Bills" href='/bills' />
+          <FlatButton label="Legislators" href='/legislators' />
+        </div>
         <form onSubmit={this.getSearchResults}>
-          <input type='text' ref='term' className='search-input' placeholder='Search' value={this.props.searchTerm} onChange={this.handleSearchTermChange} />
+          <TextField
+            hintText="By Bill or Legislator Name"
+            floatingLabelText="SEARCH"
+            ref="term"
+            value={this.props.searchTerm}
+            onChange={this.handleSearchTermChange}
+          />
         </form>
-      </header>
+      </AppBar>
     )
   }
 }
-
+const styles = {
+  title: {
+    cursor: 'pointer'
+  }
+}
 Header.propTypes = {
   setSearchTerm: React.PropTypes.func,
   searchTerm: React.PropTypes.string,

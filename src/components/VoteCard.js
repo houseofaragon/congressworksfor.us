@@ -1,14 +1,25 @@
+/*eslint-disable */
 import React from 'react'
-import { Link } from 'react-router'
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
 
 const VoteCard = (props) => (
-  <div className='show-card'>
-    <div className='show-card-text'>
-      <Link to={`/person/${props.person.id}`}>
-        {props.option.value} - {props.person.name}
-      </Link>
-      <pre><code>{JSON.stringify(props, null, 4)}</code></pre>
-    </div>
+  <div className='vote-list'>
+    <Card className='vote-list-card'>
+      <CardHeader
+        title={props.congress}
+        subtitle={props.category_label}
+        actAsExpander={true}
+        showExpandableButton={true}
+      />
+      <CardActions>
+        <FlatButton label="See all votes" href={`/bill/${props.bill_id}/votes/${props.id}`} />
+      </CardActions>
+      <CardText expandable={true}>
+        <p>{props.created}</p>
+        <p>Vote #{props.number}</p>
+      </CardText>
+    </Card>
   </div>
 )
 
@@ -17,7 +28,12 @@ VoteCard.propTypes = {
   person: React.PropTypes.object,
   name: React.PropTypes.string,
   option: React.PropTypes.object,
-  value: React.PropTypes.string
+  value: React.PropTypes.string,
+  chamber_label: React.PropTypes.string,
+  category_label: React.PropTypes.string,
+  created: React.PropTypes.string,
+  number: React.PropTypes.number,
+  params: React.PropTypes.object
 }
 
 export default VoteCard

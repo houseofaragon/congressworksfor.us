@@ -2,18 +2,99 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Bill from './Bill'
 import Person from './Person'
+import { Table, TableBody, TableRow, TableHeader, TableHeaderColumn } from 'material-ui/Table'
 
 class Browse extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      fixedHeader: true,
+      fixedFooter: true,
+      stripedRows: false,
+      showRowHover: true,
+      selectable: true,
+      multiSelectable: false,
+      enableSelectAll: false,
+      deselectOnClickaway: true,
+      showCheckboxes: false,
+      height: '300px',
+      width: '50%'
+    }
+  }
+  handleToggle (event, toggled) {
+    this.setState({
+      [event.target.name]: toggled
+    })
+  }
+
+  handleChange (event) {
+    this.setState({height: event.target.value})
+  }
+
   render () {
     const { results } = this.props
+    let billResults, legislatorResults
+    if (results[0] && results[1]) {
+      billResults = results[0].map((item, idx) => (
+        <TableRow key={idx}>
+          <Bill searchTerm={this.props.searchTerm} key={idx} title={item.official_title} id={item.bill_id} { ...item} />
+        </TableRow>
+      ))
+      legislatorResults = results[1].map((item, idx) => (
+        <TableRow key={idx}>
+          <Person searchTerm={this.props.searchTerm} key={idx} id={item.id} { ...item} />
+        </TableRow>
+      ))
+    } else if (!results) {
+      billResults = <p>No Bill results</p>
+      legislatorResults = <p>No Legislators</p>
+    }
     return (
       <div className='container'>
-        <div className='show-results'>
-          <h1>Bills</h1>
-          {results[0].map((item, idx) => <Bill key={idx} { ...item} />)}
-          <h1>Legislators</h1>
-          {results[1].map((item, idx) => <Person key={idx} { ...item} />)}
-        </div>
+        <Table
+          height={this.state.height}
+          fixedHeader={this.state.fixedHeader}
+          fixedFooter={this.state.fixedFooter}
+          selectable={this.state.selectable}
+          multiSelectable={this.state.multiSelectable}
+        >
+          <TableHeader adjustForCheckbox={this.state.showCheckboxes}>
+            <TableRow>
+              <TableHeaderColumn>Bills</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+
+          <TableBody
+            displayRowCheckbox={this.state.showCheckboxes}
+            deselectOnClickaway={this.state.deselectOnClickaway}
+            showRowHover={this.state.showRowHover}
+            stripedRows={this.state.stripedRows}
+          >
+            {billResults}
+          </TableBody>
+        </Table>
+        <Table
+          height={this.state.height}
+          fixedHeader={this.state.fixedHeader}
+          fixedFooter={this.state.fixedFooter}
+          selectable={this.state.selectable}
+          multiSelectable={this.state.multiSelectable}
+        >
+          <TableHeader >
+            <TableRow>
+              <TableHeaderColumn>Legislators</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody
+            displayRowCheckbox={this.state.showCheckboxes}
+            deselectOnClickaway={this.state.deselectOnClickaway}
+            showRowHover={this.state.showRowHover}
+            stripedRows={this.state.stripedRows}
+          >
+            {legislatorResults}
+          </TableBody>
+        </Table>
       </div>
     )
   }

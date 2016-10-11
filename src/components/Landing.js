@@ -1,16 +1,26 @@
 import React from 'react'
-import './app.css'
+import {Card, CardHeader, CardText} from 'material-ui/Card'
 
 class Landing extends React.Component {
   render () {
     return (
-      <div className="index">
-        <div className="notice">
-          <h1>-</h1>
-        </div>
-        <div className="notice">
-          <h1>-</h1>
-        </div>
+      <div>
+        <Card>
+          <CardHeader
+            title="Hello"
+          />
+          <CardText>
+            "Hello"
+          </CardText>
+        </Card>
+        <Card>
+          <CardHeader
+            title="Hello"
+          />
+          <CardText>
+            "Hello"
+          </CardText>
+        </Card>
       </div>
     )
   }
