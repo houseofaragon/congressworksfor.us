@@ -24,13 +24,15 @@ class PersonDetails extends React.Component {
     }
   }
 
-  componentDidMount () {
+  componentWillMount () {
     this.props.fetchPerson(this.props.params.id)
   }
 
   render () {
     const person = this.props.person[0] || {}
-    const personVoteHistory = this.props.person[1]
+    const personVoteHistory = this.props.person[1] || {}
+    const personSponsorHistory = this.props.person[2] || {}
+
     const { name, roles } = person
     let roleList
     if(roles){
@@ -101,6 +103,44 @@ class PersonDetails extends React.Component {
                       </Link>
                     <TableRowColumn>{row.created}</TableRowColumn>
                     <TableRowColumn>{row.vote.result}</TableRowColumn>
+                  </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <Table
+          height={this.state.height}
+          fixedHeader={this.state.fixedHeader}
+          fixedFooter={this.state.fixedFooter}
+          selectable={this.state.selectable}
+          multiSelectable={this.state.multiSelectable}
+          >
+            <TableHeader
+              displaySelectAll={this.state.showCheckboxes}
+              adjustForCheckbox={this.state.showCheckboxes}
+              enableSelectAll={this.state.enableSelectAll}
+            >
+              <TableRow>
+                <TableHeaderColumn colSpan="4" tooltip="Super Header" style={{textAlign: 'center'}}>
+                  {person.name}'s Voting History
+                </TableHeaderColumn>
+              </TableRow>
+              <TableRow>
+                <TableHeaderColumn tooltip="The Name">Bill Name</TableHeaderColumn>
+                <TableHeaderColumn tooltip="The Status">Date</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody
+              displayRowCheckbox={this.state.showCheckboxes}
+              deselectOnClickaway={this.state.deselectOnClickaway}
+              showRowHover={this.state.showRowHover}
+              stripedRows={this.state.stripedRows}
+            >
+              {personSponsorHistory.map((row, idx) => (
+                  <TableRow key={idx}>
+                      <Link to={`/bill/${row.id}`}>
+                        <TableRowColumn>{row.title}</TableRowColumn>
+                      </Link>
+                    <TableRowColumn>{row.introduced_date}</TableRowColumn>
                   </TableRow>
               ))}
             </TableBody>

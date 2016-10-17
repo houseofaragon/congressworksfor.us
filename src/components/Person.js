@@ -1,30 +1,25 @@
+/*eslint-disable */
 import React from 'react'
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card'
+import { Link } from 'react-router'
+import {Card, CardText} from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 
 const Person = (props) => (
-  <Card>
-    <CardHeader
-      title={props.name}
-      subtitle={props.description}
-    />
-    <CardText>
-      <p>{props.description}</p>
-      <p>{props.enddate}</p>
-      <p>{props.party}</p>
-    </CardText>
-    <CardActions>
-      <FlatButton label="View Profile" href={`/person/${props.id}`} />
-    </CardActions>
-  </Card>
+  <Link to={`/person/${props.id}`}>
+    <Card>
+      <CardText>
+        <p>{props.name}</p>
+      </CardText>
+    </Card>
+  </Link>
 )
 
 Person.propTypes = {
   name: React.PropTypes.string,
-  id: React.PropTypes.number.isRequired,
   description: React.PropTypes.string,
   enddate: React.PropTypes.string,
-  party: React.PropTypes.string
+  party: React.PropTypes.string,
+  id: React.PropTypes.number
 }
 
 export default Person

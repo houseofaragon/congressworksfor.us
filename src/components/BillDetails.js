@@ -19,22 +19,42 @@ class BillDetails extends React.Component {
     let voteLinks
     if (billVotes) {
       voteLinks = billVotes.map((vote, idx) => (
-        <VoteCard key={vote.id} number={vote.number} bill_id={id} {...vote} />
+        <VoteCard key={idx} number={vote.number} bill_id={id} {...vote} />
       ))
     }
     const bill = this.props.bill[0] || {}
     const { sponsor } = bill || {}
+    const billExtraData = this.props.bill[2] || {}
+    const { summary, actions } = billExtraData
+    let billActions
+    if (actions) {
+      billActions = actions.map((action) => (
+        <div>
+          <p>{action.acted_at}</p>
+          <p>{action.text}</p>
+          <p>{action.type}</p>
+        </div>
+      ))
+    }
     return (
       <div>
         <Card>
-          <CardTitle title={title} />
+          <CardTitle title={bill.short_title ? bill.short_title : bill.official_title}  />
           <CardText>
-            {title}
-            {bill.summary}
+            <p>{bill.bill_id}</p>
+            <p>{bill.chamber}</p>
+            <p>Introduced: {bill.introduced_on}</p>
+            <p>{summary}</p>
             <Person {...sponsor} />
             <CardActions>
               {voteLinks}
             </CardActions>
+          </CardText>
+        </Card>
+        <Card>
+          <CardTitle title="" />
+          <CardText>
+            {billActions}
           </CardText>
         </Card>
       </div>
@@ -52,7 +72,8 @@ BillDetails.propTypes = {
   searchTerm: React.PropTypes.string,
   sponsor: React.PropTypes.object,
   name: React.PropTypes.string,
-  title: React.PropTypes.string
+  title: React.PropTypes.string,
+  actions: React.PropTypes.string,
 }
 
 const mapStateToProps = (state) => ({

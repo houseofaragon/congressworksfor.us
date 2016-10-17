@@ -59,12 +59,22 @@ class Browse extends React.Component {
           selectable={this.state.selectable}
           multiSelectable={this.state.multiSelectable}
         >
-          <TableHeader adjustForCheckbox={this.state.showCheckboxes}>
+          <TableHeader
+            displaySelectAll={this.state.showCheckboxes}
+            adjustForCheckbox={this.state.showCheckboxes}
+            enableSelectAll={this.state.enableSelectAll}
+          >
             <TableRow>
-              <TableHeaderColumn>Bills</TableHeaderColumn>
+              <TableHeaderColumn colSpan="4" tooltip="Super Header" style={{textAlign: 'center'}}>
+                Bills
+              </TableHeaderColumn>
+            </TableRow>
+            <TableRow>
+              <TableHeaderColumn tooltip="congress">Congress</TableHeaderColumn>
+              <TableHeaderColumn tooltip="Sponsor">Bill</TableHeaderColumn>
+              <TableHeaderColumn tooltip="Result">Date Introduced</TableHeaderColumn>
             </TableRow>
           </TableHeader>
-
           <TableBody
             displayRowCheckbox={this.state.showCheckboxes}
             deselectOnClickaway={this.state.deselectOnClickaway}

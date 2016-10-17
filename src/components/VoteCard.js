@@ -8,12 +8,12 @@ const VoteCard = (props) => (
     <Card className='vote-list-card'>
       <CardHeader
         title={props.congress}
-        subtitle={props.category_label}
+        subtitle={props.chamber}
         actAsExpander={true}
         showExpandableButton={true}
       />
       <CardActions>
-        <FlatButton label="See all votes" href={`/bill/${props.bill_id}/votes/${props.id}`} />
+        <FlatButton label="See all votes" href={`/bill/${props.bill_id}/votes/${props.roll_id}`} />
       </CardActions>
       <CardText expandable={true}>
         <p>{props.created}</p>
