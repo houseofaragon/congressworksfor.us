@@ -1,14 +1,26 @@
 // import { combineReducers } from 'redux'
-import { SET_SEARCH_TERM, SET_SEARCH_RESULTS, MERGE_ENTITIES, SET_BILL, SET_VOTES, SET_PERSON, SET_OPEN_SEATS } from '../actions/index'
+import { SET_SEARCH_TERM, SET_SEARCH_RESULTS, MERGE_ENTITIES, SET_BILL, SET_VOTES, SET_PERSON, SET_OPEN_SEATS, SET_FILTER_VOTERS } from '../actions/index'
 import merge from 'lodash/fp/merge'
+import statesData from '../data/states-data'
 
 const initialState = {
   searchTerm: '',
-  results: [],
-  bill: [],
-  votes: [{}, [], {}],
+  results: [[], []],
+  bill: [{}, [], {}],
   person: [{}, [], []],
-  openSeats: []
+  openSeats: [],
+  selectedDem: true,
+  selectedRep: true,
+  selectedYesVote: true,
+  selectedNoVote: true,
+  selectedNotVoting: true,
+  voters: [],
+  voteInfo: {},
+  voteTotalBreakDown: {},
+  votePartyBreakDown: {},
+  visiblevoters: [],
+  regionData: statesData,
+  emptyRegions: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -27,6 +39,8 @@ const reducer = (state = initialState, action) => {
       return reduceSetPerson(state, action)
     case SET_OPEN_SEATS:
       return reduceSetOpenSeats(state, action)
+    case SET_FILTER_VOTERS:
+      return reduceSetFilteredVoters(state, action)
     default:
       return state
   }
@@ -46,13 +60,13 @@ const reduceSearchResults = (state, action) => {
 
 const reduceSetBill = (state, action) => {
   const newState = {}
-  Object.assign(newState, state, {bill: action.bill})
+  Object.assign(newState, state, {bill: action.bill, sponsor: action.bill[0].sponsor, sponsor_id: action.bill[0].sponsor_id})
   return newState
 }
 
 const reduceSetVotes = (state, action) => {
   const newState = {}
-  Object.assign(newState, state, {votes: action.votes})
+  Object.assign(newState, state, {voteInfo: action.votes[0], visibleVoters: action.votes[1], voters: action.votes[1], voteTotalBreakDown: action.votes[2], votePartyBreakDown: action.votes[3]})
   return newState
 }
 
@@ -70,6 +84,13 @@ const reduceSetOpenSeats = (state, action) => {
 
 const reduceMergeEntities = (state, action) => {
   return merge(action.entities, state, {})
+}
+
+const reduceSetFilteredVoters = (state, action) => {
+  const newState = {}
+  console.log('action', action)
+  Object.assign(newState, state, {visibleVoters: action.visibleVoters, selectedDem: action.selectedDem, selectedRep: action.selectedRep, selectedYesVote: action.selectedYesVote, selectedNoVote: action.selectedNoVote, selectedNotVoting: action.selectedNotVoting})
+  return newState
 }
 
 export default reducer

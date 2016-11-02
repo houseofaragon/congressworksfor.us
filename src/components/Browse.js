@@ -1,8 +1,7 @@
 import React from 'react'
+import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
-import Bill from './Bill'
-import Person from './Person'
-import { Table, TableBody, TableRow, TableHeader, TableHeaderColumn } from 'material-ui/Table'
+import { Table, TableBody, TableRowColumn, TableRow, TableHeader, TableHeaderColumn } from 'material-ui/Table'
 
 class Browse extends React.Component {
   constructor (props) {
@@ -12,40 +11,53 @@ class Browse extends React.Component {
       fixedHeader: true,
       fixedFooter: true,
       stripedRows: false,
-      showRowHover: true,
       selectable: true,
       multiSelectable: false,
       enableSelectAll: false,
       deselectOnClickaway: true,
       showCheckboxes: false,
-      height: '300px',
+      showRowHover: true,
       width: '50%'
     }
   }
-  handleToggle (event, toggled) {
-    this.setState({
-      [event.target.name]: toggled
-    })
-  }
-
-  handleChange (event) {
-    this.setState({height: event.target.value})
-  }
 
   render () {
+    const handleBillRowClick = (key) => {
+      const billId = this.props.results[0][key].bill_id
+      browserHistory.push(`/bill/${billId}`)
+    }
+
+    const handleLegislatorRowClick = (key) => {
+      console.log('clicked', key)
+      const legislatorId = this.props.results[1][key].id
+      console.log(legislatorId)
+      browserHistory.push(`/person/${legislatorId}`)
+    }
+
     const { results } = this.props
     let billResults, legislatorResults
     if (results[0] && results[1]) {
-      billResults = results[0].map((item, idx) => (
-        <TableRow key={idx}>
-          <Bill searchTerm={this.props.searchTerm} key={idx} title={item.official_title} id={item.bill_id} { ...item} />
-        </TableRow>
-      ))
-      legislatorResults = results[1].map((item, idx) => (
-        <TableRow key={idx}>
-          <Person searchTerm={this.props.searchTerm} key={idx} id={item.id} { ...item} />
-        </TableRow>
-      ))
+      if (results[0].length) {
+        billResults = results[0].map((item, idx) => (
+          <TableRow key={idx} ref={item.bill_id}>
+            <TableRowColumn style={{ width: '10%' }}><h5>{item.chamber}</h5></TableRowColumn>
+            <TableRowColumn style={{ width: '10%' }}><h5>{item.bill_id}</h5></TableRowColumn>
+            <TableRowColumn style={{ width: '50%' }}><p>{item.short_title ? item.short_title : item.official_title}</p></TableRowColumn>
+            <TableRowColumn style={{ width: '10%' }}><h5>{item.introduced_on}</h5></TableRowColumn>
+          </TableRow>
+        ))
+      } else {
+        billResults = <p> No bill results. </p>
+      }
+      if (results[1].length) {
+        legislatorResults = results[1].map((item, idx) => (
+          <TableRow key={idx} ref={item.bioguideid}>
+            <TableRowColumn><p>{item.name}</p></TableRowColumn>
+          </TableRow>
+        ))
+      } else {
+        legislatorResults = <p> No legislator results. </p>
+      }
     } else if (!results) {
       billResults = <p>No Bill results</p>
       legislatorResults = <p>No Legislators</p>
@@ -53,29 +65,28 @@ class Browse extends React.Component {
     return (
       <div className='container'>
         <Table
+          className="bill-table"
           height={this.state.height}
           fixedHeader={this.state.fixedHeader}
           fixedFooter={this.state.fixedFooter}
-          selectable={this.state.selectable}
-          multiSelectable={this.state.multiSelectable}
+          onRowSelection={handleBillRowClick}
         >
-          <TableHeader
-            displaySelectAll={this.state.showCheckboxes}
-            adjustForCheckbox={this.state.showCheckboxes}
-            enableSelectAll={this.state.enableSelectAll}
-          >
+          <TableHeader>
             <TableRow>
               <TableHeaderColumn colSpan="4" tooltip="Super Header" style={{textAlign: 'center'}}>
                 Bills
               </TableHeaderColumn>
             </TableRow>
             <TableRow>
-              <TableHeaderColumn tooltip="congress">Congress</TableHeaderColumn>
-              <TableHeaderColumn tooltip="Sponsor">Bill</TableHeaderColumn>
-              <TableHeaderColumn tooltip="Result">Date Introduced</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '10%' }} tooltip="Either House (of Representatives) or Senate">Congress</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '15%' }} tooltip="Id used to identify Bill">Bill ID</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '60%' }} tooltip="Title given to bill">Bill Name</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '16%' }} tooltip="Date bill was introduced">Date</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody
+            selectable={this.state.selectable}
+            className="table-body"
             displayRowCheckbox={this.state.showCheckboxes}
             deselectOnClickaway={this.state.deselectOnClickaway}
             showRowHover={this.state.showRowHover}
@@ -85,15 +96,19 @@ class Browse extends React.Component {
           </TableBody>
         </Table>
         <Table
+          className="people-table"
           height={this.state.height}
           fixedHeader={this.state.fixedHeader}
           fixedFooter={this.state.fixedFooter}
           selectable={this.state.selectable}
           multiSelectable={this.state.multiSelectable}
+          onRowSelection={handleLegislatorRowClick}
         >
-          <TableHeader >
+          <TableHeader>
             <TableRow>
-              <TableHeaderColumn>Legislators</TableHeaderColumn>
+              <TableHeaderColumn colSpan="4" tooltip="Super Header" style={{textAlign: 'center', marginTop: '60px'}}>
+                Legislators
+              </TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody
@@ -112,7 +127,8 @@ class Browse extends React.Component {
 
 Browse.propTypes = {
   searchTerm: React.PropTypes.string,
-  results: React.PropTypes.array
+  results: React.PropTypes.array,
+  billId: React.PropTypes.string
 }
 
 const mapStateToProps = (state) => ({

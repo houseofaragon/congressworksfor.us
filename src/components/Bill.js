@@ -1,24 +1,21 @@
 import React from 'react'
-import { Link } from 'react-router'
 import { TableRow, TableRowColumn } from 'material-ui/Table'
 
 const Bill = (props) => (
-  <TableRow key={props.key}>
-    <TableRowColumn>{props.chamber}</TableRowColumn>
-    <Link to={`/bill/${props.id}`}>
-      <TableRowColumn>{props.short_title ? props.short_title : props.official_title}</TableRowColumn>
-    </Link>
-    <TableRowColumn>{props.introduced_on}</TableRowColumn>
+  <TableRow>
+    <TableRowColumn style={{ width: '10%' }}>{props.chamber}</TableRowColumn>
+    <TableRowColumn style={{ width: '15%' }}>{props.id}</TableRowColumn>
+    <TableRowColumn style={{ width: '60%' }}>{props.short_title ? props.short_title : props.official_title}</TableRowColumn>
+    <TableRowColumn style={{ width: '15%' }}>{props.introduced_on}</TableRowColumn>
   </TableRow>
 )
 
 Bill.propTypes = {
   short_title: React.PropTypes.string,
   official_title: React.PropTypes.string,
-  id: React.PropTypes.number.isRequired,
+  id: React.PropTypes.string,
   chamber: React.PropTypes.string,
-  introduced_on: React.PropTypes.string,
-  key: React.PropTypes.number.isRequired
+  introduced_on: React.PropTypes.string
 }
 
 export default Bill

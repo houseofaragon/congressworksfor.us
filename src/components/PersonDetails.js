@@ -1,12 +1,13 @@
 /*eslint-disable */
 import React from 'react'
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { fetchPerson } from '../actions/index'
-import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import { Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn } from 'material-ui/Table'
 import FlatButton from 'material-ui/FlatButton'
 import { Link } from 'react-router'
+
 class PersonDetails extends React.Component {
   constructor(props) {
     super(props)
@@ -20,7 +21,7 @@ class PersonDetails extends React.Component {
       enableSelectAll: false,
       deselectOnClickaway: true,
       showCheckboxes: false,
-      height: '300px',
+      height: '100vh',
     }
   }
 
@@ -32,13 +33,12 @@ class PersonDetails extends React.Component {
     const person = this.props.person[0] || {}
     const personVoteHistory = this.props.person[1] || {}
     const personSponsorHistory = this.props.person[2] || {}
-
     const { name, roles } = person
     let roleList
     if(roles){
       roleList = roles.map((role, idx) => (
-        <div key={idx}>
-          <p>{role.startdate} - {role.enddate}</p>
+        <div key={idx} className='person-roles'>
+          <h5>{role.startdate} - {role.enddate}</h5>
           <p>{role.party} {role.description}</p>
           {role.extra ? (
             <div>
@@ -49,102 +49,64 @@ class PersonDetails extends React.Component {
         </div>
       ))
     }
+    const handleRowClick = (key) => {
+      const congress = personSponsorHistory[key].congress
+      let billId = personSponsorHistory[key].display_number.replace(/[^a-zA-Z0-9]/g, '')
+      billId = billId.toLowerCase()
+      browserHistory.push(`/bill/${billId}-${congress}`)
+    }
+    
     return (
-      <div>
-        <Card>
-          <CardTitle title={person.name} subtitle={person.description} />
-          <CardText>
+      <div className="container">
+        <div className="bill-title">
+            <h1>{person.name}</h1>
+            <p>{person.description}</p>
+            <br/>
             <h5>Born</h5>
             <p>{person.birthday}</p>
             <p>{person.twitterid}</p>
             <p>{person.youtubeid}</p>
+            <br/>
+            <h5> roles </h5>
             {roleList}
-          </CardText>
-          <CardActions>
-            <FlatButton label="Twitter" />
-            <FlatButton label="Action2" />
-          </CardActions>
-        </Card>
-        <Table
-          height={this.state.height}
-          fixedHeader={this.state.fixedHeader}
-          fixedFooter={this.state.fixedFooter}
-          selectable={this.state.selectable}
-          multiSelectable={this.state.multiSelectable}
-          >
-            <TableHeader
-              displaySelectAll={this.state.showCheckboxes}
-              adjustForCheckbox={this.state.showCheckboxes}
-              enableSelectAll={this.state.enableSelectAll}
-            >
-              <TableRow>
-                <TableHeaderColumn colSpan="4" tooltip="Super Header" style={{textAlign: 'center'}}>
-                  {person.name}'s Voting History
-                </TableHeaderColumn>
-              </TableRow>
-              <TableRow>
-                <TableHeaderColumn tooltip={`How ${person.name} voted`}>Vote</TableHeaderColumn>
-                <TableHeaderColumn tooltip="The Name">Bill Name</TableHeaderColumn>
-                <TableHeaderColumn tooltip="The Status">Date</TableHeaderColumn>
-                <TableHeaderColumn tooltip="The Status">Result</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody
-              displayRowCheckbox={this.state.showCheckboxes}
-              deselectOnClickaway={this.state.deselectOnClickaway}
-              showRowHover={this.state.showRowHover}
-              stripedRows={this.state.stripedRows}
-            >
-              {personVoteHistory.map((row, idx) => (
-                  <TableRow key={idx}>
-                    <TableRowColumn>{row.option.value}</TableRowColumn>
-                      <Link to={`/bill/${row.vote.related_bill}`}>
-                        <TableRowColumn>{row.vote.question}</TableRowColumn>
-                      </Link>
-                    <TableRowColumn>{row.created}</TableRowColumn>
-                    <TableRowColumn>{row.vote.result}</TableRowColumn>
-                  </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+        </div>
+        <div className="bill-details">
+          <h4 style={{marginTop: '40px'}}>Sponsored Bills</h4>
           <Table
-          height={this.state.height}
-          fixedHeader={this.state.fixedHeader}
-          fixedFooter={this.state.fixedFooter}
-          selectable={this.state.selectable}
-          multiSelectable={this.state.multiSelectable}
-          >
-            <TableHeader
-              displaySelectAll={this.state.showCheckboxes}
-              adjustForCheckbox={this.state.showCheckboxes}
-              enableSelectAll={this.state.enableSelectAll}
+            style={{width: '100%', background: 'transparent'}}
+            height={this.state.height}
+            fixedHeader={this.state.fixedHeader}
+            fixedFooter={this.state.fixedFooter}
+            selectable={this.state.selectable}
+            multiSelectable={this.state.multiSelectable}
+            onRowSelection={handleRowClick}
             >
-              <TableRow>
-                <TableHeaderColumn colSpan="4" tooltip="Super Header" style={{textAlign: 'center'}}>
-                  {person.name}'s Voting History
-                </TableHeaderColumn>
-              </TableRow>
-              <TableRow>
-                <TableHeaderColumn tooltip="The Name">Bill Name</TableHeaderColumn>
-                <TableHeaderColumn tooltip="The Status">Date</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody
-              displayRowCheckbox={this.state.showCheckboxes}
-              deselectOnClickaway={this.state.deselectOnClickaway}
-              showRowHover={this.state.showRowHover}
-              stripedRows={this.state.stripedRows}
-            >
-              {personSponsorHistory.map((row, idx) => (
-                  <TableRow key={idx}>
-                      <Link to={`/bill/${row.id}`}>
-                        <TableRowColumn>{row.title}</TableRowColumn>
-                      </Link>
-                    <TableRowColumn>{row.introduced_date}</TableRowColumn>
-                  </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              <TableHeader
+                displaySelectAll={this.state.showCheckboxes}
+                adjustForCheckbox={this.state.showCheckboxes}
+                enableSelectAll={this.state.enableSelectAll}
+              >
+                <TableRow>
+                  <TableHeaderColumn style={{width: '80%'}} tooltip="The Name"><h5>Bill Name</h5></TableHeaderColumn>
+                  <TableHeaderColumn style={{width: '20%'}} tooltip="The Status"><h5>Date</h5></TableHeaderColumn>
+                </TableRow>
+              </TableHeader>
+              <TableBody
+                style={{width: '100% !important'}}
+                displayRowCheckbox={this.state.showCheckboxes}
+                deselectOnClickaway={this.state.deselectOnClickaway}
+                showRowHover={this.state.showRowHover}
+                stripedRows={this.state.stripedRows}
+              >
+                {personSponsorHistory.map((row, idx) => (
+                    <TableRow key={idx}>
+                      <TableRowColumn style={{width: '80%'}}><h5>{row.title}</h5></TableRowColumn>
+                      <TableRowColumn style={{width: '20%'}}><h5>{row.introduced_date}</h5></TableRowColumn>
+                    </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
       </div>
     )
   }

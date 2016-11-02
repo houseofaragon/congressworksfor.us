@@ -1,25 +1,12 @@
 /*eslint-disable */
 import React from 'react'
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 
 const VoteCard = (props) => (
-  <div className='vote-list'>
-    <Card className='vote-list-card'>
-      <CardHeader
-        title={props.congress}
-        subtitle={props.chamber}
-        actAsExpander={true}
-        showExpandableButton={true}
-      />
-      <CardActions>
-        <FlatButton label="See all votes" href={`/bill/${props.bill_id}/votes/${props.roll_id}`} />
-      </CardActions>
-      <CardText expandable={true}>
-        <p>{props.created}</p>
-        <p>Vote #{props.number}</p>
-      </CardText>
-    </Card>
+  <div className='vote-card'>
+      <h4> # {props.number} - {props.result} </h4>
+      <p> {props.question} </p>
+      <FlatButton className="vote-button" label="view votes" href={`/bill/${props.bill_id}/votes/${props.roll_id}`} />
   </div>
 )
 

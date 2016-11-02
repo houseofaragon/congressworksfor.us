@@ -1,0 +1,64 @@
+.green {
+  background: $green;
+}
+
+.blue{
+	background: $blue;
+}
+
+.red{
+  background: $red;
+}
+
+.grey{
+  background: $grey;
+}
+
+.lightGrey{
+  background-color: $light-grey;
+}
+
+html, body{
+	margin: 0;
+	padding: 0;
+	color: $grey;
+	font-family: 'Montserrat' !important;
+	height: 100%;
+	background: $light-pink;
+}
+
+h1,h2,h3,h4,h5,h6{
+	padding: 2px;
+	margin: 0;
+	font-family: 'Montserrat' !important;
+}
+
+p{
+	padding: 2px;
+	margin: 0;
+	font-size: 1em;
+}
+
+.container{
+	margin: 0 auto;
+}
+
+a{
+	color: $grey;
+	text-decoration: none;
+}
+
+a img, img{
+	border: 0;
+}
+
+.container{
+	background: $light-pink;
+	color: $blue;
+	min-height: 100vh;
+	height: 100vh;
+	position: relative;
+	clear: both;
+}
+
+

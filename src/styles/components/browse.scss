@@ -1,0 +1,44 @@
+
+.bill-table, .people-table {
+	background: transparent !important;
+	width: 80% !important;
+	margin: 0 auto;
+
+	& th{
+		color: $blue !important;
+		font-family: 'Montserrat';
+		text-transform: uppercase;
+		text-decoration: bold;
+	}
+	& thead{
+		margin-top: 60px !important;
+	}
+}
+
+tbody{
+		background: transparent !important;
+		width: 80% !important;
+		margin: 0 auto;
+
+	& tr:hover{
+		color: $blue;
+		cursor: pointer;
+	}
+
+	& tr td{
+		color: $dark-blue !important;
+		font-size: 1.1em !important;
+
+		& h5 {
+			text-transform: uppercase;
+		}
+
+		& p {
+			font-family: 'PT Serif';
+		}
+	}
+}
+
+
+
+

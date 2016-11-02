@@ -4,7 +4,6 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fetchBill } from '../actions/index'
-import {Card, CardTitle, CardActions, CardHeader, CardText} from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 import VoteCard from './VoteCard'
 import Person from './Person'
@@ -16,47 +15,50 @@ class BillDetails extends React.Component {
   render () {
     const billVotes = this.props.bill[1]
     const { id, title } = this.props.params
+    const sponsor_id = this.props.sponsor_id
     let voteLinks
     if (billVotes) {
-      voteLinks = billVotes.map((vote, idx) => (
-        <VoteCard key={idx} number={vote.number} bill_id={id} {...vote} />
-      ))
+      if (billVotes.length) {
+        voteLinks = billVotes.map((vote, idx) => (
+          <VoteCard title={this.props.title} key={idx} number={vote.number} bill_id={id} {...vote} />
+        ))
+      } else {
+        voteLinks = <p> No Votes on file for this bill </p>
+      }
     }
     const bill = this.props.bill[0] || {}
-    const { sponsor } = bill || {}
+    const sponsor = this.props.sponsor || {}
     const billExtraData = this.props.bill[2] || {}
     const { summary, actions } = billExtraData
     let billActions
     if (actions) {
-      billActions = actions.map((action) => (
-        <div>
-          <p>{action.acted_at}</p>
+      billActions = actions.map((action, idx) => (
+        <div key={idx}>
+          <h4>{action.acted_at} - {action.type}</h4>
           <p>{action.text}</p>
-          <p>{action.type}</p>
         </div>
       ))
     }
     return (
-      <div>
-        <Card>
-          <CardTitle title={bill.short_title ? bill.short_title : bill.official_title}  />
-          <CardText>
-            <p>{bill.bill_id}</p>
-            <p>{bill.chamber}</p>
-            <p>Introduced: {bill.introduced_on}</p>
-            <p>{summary}</p>
-            <Person {...sponsor} />
-            <CardActions>
-              {voteLinks}
-            </CardActions>
-          </CardText>
-        </Card>
-        <Card>
-          <CardTitle title="" />
-          <CardText>
+      <div className="container">
+        <div className="bill-title">
+          <h5>{bill.chamber} - {bill.bill_id}</h5>
+          <h1 className="title">{bill.short_title ? bill.short_title : bill.official_title}</h1>
+          <h5> summary</h5>
+          <p className="summary">{summary}</p>
+          <h5> sponsor </h5>
+          <Person sponsor={sponsor} sponsor_id={sponsor_id} />
+        </div>
+        <div className="bill-details">
+            <h5 style={{marginTop: '40px'}}> date introduced </h5>
+            <p className="summary">{bill.introduced_on}</p>
+            <hr />
+            <h5> votes </h5>
+            {voteLinks}
+            <hr />
+            <h5> actions </h5>
             {billActions}
-          </CardText>
-        </Card>
+        </div>
       </div>
     )
   }
@@ -74,10 +76,13 @@ BillDetails.propTypes = {
   name: React.PropTypes.string,
   title: React.PropTypes.string,
   actions: React.PropTypes.string,
+  sponsor_id: React.PropTypes.string
 }
 
 const mapStateToProps = (state) => ({
-  bill: state.bill
+  bill: state.bill,
+  sponsor: state.sponsor,
+  sponsor_id: state.sponsor_id
 })
 
 const mapDispatchToProps = (dispatch) => {

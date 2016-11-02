@@ -1,0 +1,11 @@
+.person-roles{
+	border-left: 3px solid $red;
+	margin-bottom: $padding;
+
+	& h5 {
+		color: $dark-blue;
+	}
+	& p, h5{
+		padding-left: $padding;
+	}
+}

@@ -30,19 +30,13 @@ class WebpackTestConfig extends WebpackBaseConfig {
         ],
         loaders: [
           {
-            test: /\.cssmodule\.css$/,
-            loaders: [
-              'style',
-              'css?modules&importLoaders=1&localIdentName=[name]-[local]-[hash:base64:5]'
-            ]
+            test: /\.scss$/,
+            loader: 'style!css!sass'
           },
-          {
-            test: /^.((?!cssmodule).)*\.css$/,
-            loader: 'null-loader'
-          },
-          {
-            test: /\.(sass|scss|less|styl|png|jpg|gif|mp4|ogg|svg|woff|woff2)$/,
-            loader: 'null-loader'
+          { 
+            test: /\.(png|jpg)$/,
+            include: path.join(__dirname, 'img'),
+            loader: 'url-loader?limit=10000' 
           },
           {
             test: /\.json$/,

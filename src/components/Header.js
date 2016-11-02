@@ -3,7 +3,6 @@ import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import AppBar from 'material-ui/AppBar'
-import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
 
 import { SET_SEARCH_TERM, SET_SEARCH_RESULTS, fetchSearchResults } from '../actions/index'
@@ -18,8 +17,8 @@ class Header extends React.Component {
     this.props.setSearchTerm(this.refs.term.getValue())
   }
   getSearchResults (e) {
-    this.props.fetchSearchResults(this.refs.term.getValue())
     e.preventDefault()
+    this.props.fetchSearchResults(this.refs.term.getValue())
   }
   handleTouchTap () {
     browserHistory.push('/')
@@ -27,15 +26,15 @@ class Header extends React.Component {
   render () {
     return (
       <AppBar
-        title={<span style={styles.title}>Vote</span>}
+        className="header-bar"
+        title={<span className="header-bar-logo" style={styles.title}>Vote</span>}
         onTitleTouchTap={this.handleTouchTap}
-      >
-        <div>
-          <FlatButton label="Bills" href='/bills' />
-          <FlatButton label="Legislators" href='/legislators' />
-        </div>
-        <form onSubmit={this.getSearchResults}>
+        >
+        <form
+          className="header-bar-search"
+          onSubmit={this.getSearchResults}>
           <TextField
+            className='search-field'
             hintText="By Bill or Legislator Name"
             floatingLabelText="SEARCH"
             ref="term"

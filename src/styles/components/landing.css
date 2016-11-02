@@ -1,0 +1,101 @@
+.landing {
+	background: $blue; /* fallback for old browsers */
+	height: 100vh;
+	width: 100vw;
+	box-sizing: border-box;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	position: fixed;
+
+	& #landing-text{
+		position: absolute;
+		left: 20px;
+		top: 30%;
+		color: $white;
+		z-index: 1;
+	}
+
+	& #fillgauge{
+		width:100%; 
+		height:400px;
+		position: absolute;
+		top: 30vh;
+	}
+}
+.landing-side-grid{
+	right: 0;
+	float: right;
+	width: 300px;
+	height: 100%;
+	clear: both;
+	padding: 0 !important;
+	margin-top: 57px !important;
+	border-left: 3px solid  $white;
+	box-sizing: border-box;
+	overflow-y: auto;
+	position: absolute;
+	top: 0;
+	background: $blue;
+
+	& a .landing-side-grid-tile{
+			min-height: 250px;
+	    transition: background-color 300ms ease-in 100ms, color 300ms ease-in 10ms;
+	    padding: $padding;
+			border-top: 3px solid  $white;
+
+	
+		& .tile-info{
+			top: 50%;
+			margin-top: 3em;
+
+			& .landing-sprites{  
+				left:0;
+  			right:0;
+  			bottom: 0;
+  			display: block;
+  			margin: auto;
+  			border: 0;
+  		}
+
+			& #terror{
+				background: url(images/congress-sprites.png) 0 0;
+				width: 105px;
+				height: 105px;
+			}
+
+			& #women{
+				background: url(images/congress-sprites.png) 0 -115px;
+				width: 105px;
+				height: 105px;
+			}
+
+			& #health{
+				background: url(images/congress-sprites.png) 0 -235px;
+				width: 105px;
+				height: 105px;
+			}
+	    
+			& .tile-pre-title{
+				text-transform: uppercase;
+				padding-bottom: 10px;
+				font-weight: bold;
+				color: $red;
+			}
+
+			& .tile-title{
+				font-weight: 100;
+				color:  $white;
+			}
+
+			& .tile-button{
+
+			}
+		}
+		&:hover{
+			cursor: pointer;
+			background-color:  $white;
+			color: $blue !important;
+		}
+
+	}
+}

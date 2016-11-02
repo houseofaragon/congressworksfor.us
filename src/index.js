@@ -9,9 +9,12 @@ import Browse from './components/Browse'
 import BillDetails from './components/BillDetails'
 import Vote from './components/Vote'
 import PersonDetails from './components/PersonDetails'
+import Legislators from './components/Legislators'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
+
+require('./styles/index.scss')
 
 const { Router, Route, IndexRoute, browserHistory } = require('react-router')
 
@@ -24,6 +27,7 @@ render(
         <Route path='/' component={Layout} >
           <IndexRoute component={Landing} />
           <Route path='/browse' component={Browse} />
+          <Route path='/legislators' component={Legislators} />
           <Route path='/bill/:id' component={BillDetails} />
           <Route path='/bill/:id/votes/:number' component={Vote} />
           <Route path='/person/:id' component={PersonDetails} />

@@ -73,6 +73,8 @@
     "webpack-dev-server": "^2.0.0-beta"
   },
   "dependencies": {
+    "d3": "^4.2.7",
+    "datamaps": "^0.5.8",
     "es6-promise": "^4.0.3",
     "fetch-everywhere": "^1.0.5",
     "isomorphic-fetch": "^2.2.1",
@@ -87,6 +89,7 @@
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.6.0",
     "redux-logger": "^2.6.1",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "topojson": "^1.6.27"
   }
 }
