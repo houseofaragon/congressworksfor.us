@@ -5,14 +5,15 @@ import * as d3 from 'd3';
 class Gauge extends React.Component {
   componentDidMount () {
     var config = liquidFillGaugeDefaultSettings();
-    config.circleColor = "#FF7777";
+    config.circleColor = "#064474";
     config.textColor = "#FF4444";
-    config.waveTextColor = "#FFAAAA";
-    config.waveColor = "#FFDDDD";
+    config.waveTextColor = "#fff";
+    config.waveColor = "lightblue";
     config.circleThickness = 0.05;
     config.textVertPosition = 0.2;
     config.waveAnimateTime = 1000;
     var gauge = loadLiquidFillGauge("fillgauge", 45, config);
+    var gauge2 = loadLiquidFillGauge("fillgauge", 58, config);
     function liquidFillGaugeDefaultSettings(){
         return {
             minValue: 0, // The gauge minimum value.
@@ -139,11 +140,11 @@ class Gauge extends React.Component {
             .x(function(d) { return waveScaleX(d.x); } )
             .y0(function(d) { return waveScaleY(Math.sin(Math.PI*2*config.waveOffset*-1 + Math.PI*2*(1-config.waveCount) + d.y*2*Math.PI));} )
             .y1(function(d) { return (fillCircleRadius*2 + waveHeight); } );
-        
+
         var waveGroup = gaugeGroup.append("defs")
             .append("clipPath")
             .attr("id", "clipWave" + elementId);
-        
+
         var wave = waveGroup.append("path")
             .datum(data)
             .attr("d", clipArea)
@@ -184,7 +185,7 @@ class Gauge extends React.Component {
                 .transition()
                 .duration(config.waveRiseTime)
                 .attr('transform','translate('+waveGroupXPosition+','+waveRiseScale(fillPercent)+')')
-                .on("start", function(){ 
+                .on("start", function(){
                     wave.attr('transform','translate(1,0)')
                   }) // This transform is necessary to get the clip wave positioned correctly when waveRise=true and waveAnimate=false. The wave will not position correctly without this, but it's not clear why this is actually necessary.
 

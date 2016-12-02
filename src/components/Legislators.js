@@ -1,40 +1,61 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import DataMap from './map/DataMap'
-import { fetchOpenSeats } from '../actions/index'
-import { bindActionCreators } from 'redux'
 import { Link } from 'react-router'
-import Avatar from 'material-ui/Avatar'
-import Chip from 'material-ui/Chip'
 
 class Legislators extends React.Component {
-  componentWillMount () {
-    this.props.fetchOpenSeats('2017-01-03')
-  }
   render () {
-    const { openSeats } = this.props || {}
-    const senators = openSeats.map((legislator, idx) => (
-      <Link to={`/person/${legislator.govtrack_id}`} key={idx}>
-        <Chip
-          className='voter-block'
-          backgroundColor='#C5E1A5'
-        >
-          <Avatar
-            className='voter-block-avatar'
-            color={legislator.party === 'R' ? '#f44336' : '#2196F3'}>
-            {legislator.state}
-          </Avatar>
-          {legislator.first_name} {legislator.last_name}
-        </Chip>
-      </Link>
+    const rep = this.props.legislators.objects[0] || {}
+    const senateData = this.props.legislators.senators.objects || {}
+    const senators = senateData.map((representative, idx) => (
+      <div key={idx}>
+        <h5> Senator </h5>
+        <Link to={`/person/${representative.person.id}`}>
+          <h2>{representative.person.name}</h2>
+        </Link><br />
+        <h5>Term Ends </h5>
+        <p>{representative.enddate}</p>
+        <h5>Party </h5>
+        <p>{representative.party}</p>
+        <h5>Address </h5>
+        <p style={{maxWidth: '300px'}}>{representative.extra.address}</p>
+        <div className='social'>
+          <a href={`tel:+${representative.phone}`}><div id='call'>call</div></a>
+          <a href={representative.website}><div id='website'>website</div></a>
+          <a href={representative.extra.contact_form}><div id='email'>email</div></a>
+        </div>
+      </div>
     ))
-    return (
-      <div className='legislators-container'>
 
-        <h1>Congress is made up of 100 Senators and 435 House of Representatives</h1>
-        <DataMap regionData={this.props.regionData} />
-        <div className="vote-container">
-          {senators}
+    const representative = (
+      <Link to={`/person/${rep.person.id}`}>
+        <div id='representative'>
+          <h5> Representative </h5>
+          <h2>{rep.person.name}</h2><br />
+          <h5>term ends </h5>
+          <p>{rep.enddate}</p>
+          <h5>Party </h5>
+          <p>{rep.party}</p>
+          <h5>Address </h5>
+          <p style={{maxWidth: '300px'}}>{rep.extra.address}</p>
+          <div className='social'>
+            <a href={`tel:+${rep.phone}`}><div id='call'>call</div></a>
+            <a href={rep.website}><div id='website'>website</div></a>
+            <a href={rep.extra.contact_form}><div id='email'>email</div></a>
+          </div>
+        </div>
+      </Link>
+    )
+
+    return (
+      <div className='container'>
+        <div className='bill-title'>
+          <h1>These are the people who work for you in {rep.state}</h1>
+        </div>
+        <div className='bill-details'>
+          <div id='legislators'>
+            {senators}
+            {representative}
+          </div>
         </div>
       </div>
     )
@@ -44,22 +65,13 @@ class Legislators extends React.Component {
 Legislators.propTypes = {
   regionData: React.PropTypes.array.isRequired,
   emptyRegions: React.PropTypes.array.isRequired,
-  openSeats: React.PropTypes.array,
-  fetchOpenSeats: React.PropTypes.func
+  legislators: React.PropTypes.object
 }
 
-const mapStateToProps = (state) => {
-  return {
-    regionData: state.regionData,
-    emptyRegions: state.emptyRegions,
-    openSeats: state.openSeats
-  }
-}
+const mapStateToProps = (state) => ({
+  regionData: state.regionData,
+  emptyRegions: state.emptyRegions,
+  legislators: state.legislators
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchOpenSeats: bindActionCreators(fetchOpenSeats, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Legislators)
+export default connect(mapStateToProps)(Legislators)

@@ -13,7 +13,31 @@
 		top: 30%;
 		color: $white;
 		z-index: 1;
+
+		& a{
+			border: 3px solid $dark-blue;
+			color: $dark-blue;
+			padding: $padding;
+
+			&:hover{
+				color: $red;
+				border: 3px solid $red;
+				transition: color 250ms, border 250ms;
+			}
+		}
+		& h1.landing-header {
+			color: $white;
+			font-size: 2.2em;
+		}
+		& h1{
+			color: $dark-blue;
+		}
+		& span{
+			color: lightblue;
+		}
 	}
+
+
 
 	& #fillgauge{
 		width:100%; 
@@ -38,11 +62,11 @@
 	background: $blue;
 
 	& a .landing-side-grid-tile{
-			min-height: 250px;
+		min-height: 250px;
 	    transition: background-color 300ms ease-in 100ms, color 300ms ease-in 10ms;
 	    padding: $padding;
-			border-top: 3px solid  $white;
-
+		border-top: 3px solid  $white;
+		color: $white;
 	
 		& .tile-info{
 			top: 50%;
@@ -50,12 +74,12 @@
 
 			& .landing-sprites{  
 				left:0;
-  			right:0;
-  			bottom: 0;
-  			display: block;
-  			margin: auto;
-  			border: 0;
-  		}
+  				right:0;
+  				bottom: 0;
+  				display: block;
+  				margin: auto;
+  				border: 0;
+  			}
 
 			& #terror{
 				background: url(images/congress-sprites.png) 0 0;
@@ -83,18 +107,19 @@
 			}
 
 			& .tile-title{
-				font-weight: 100;
-				color:  $white;
+				font-weight: 100;				
 			}
 
 			& .tile-button{
 
 			}
 		}
+
 		&:hover{
 			cursor: pointer;
 			background-color:  $white;
-			color: $blue !important;
+			color: $blue;
+			transform: background-color 250ms, color 250ms;
 		}
 
 	}

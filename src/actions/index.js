@@ -10,6 +10,7 @@ export const SET_VOTES = 'SET_VOTES'
 export const SET_PERSON = 'SET_PERSON'
 export const SET_OPEN_SEATS = 'SET_OPEN_SEATS'
 export const SET_FILTER_VOTERS = 'SET_FILTER_VOTERS'
+export const SET_LEGISLATORS = 'SET_LEGISLATORS'
 
 export const setSearchTerm = (searchTerm) => (
   {
@@ -69,14 +70,21 @@ export const setFilteredVoters = (selectedDem, selectedRep, selectedYesVote, sel
   }
 )
 
+export const setLegislators = (legislators) => (
+  {
+    type: 'SET_LEGISLATORS',
+    legislators: legislators
+  }
+)
+
 export const fetchSearchResults = (searchTerm) => (dispatch) => {
-  const searchURL = `https://congress.api.sunlightfoundation.com/bills/search?query="${searchTerm}"&apikey=a922e6b7b1004c37b7508366cd7500ac`
+  const searchURL = `https://www.govtrack.us/api/v2/bill?q=${searchTerm}`
   const personURL = `https://www.govtrack.us/api/v2/person?q=${searchTerm}`
 
   const fetchBills = (url) => {
     return fetch(url)
     .then(response => response.json())
-    .then(data => data.results)
+    .then(data => data.objects)
     .catch((error) => console.log('request failed', error))
   }
 
@@ -89,7 +97,6 @@ export const fetchSearchResults = (searchTerm) => (dispatch) => {
 
   Promise.all([fetchBills(searchURL), fetchPersons(personURL)])
     .then(results => {
-      console.log(results)
       dispatch(setSearchResults(results, searchTerm))
       browserHistory.push('/browse')
     }).catch((error) => {
@@ -173,6 +180,38 @@ export const fetchVote = (id) => (dispatch) => {
     })
 }
 
+export const getLegislators = (address) => (dispatch) => {
+  const url = `https://search.mapzen.com/v1/search?text=${address}`
+
+  return fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      const state = data.features[0].properties.region_a
+      const coordinates = data.features[0].geometry.coordinates
+      const url = `https://houseofaragon.carto.com/api/v2/sql?q=SELECT cd115fp FROM tl_2016_us_cd115 where st_within(st_setsrid(st_point(${coordinates[0]}, ${coordinates[1]}), 4326), the_geom)`
+      fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const district = data.rows[0].cd115fp
+        const url = `https://www.govtrack.us/api/v2/role/?current=true&state=${state}&district=${district}`
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const legislators = data
+          const url = `https://www.govtrack.us/api/v2/role/?current=true&state=${state}&district=null`
+          fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            legislators['senators'] = data
+            dispatch(setLegislators(legislators))
+            browserHistory.push('/legislators')
+          })
+        })
+      })
+    })
+    .catch((error) => console.log('request failed', error))
+}
+
 export const fetchPerson = (id) => (dispatch) => {
   const personURL = `https://www.govtrack.us/api/v2/person/${id}`
   const personVoteHistoryURL = `https://www.govtrack.us/api/v2/vote_voter/?person=${id}&order_by=-created&format=json&fields=vote__id,vote__related_bill,vote__result,created,option__value,vote__category,vote__chamber,vote__question,vote__number`
@@ -205,10 +244,13 @@ export const fetchPerson = (id) => (dispatch) => {
 }
 
 export const fetchOpenSeats = (date) => (dispatch) => {
-  const url = `https://congress.api.sunlightfoundation.com/legislators?term_end=${date}&per_page=50&chamber=senate&apikey=a922e6b7b1004c37b7508366cd7500ac`
+  const url = `https://congress.api.sunlightfoundation.com/legislators?term_end=${date}&per_page=100&chamber=senate&apikey=a922e6b7b1004c37b7508366cd7500ac`
   return fetch(url)
     .then(response => response.json())
-    .then(data => dispatch(setOpenSeats(data.results)))
+    .then(data => {
+      let sortedResults = sortBy(data.results, (item) => item.state_name)
+      dispatch(setOpenSeats(sortedResults))
+    })
     .catch((error) => console.log('request failed', error))
 }
 

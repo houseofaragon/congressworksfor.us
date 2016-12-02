@@ -18,13 +18,14 @@
   background-color: $light-grey;
 }
 
+hr { border: 3px solid $white }
 html, body{
 	margin: 0;
 	padding: 0;
 	color: $grey;
 	font-family: 'Montserrat' !important;
 	height: 100%;
-	background: $light-pink;
+	background: $white;
 }
 
 h1,h2,h3,h4,h5,h6{
@@ -53,7 +54,7 @@ a img, img{
 }
 
 .container{
-	background: $light-pink;
+	background: $white;
 	color: $blue;
 	min-height: 100vh;
 	height: 100vh;

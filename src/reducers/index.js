@@ -1,5 +1,5 @@
 // import { combineReducers } from 'redux'
-import { SET_SEARCH_TERM, SET_SEARCH_RESULTS, MERGE_ENTITIES, SET_BILL, SET_VOTES, SET_PERSON, SET_OPEN_SEATS, SET_FILTER_VOTERS } from '../actions/index'
+import { SET_SEARCH_TERM, SET_SEARCH_RESULTS, MERGE_ENTITIES, SET_BILL, SET_VOTES, SET_PERSON, SET_OPEN_SEATS, SET_FILTER_VOTERS, SET_LEGISLATORS } from '../actions/index'
 import merge from 'lodash/fp/merge'
 import statesData from '../data/states-data'
 
@@ -20,7 +20,8 @@ const initialState = {
   votePartyBreakDown: {},
   visiblevoters: [],
   regionData: statesData,
-  emptyRegions: []
+  emptyRegions: [],
+  legislators: [{}, [], {}]
 }
 
 const reducer = (state = initialState, action) => {
@@ -41,6 +42,8 @@ const reducer = (state = initialState, action) => {
       return reduceSetOpenSeats(state, action)
     case SET_FILTER_VOTERS:
       return reduceSetFilteredVoters(state, action)
+    case SET_LEGISLATORS:
+      return reduceSetLegislators(state, action)
     default:
       return state
   }
@@ -79,6 +82,13 @@ const reduceSetPerson = (state, action) => {
 const reduceSetOpenSeats = (state, action) => {
   const newState = {}
   Object.assign(newState, state, {openSeats: action.openSeats})
+  return newState
+}
+
+const reduceSetLegislators = (state, action) => {
+  console.log('legislators', action.legislators)
+  const newState = {}
+  Object.assign(newState, state, {legislators: action.legislators})
   return newState
 }
 
