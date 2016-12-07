@@ -10,6 +10,7 @@
     "dist": "npm run clean && npm run copy && webpack --progress --bail --env dist -p",
     "lint": "eslint ./src",
     "posttest": "npm run lint",
+    "build": "npm run clean && npm run dist",
     "release:major": "npm version prerelease && git push --follow-tags && npm publish --tag beta",
     "release:minor": "npm version prerelease && git push --follow-tags && npm publish --tag beta",
     "release:patch": "npm version prerelease && git push --follow-tags && npm publish --tag beta",
@@ -21,7 +22,7 @@
   },
   "repository": "",
   "keywords": [],
-  "author": "Your name here",
+  "author": "Karen C. Aragon",
   "devDependencies": {
     "babel-core": "^6.7.6",
     "babel-eslint": "^6.0.4",

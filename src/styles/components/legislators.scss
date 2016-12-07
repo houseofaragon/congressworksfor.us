@@ -1,26 +1,36 @@
 #legislators {
-
-    & h2 { color: $light-pink; }
-    & h5 { color: $dark-blue; }
-    & .social {
-        width: 100vw;
-        clear: both;
-        overflow: auto;
-        left: -$padding *3;
-        position: relative;
-        & div {
-            float: left;
-            background: $light-grey;
-            padding: $padding * 2 $padding * 4;
-            width: 11.7vw;
-            text-align: center;
-            border-right: 1px solid $blue;
-            color: $blue;
-            margin-bottom: $padding * 4;
-            &:hover{
-                cursor: pointer;
-                background: $blue;
-                color: $white;
+    margin-top: 60px;
+    .legislator {
+        margin-bottom: 10px;
+        #currentLegislators div {
+            display: inline-block;
+            margin-right: 40px;
+        }
+        & h2 { color: $white; }
+        & h5 { color: $dark-blue; }
+        & p { color: $light-pink; }
+        & .fields { display: inline-block; float: left; padding-right: 60px;}
+        & .fields:last-child { padding-right: 0}
+        & .social {
+            width: 100vw;
+            clear: both;
+            overflow: auto;
+            left: -$padding *3;
+            position: relative;
+            & div {
+                float: left;
+                background: $light-grey;
+                padding: $padding * 2 $padding * 4;
+                width: 11.7vw;
+                text-align: center;
+                border-right: 1px solid $blue;
+                color: $blue;
+                margin-bottom: $padding * 4;
+                &:hover{
+                    cursor: pointer;
+                    background: $blue;
+                    color: $white;
+                }
             }
         }
     }

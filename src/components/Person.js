@@ -3,8 +3,8 @@ import React from 'react'
 import { Link } from 'react-router'
 
 const Person = (props) => (
-  <Link to={`/person/${props.sponsor_id}`}>
-    <p>{props.sponsor.first_name} {props.sponsor.last_name}</p>
+  <Link to={`/person/${props.id}`}>
+    <p className="summary">{props.name}</p>
   </Link>
 )
 

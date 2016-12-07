@@ -51,7 +51,7 @@ class Vote extends React.Component {
   }
 
   handleNotVotingChange () {
-    this.props.getFilteredVotes({selectedNotVoting: !this.props.selectedNotVoting}, this.props.selectedDem, this.props.selectedRep, this.props.selectedYesVote, this.props.selectedNoVote, !this.props.selectedNotVoting, this.props.voters) 
+    this.props.getFilteredVotes({selectedNotVoting: !this.props.selectedNotVoting}, this.props.selectedDem, this.props.selectedRep, this.props.selectedYesVote, this.props.selectedNoVote, !this.props.selectedNotVoting, this.props.voters)
   }
 
   handleFilterChange () {
@@ -96,16 +96,16 @@ class Vote extends React.Component {
     if (visibleVoters){
       voteList = Object.keys(visibleVoters).map((v, idx) => (
         <Link key={idx} to={`/person/${visibleVoters[v].govtrack_id}`}>
-          <Chip 
-            className='voter-block' 
+          <Chip
+            className='voter-block'
             backgroundColor={visibleVoters[v].vote === 'Yea' ? '#C5E1A5' : '#f9a9ad'}
           >
-            <Avatar 
-              className='voter-block-avatar'
-              color={visibleVoters[v].party === 'R' ? '#f44336' : '#2196F3'}> 
-              {visibleVoters[v].state}  
-            </Avatar>
-            {visibleVoters[v].first_name} {visibleVoters[v].last_name}
+          <Avatar
+            className='voter-block-avatar'
+            color={visibleVoters[v].party === 'R' ? '#f44336' : '#2196F3'}>
+            {visibleVoters[v].state}
+          </Avatar>
+          {visibleVoters[v].first_name} {visibleVoters[v].last_name}
           </Chip>
         </Link>
       ))
@@ -120,12 +120,12 @@ class Vote extends React.Component {
         </div>
 
         <div className='vote-filter-box'>
-          <VoteFilterBox 
-            selectedDem 
-            selectedRep 
-            selectedNotVoting 
-            selectedNoVote 
-            selectedYesVote 
+          <VoteFilterBox
+            selectedDem
+            selectedRep
+            selectedNotVoting
+            selectedNoVote
+            selectedYesVote
             handleRepChange={this.handleRepChange}
             handleDemChange={this.handleDemChange}
             handleNotVotingChange={this.handleNotVotingChange}
@@ -137,8 +137,8 @@ class Vote extends React.Component {
             label="View Graphs"
             onTouchTap={this.handleToggle.bind(this)}
          />
-          <Drawer 
-            open={this.state.open} 
+          <Drawer
+            open={this.state.open}
             openSecondary={true}
             width={500}
             className="vote-drawer"

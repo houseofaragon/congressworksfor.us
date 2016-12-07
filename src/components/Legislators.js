@@ -1,60 +1,49 @@
+/*eslint-disable */
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
+import { bindActionCreators } from 'redux'
+import { SET_SEARCH_TERM, fetchCurrentLegislators, fetchLegislatorResults, fetchLegislators } from '../actions/index'
+import TextField from 'material-ui/TextField'
+import Representatives from './Representatives'
+import LegislatorForm from './LegislatorForm'
 
 class Legislators extends React.Component {
+  constructor (props) {
+    super(props)
+    if(this.props.showCurrentLegs) this.props.fetchCurrentLegislators()
+  }
+
   render () {
-    const rep = this.props.legislators.objects[0] || {}
-    const senateData = this.props.legislators.senators.objects || {}
-    const senators = senateData.map((representative, idx) => (
-      <div key={idx}>
-        <h5> Senator </h5>
-        <Link to={`/person/${representative.person.id}`}>
-          <h2>{representative.person.name}</h2>
-        </Link><br />
-        <h5>Term Ends </h5>
-        <p>{representative.enddate}</p>
-        <h5>Party </h5>
-        <p>{representative.party}</p>
-        <h5>Address </h5>
-        <p style={{maxWidth: '300px'}}>{representative.extra.address}</p>
-        <div className='social'>
-          <a href={`tel:+${representative.phone}`}><div id='call'>call</div></a>
-          <a href={representative.website}><div id='website'>website</div></a>
-          <a href={representative.extra.contact_form}><div id='email'>email</div></a>
-        </div>
+    const data = this.props.currentLegislators || {}
+    const { legislators } = this.props || {}
+    let currentLegislators = data.map((legislator, idx) => (
+      <div className='legislator' key={idx} >
+        <Link to={`/person/${legislator.person ? legislator.person.id : legislator.id}`}>
+          <h2>{legislator.person ? legislator.person.firstname : legislator.sortname } {legislator.person ? legislator.person.lastname : '' }</h2>
+          <div id='currentLegislators'>
+            <h5>{legislator.description ? legislator.description : '' }</h5>
+            {legislator.enddate ? <div><h5>Term Ends </h5><p>{legislator.enddate}</p></div> : <div /> }
+            {legislator.party ? <div><h5>Party </h5><p>{legislator.party}</p></div> : <div /> }
+          </div>
+        </Link>
       </div>
     ))
 
-    const representative = (
-      <Link to={`/person/${rep.person.id}`}>
-        <div id='representative'>
-          <h5> Representative </h5>
-          <h2>{rep.person.name}</h2><br />
-          <h5>term ends </h5>
-          <p>{rep.enddate}</p>
-          <h5>Party </h5>
-          <p>{rep.party}</p>
-          <h5>Address </h5>
-          <p style={{maxWidth: '300px'}}>{rep.extra.address}</p>
-          <div className='social'>
-            <a href={`tel:+${rep.phone}`}><div id='call'>call</div></a>
-            <a href={rep.website}><div id='website'>website</div></a>
-            <a href={rep.extra.contact_form}><div id='email'>email</div></a>
-          </div>
-        </div>
-      </Link>
-    )
+    let representatives = null
+    if(this.props.showReps){
+      representatives = <Representatives reps={legislators.objects[0]} senators={legislators.senators.objects} />
+    }
 
     return (
       <div className='container'>
+        <LegislatorForm />
         <div className='bill-title'>
-          <h1>These are the people who work for you in {rep.state}</h1>
+          <h1>These are the people who work for you in </h1>
         </div>
         <div className='bill-details'>
           <div id='legislators'>
-            {senators}
-            {representative}
+            {this.props.showReps ? representatives : currentLegislators}
           </div>
         </div>
       </div>
@@ -65,13 +54,27 @@ class Legislators extends React.Component {
 Legislators.propTypes = {
   regionData: React.PropTypes.array.isRequired,
   emptyRegions: React.PropTypes.array.isRequired,
-  legislators: React.PropTypes.object
+  legislators: React.PropTypes.object,
+  currentLegislators: React.PropTypes.array,
+  fetchLegislators: React.PropTypes.func,
+  fetchCurrentLegislators: React.PropTypes.func,
+  searchTerm: React.PropTypes.string,
 }
 
 const mapStateToProps = (state) => ({
   regionData: state.regionData,
   emptyRegions: state.emptyRegions,
-  legislators: state.legislators
+  legislators: state.legislators,
+  currentLegislators: state.currentLegislators,
+  searchTerm: state.searchTerm,
+  showReps: state.showReps,
+  showCurrentLegs: state.showCurrentLegs
 })
 
-export default connect(mapStateToProps)(Legislators)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchCurrentLegislators: bindActionCreators(fetchCurrentLegislators, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Legislators)

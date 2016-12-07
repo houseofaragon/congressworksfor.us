@@ -7,6 +7,7 @@ import { fetchPerson } from '../actions/index'
 import { Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn } from 'material-ui/Table'
 import FlatButton from 'material-ui/FlatButton'
 import { Link } from 'react-router'
+import LegislatorForm from './LegislatorForm'
 
 class PersonDetails extends React.Component {
   constructor(props) {
@@ -38,7 +39,6 @@ class PersonDetails extends React.Component {
     if(roles){
       roleList = roles.map((role, idx) => (
         <div key={idx} className='person-roles'>
-          <h5>{role.startdate} - {role.enddate}</h5>
           <p>{role.party} {role.description}</p>
           {role.extra ? (
             <div>
@@ -46,32 +46,31 @@ class PersonDetails extends React.Component {
               <p>{role.extra.rss_url}</p>
             </div>
             ) : null }
+                    <p>{role.startdate} - {role.enddate}</p>
+
         </div>
       ))
     }
     const handleRowClick = (key) => {
-      const congress = personSponsorHistory[key].congress
-      let billId = personSponsorHistory[key].display_number.replace(/[^a-zA-Z0-9]/g, '')
-      billId = billId.toLowerCase()
-      browserHistory.push(`/bill/${billId}-${congress}`)
+      browserHistory.push(`/bill/${personSponsorHistory[key].id}`)
     }
-    
+
     return (
       <div className="container">
+        <LegislatorForm />
         <div className="bill-title">
             <h1>{person.name}</h1>
-            <p>{person.description}</p>
+            <a href={`https://twitter.com/${person.twitterid}`}>Twitter</a>
+
             <br/>
             <h5>Born</h5>
-            <p>{person.birthday}</p>
-            <p>{person.twitterid}</p>
-            <p>{person.youtubeid}</p>
-            <br/>
+            <p className='summary'>{person.birthday}</p>
             <h5> roles </h5>
             {roleList}
         </div>
+
         <div className="bill-details">
-          <h4 style={{marginTop: '40px'}}>Sponsored Bills</h4>
+          <h4 style={{marginTop: '40px'}}>Sponsored {personSponsorHistory.length} Bills</h4>
           <Table
             style={{width: '100%', background: 'transparent'}}
             height={this.state.height}

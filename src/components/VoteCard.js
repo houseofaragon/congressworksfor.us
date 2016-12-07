@@ -4,9 +4,9 @@ import FlatButton from 'material-ui/FlatButton'
 
 const VoteCard = (props) => (
   <div className='vote-card'>
-      <h4> # {props.number} - {props.result} </h4>
-      <p> {props.question} </p>
-      <FlatButton className="vote-button" label="view votes" href={`/bill/${props.bill_id}/votes/${props.roll_id}`} />
+    <h4> # {props.number} - {props.result} in the {props.chamber_label}</h4>
+    <p> {props.question_details} </p>
+    <FlatButton className="vote-button" label="view votes" href={`/bill/${props.bill_id}/votes/${props.id}`} />
   </div>
 )
 

@@ -14,6 +14,20 @@
 		color: $white;
 		z-index: 1;
 
+		& .header-bar-search.legislator{
+		 display: none;
+		}
+		& .form{
+			& h5 { display: none;}
+			width: 25vw;
+			position: relative;
+			top: 0;
+			left: 0;
+			float: left;
+			text-align: left;
+			padding: 0 $padding;
+			content: 'Enter your address'
+		}
 		& a{
 			border: 3px solid $dark-blue;
 			color: $dark-blue;
@@ -40,7 +54,7 @@
 
 
 	& #fillgauge{
-		width:100%; 
+		width:100%;
 		height:400px;
 		position: absolute;
 		top: 30vh;
@@ -63,16 +77,16 @@
 
 	& a .landing-side-grid-tile{
 		min-height: 250px;
-	    transition: background-color 300ms ease-in 100ms, color 300ms ease-in 10ms;
-	    padding: $padding;
+	  transition: background-color 300ms ease-in 100ms, color 300ms ease-in 10ms;
+	  padding: $padding;
 		border-top: 3px solid  $white;
 		color: $white;
-	
+
 		& .tile-info{
 			top: 50%;
 			margin-top: 3em;
 
-			& .landing-sprites{  
+			& .landing-sprites{
 				left:0;
   				right:0;
   				bottom: 0;
@@ -98,7 +112,7 @@
 				width: 105px;
 				height: 105px;
 			}
-	    
+
 			& .tile-pre-title{
 				text-transform: uppercase;
 				padding-bottom: 10px;
@@ -107,7 +121,7 @@
 			}
 
 			& .tile-title{
-				font-weight: 100;				
+				font-weight: 100;
 			}
 
 			& .tile-button{

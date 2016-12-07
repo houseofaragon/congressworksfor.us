@@ -3,14 +3,18 @@ promise.polyfill()
 import fetch from 'isomorphic-fetch'
 import { browserHistory } from 'react-router'
 import { groupBy, sortBy } from 'lodash'
+
 export const SET_SEARCH_TERM = 'SET_SEARCH_TERM'
-export const SET_SEARCH_RESULTS = 'SET_SEARCH_RESULTS'
 export const SET_BILL = 'SET_BILL'
-export const SET_VOTES = 'SET_VOTES'
+export const SET_BILL_RESULTS = 'SET_BILL_RESULTS'
+export const SET_CURRENT_BILLS = 'SET_CURRENT_BILLS'
 export const SET_PERSON = 'SET_PERSON'
-export const SET_OPEN_SEATS = 'SET_OPEN_SEATS'
-export const SET_FILTER_VOTERS = 'SET_FILTER_VOTERS'
 export const SET_LEGISLATORS = 'SET_LEGISLATORS'
+export const SET_CURRENT_LEGISLATORS = 'SET_CURRENT_LEGISLATORS'
+export const SET_LEGISLATOR_RESULTS = 'SET_LEGISLATOR_RESULTS'
+export const SET_OPEN_SEATS = 'SET_OPEN_SEATS'
+export const SET_VOTES = 'SET_VOTES'
+export const SET_FILTER_VOTERS = 'SET_FILTER_VOTERS'
 
 export const setSearchTerm = (searchTerm) => (
   {
@@ -19,18 +23,27 @@ export const setSearchTerm = (searchTerm) => (
   }
 )
 
-export const setSearchResults = (results, searchTerm) => (
+export const setBill = (bill, votes, searchTerm) => (
   {
-    type: SET_SEARCH_RESULTS,
-    results: results,
+    type: SET_BILL,
+    bill: bill,
+    votes: votes,
     searchTerm: searchTerm
   }
 )
 
-export const setBill = (bill) => (
+export const setCurrentBills = (bills, searchTerm) => (
   {
-    type: SET_BILL,
-    bill: bill
+    type: SET_CURRENT_BILLS,
+    bills: bills
+  }
+)
+
+export const setBillResults = (results, searchTerm) => (
+  {
+    type: SET_BILL_RESULTS,
+    bills: results,
+    searchTerm: searchTerm
   }
 )
 
@@ -41,10 +54,25 @@ export const setPerson = (person) => (
   }
 )
 
-export const setVotes = (votes) => (
+export const setLegislators = (legislators) => (
   {
-    type: SET_VOTES,
-    votes: votes
+    type: 'SET_LEGISLATORS',
+    legislators: legislators
+  }
+)
+
+export const setLegislatorResults = (results, searchTerm) => (
+  {
+    type: 'SET_LEGISLATOR_RESULTS',
+    results: results,
+    searchTerm: searchTerm
+  }
+)
+
+export const setCurrentLegislators = (legislators) => (
+  {
+    type: 'SET_CURRENT_LEGISLATORS',
+    currentLegislators: legislators
   }
 )
 
@@ -62,6 +90,13 @@ export const setOpenSeats = (openSeats) => (
   }
 )
 
+export const setVotes = (votes) => (
+  {
+    type: SET_VOTES,
+    votes: votes
+  }
+)
+
 export const setFilteredVoters = (selectedDem, selectedRep, selectedYesVote, selectedNoVote, selectedNotVoting, visibleVoters) => (
   {
     type: 'SET_FILTER_VOTERS',
@@ -70,117 +105,55 @@ export const setFilteredVoters = (selectedDem, selectedRep, selectedYesVote, sel
   }
 )
 
-export const setLegislators = (legislators) => (
-  {
-    type: 'SET_LEGISLATORS',
-    legislators: legislators
-  }
-)
-
-export const fetchSearchResults = (searchTerm) => (dispatch) => {
-  const searchURL = `https://www.govtrack.us/api/v2/bill?q=${searchTerm}`
-  const personURL = `https://www.govtrack.us/api/v2/person?q=${searchTerm}`
-
-  const fetchBills = (url) => {
-    return fetch(url)
-    .then(response => response.json())
-    .then(data => data.objects)
-    .catch((error) => console.log('request failed', error))
-  }
-
-  const fetchPersons = (url) => {
-    return fetch(url)
-    .then(response => response.json())
-    .then(data => data.objects)
-    .catch((error) => console.log('request failed', error))
-  }
-
-  Promise.all([fetchBills(searchURL), fetchPersons(personURL)])
-    .then(results => {
-      dispatch(setSearchResults(results, searchTerm))
-      browserHistory.push('/browse')
-    }).catch((error) => {
-      console.log('request failed', error)
-      browserHistory.push('/browse')
-    })
-}
-
 export const fetchBill = (id, searchTerm) => (dispatch) => {
-  const billURL = `https://congress.api.sunlightfoundation.com/bills?bill_id="${id}"&apikey=a922e6b7b1004c37b7508366cd7500ac`
-  const billSummaryURL = `https://congress.api.sunlightfoundation.com/bills?bill_id="${id}"&fields=actions,summary,keywords&apikey=a922e6b7b1004c37b7508366cd7500ac`
-  const votesURL = `https://congress.api.sunlightfoundation.com/votes?bill_id=${id}&apikey=a922e6b7b1004c37b7508366cd7500ac`
-
-  const fetchBillData = (url) => {
+  console.log(id)
+  const billURL = `https://www.govtrack.us/api/v2/bill/${id}`
+  // const billSummaryURL = `https://congress.api.sunlightfoundation.com/bills?bill_id="${id}"&fields=actions,summary,keywords&apikey=a922e6b7b1004c37b7508366cd7500ac`
+  const voteURL = `https://www.govtrack.us/api/v2/vote?related_bill=${id}`
+  // const votersURL = `https://www.govtrack.us/api/v2/vote_voter?vote=${vote_id}`
+  const fetchBill = (url) => {
     return fetch(url)
     .then(response => response.json())
-    .then(data => data.results[0])
+    .then(data => data)
     .catch((error) => console.log('request failed', error))
   }
 
-  const fetchBillSummaryData = (url) => {
+  const fetchVotes = (url) => {
     return fetch(url)
     .then(response => response.json())
-    .then(data => data.results[0])
+    .then(data => data.objects)
     .catch((error) => console.log('request failed', error))
   }
 
-  const fetchBillVotes = (url) => {
-    return fetch(url)
-    .then(response => response.json())
-    .then(data => data.results)
-    .catch((error) => console.log('request failed', error))
-  }
-
-  Promise.all([fetchBillData(billURL), fetchBillVotes(votesURL), fetchBillSummaryData(billSummaryURL)])
+  Promise.all([fetchBill(billURL), fetchVotes(voteURL)])
     .then(results => {
-      dispatch(setBill(results, searchTerm))
-      browserHistory.push(`/bill/${id}`)
-    }).catch((error) => {
-      console.log('request failed', error)
-      browserHistory.push(`/bill/${id}`)
-    })
-}
-
-const groupByKey = (array, key) => {
-  let newArray = groupBy(array, (item) => item.vote)
-  return newArray
-}
-
-const sortByKey = (array, key) => {
-  let newArray = sortBy(array, (item) => item.voter.state_name).map((item) => Object.assign({}, item.voter, {'vote': item.vote}))
-  return newArray
-}
-
-export const fetchVote = (id) => (dispatch) => {
-  // const url = `https://www.govtrack.us/api/v2/vote_voter/?vote=${id}`
-  const voteURL = `https://congress.api.sunlightfoundation.com/votes?roll_id=${id}&apikey=a922e6b7b1004c37b7508366cd7500ac`
-  const voteDetailsURL = `https://congress.api.sunlightfoundation.com/votes?roll_id=${id}&fields=voters,breakdown&apikey=a922e6b7b1004c37b7508366cd7500ac`
-
-  const fetchVote = (url) => {
-    return fetch(url)
-    .then(response => response.json())
-    .then(data => data.results[0])
-    .catch((error) => console.log('request failed', error))
-  }
-
-  const fetchVoteDetails = (url) => {
-    return fetch(url)
-    .then(response => response.json())
-    .then(data => data.results[0])
-    .catch((error) => console.log('request failed', error))
-  }
-
-  Promise.all([fetchVote(voteURL), fetchVoteDetails(voteDetailsURL)])
-    .then(results => {
-      groupByKey(results[1].voters, 'vote')
-      let sortedResults = sortByKey(results[1].voters, 'voter.state_name')
-      dispatch(setVotes([results[0], sortedResults, results[1].breakdown.total, results[1].breakdown.party]))
+      // groupByKey(results[1].voters, 'vote')
+      // let sortedResults = sortByKey(results[1].voters, 'voter.state_name')
+      dispatch(setBill(results[0], results[1], searchTerm))
     }).catch((error) => {
       console.log('request failed', error)
     })
 }
 
-export const getLegislators = (address) => (dispatch) => {
+export const fetchBillResults = (searchTerm) => (dispatch) => {
+  const url = `https://www.govtrack.us/api/v2/bill?q=${searchTerm}`
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => dispatch(setBillResults(data.objects)))
+    .catch((error) => console.log('request failed', error))
+}
+
+export const fetchCurrentBills = () => (dispatch) => {
+  const url = 'https://www.govtrack.us/api/v2/bill?congress=114&order_by=-current_status_date'
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => dispatch(setCurrentBills(data.objects)))
+    .catch((error) => console.log('request failed', error))
+}
+
+export const fetchLegislators = (address) => (dispatch) => {
   const url = `https://search.mapzen.com/v1/search?text=${address}`
 
   return fetch(url)
@@ -210,6 +183,66 @@ export const getLegislators = (address) => (dispatch) => {
       })
     })
     .catch((error) => console.log('request failed', error))
+}
+
+export const fetchLegislatorResults = (searchTerm) => (dispatch) => {
+  const url = `https://www.govtrack.us/api/v2/person?q=${searchTerm}`
+  console.log(searchTerm)
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data.objects)
+      dispatch(setLegislatorResults(data.objects))
+    })
+    .catch((error) => console.log('request failed', error))
+}
+
+export const fetchCurrentLegislators = () => (dispatch) => {
+  const url = 'https://www.govtrack.us/api/v2/role?current=true'
+  return fetch(url)
+    .then(response => response.json())
+    .then(data => dispatch(setCurrentLegislators(data.objects)))
+    .catch((error) => console.log('request failed', error))
+}
+
+const groupByKey = (array, key) => {
+  let newArray = groupBy(array, (item) => item.vote)
+  return newArray
+}
+
+const sortByKey = (array, key) => {
+  let newArray = sortBy(array, (item) => item.voter.state_name).map((item) => Object.assign({}, item.voter, {'vote': item.vote}))
+  return newArray
+}
+
+export const fetchVote = (id) => (dispatch) => {
+  // const url = `https://www.govtrack.us/api/v2/vote_voter/?vote=${id}`
+  const voteURL = `https://congress.api.sunlightfoundation.com/votes?roll_id=${id}&apikey=a922e6b7b1004c37b7508366cd7500ac`
+  const voteDetailsURL = `https://congress.api.sunlightfoundation.com/votes?roll_id=${id}&fields=voters,breakdown&apikey=a922e6b7b1004c37b7508366cd7500ac`
+  // const voteURL = `https://www.govtrack.us/api/v2/vote?related_bill=${id}`
+  // const votersURL = `https://www.govtrack.us/api/v2/vote_voter?vote=${vote_id}`
+  const fetchVote = (url) => {
+    return fetch(url)
+    .then(response => response.json())
+    .then(data => data.results[0])
+    .catch((error) => console.log('request failed', error))
+  }
+
+  const fetchVoteDetails = (url) => {
+    return fetch(url)
+    .then(response => response.json())
+    .then(data => data.results[0])
+    .catch((error) => console.log('request failed', error))
+  }
+
+  Promise.all([fetchVote(voteURL), fetchVoteDetails(voteDetailsURL)])
+    .then(results => {
+      groupByKey(results[1].voters, 'vote')
+      let sortedResults = sortByKey(results[1].voters, 'voter.state_name')
+      dispatch(setVotes([results[0], sortedResults, results[1].breakdown.total, results[1].breakdown.party]))
+    }).catch((error) => {
+      console.log('request failed', error)
+    })
 }
 
 export const fetchPerson = (id) => (dispatch) => {

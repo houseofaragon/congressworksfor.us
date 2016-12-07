@@ -2,9 +2,36 @@
 	font-family: 'Roboto';
 	height: 60px;
 	position: fixed !important;
-	border-bottom: 3px solid #fff;
+	border-top: 3px solid $light-blue;
 	background: #2196f3 !important; /* fallback for old browsers */
-	
+
+	& h1{
+		flex: 0.25 0 0% !important;
+	}
+
+	& #routes{
+
+		position: relative;
+		line-height: 60px;
+		top: -1px;
+		bottom: -2px;
+		height: 55px;
+		& a {
+			display: inline-block;
+			padding: 0 20px;
+			text-transform: uppercase;
+			font-size: 0.8em;
+			color: $white;
+			height: 57px;
+
+			&:hover{
+				background: $light-blue;
+				color: $dark-blue;
+				transition: background 250ms, color 250ms;
+			}
+		}
+	}
+
 	& span.header-bar-logo{
 		width: 50px;
 		height: 50px;

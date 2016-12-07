@@ -1,0 +1,41 @@
+.form{
+  position: fixed;
+  top: 60px;
+  width: 100vw;
+  background: $light-blue;
+  margin: 0 auto;
+  text-align: center;
+
+  & h5 {
+    display: inline-block;
+    margin-right: 5vw;
+  }
+
+  & form{
+    display: inline-block;
+    & .search-field.bill {
+      line-height: 60px;
+      font-size: 1.2em !important;
+      text-align: center !important;
+      width: 450px !important;
+
+      & input {
+        color: $white !important;
+      }
+    }
+    & .search-field {
+      line-height: 60px;
+      font-size: 1.2em !important;
+      text-align: center !important;
+      & input {
+        color: $white !important;
+      }
+    }
+
+    & hr {
+      display: none;
+    }
+
+  }
+
+}

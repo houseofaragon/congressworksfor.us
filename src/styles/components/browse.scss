@@ -1,8 +1,7 @@
 
 .bill-table, .people-table {
 	background: transparent !important;
-	width: 80% !important;
-	margin: 0 auto;
+	margin: 20px auto;
 
 	& th{
 		color: $blue !important;
@@ -17,7 +16,6 @@
 
 tbody{
 		background: transparent !important;
-		width: 80% !important;
 		margin: 0 auto;
 
 	& tr:hover{
@@ -26,7 +24,7 @@ tbody{
 	}
 
 	& tr td{
-		color: $dark-blue !important;
+		color: $white !important;
 		font-size: 1.1em !important;
 
 		& h5 {

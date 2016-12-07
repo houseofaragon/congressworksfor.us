@@ -6,6 +6,7 @@ import configureStore from './stores'
 import Layout from './components/Layout'
 import Landing from './components/Landing'
 import Browse from './components/Browse'
+import Bills from './components/Bills'
 import BillDetails from './components/BillDetails'
 import Vote from './components/Vote'
 import PersonDetails from './components/PersonDetails'
@@ -28,6 +29,7 @@ render(
           <IndexRoute component={Landing} />
           <Route path='/browse' component={Browse} />
           <Route path='/legislators' component={Legislators} />
+          <Route path='/bills' component={Bills} />
           <Route path='/bill/:id' component={BillDetails} />
           <Route path='/bill/:id/votes/:number' component={Vote} />
           <Route path='/person/:id' component={PersonDetails} />
