@@ -52,7 +52,7 @@
 	  width: 50vw;
 	  clear: both;
 	  overflow: auto;
-	  left: -15px;
+	  left: -0px;
 	  padding-top: $padding * 2;
 	  position: fixed;
 	  bottom: 0;
@@ -60,7 +60,7 @@
       float: left;
       background: $light-blue;
       padding: $padding 0;
-      width: 24.86%;
+      width: 24.35%;
       text-align: center;
       border-right: 1px solid $blue;
       color: $blue;
@@ -133,7 +133,7 @@
 
 	& h4 {
 		color: $light-pink;
-		padding-left: $padding * 3;
+		padding-left: $padding * 2;
 	}
 
 	& p{

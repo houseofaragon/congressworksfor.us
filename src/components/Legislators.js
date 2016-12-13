@@ -8,16 +8,20 @@ import TextField from 'material-ui/TextField'
 import Representatives from './Representatives'
 import LegislatorForm from './LegislatorForm'
 import Pagination from 'react-js-pagination'
+import Spinner from 'react-spinner'
 
 class Legislators extends React.Component {
   constructor (props) {
     super(props)
-    if(this.props.showCurrentLegs) this.props.fetchCurrentLegislators(this.props.activePage)
+    if(this.props.showCurrentLegs) this.props.fetchCurrentLegislators(this.props.activePage, 1)
     this.handlePageChange = this.handlePageChange.bind(this)
   }
 
   handlePageChange (pageNumber) {
-    this.props.fetchCurrentLegislators(pageNumber)
+    let offset
+    if(pageNumber === 1) { offset = pageNumber }
+    else { offset = (pageNumber - 1) * 25 }
+    this.props.fetchCurrentLegislators(pageNumber, offset)
   }
 
   render () {
@@ -48,11 +52,12 @@ class Legislators extends React.Component {
         <div className='bill-details'>
           {this.props.showCurrentLegs ? <Pagination
             activePage={this.props.activePage}
-            itemsCountPerPage={10}
-            totalItemsCount={450}
+            itemsCountPerPage={25}
+            totalItemsCount={535}
             pageRangeDisplayed={5}
             onChange={this.handlePageChange} /> : '' }
           <div id='legislators'>
+            {!this.props.currentLegislators ? <Spinner /> : ''}
             {this.props.showReps ? representatives : currentLegislators}
           </div>
         </div>
@@ -69,7 +74,8 @@ Legislators.propTypes = {
   fetchLegislators: React.PropTypes.func,
   fetchCurrentLegislators: React.PropTypes.func,
   searchTerm: React.PropTypes.string,
-  activePage: React.PropTypes.number
+  activePage: React.PropTypes.number,
+  total: React.PropTypes.number
 }
 
 const mapStateToProps = (state) => ({
@@ -80,7 +86,8 @@ const mapStateToProps = (state) => ({
   searchTerm: state.searchTerm,
   showReps: state.showReps,
   showCurrentLegs: state.showCurrentLegs,
-  activePage: state.activePage
+  activePage: state.activePage,
+  total: state.total
 })
 
 const mapDispatchToProps = (dispatch) => {

@@ -72,11 +72,12 @@ export const setLegislatorResults = (results, searchTerm) => (
   }
 )
 
-export const setCurrentLegislators = (legislators, activePage) => (
+export const setCurrentLegislators = (legislators, total, activePage) => (
   {
     type: 'SET_CURRENT_LEGISLATORS',
     currentLegislators: legislators,
-    activePage: activePage
+    activePage: activePage,
+    total: total
   }
 )
 
@@ -152,8 +153,8 @@ export const fetchBillResults = (searchTerm) => (dispatch) => {
     .catch((error) => console.log('request failed', error))
 }
 
-export const fetchCurrentBills = (activePage) => (dispatch) => {
-  const url = `https://www.govtrack.us/api/v2/bill?congress=114&limit=25&order_by=-current_status_date&offset=${activePage}`
+export const fetchCurrentBills = (activePage, offset) => (dispatch) => {
+  const url = `https://www.govtrack.us/api/v2/bill?congress=114&limit=25&order_by=-current_status_date&offset=${offset}`
 
   fetch(url)
     .then(response => response.json())
@@ -205,11 +206,11 @@ export const fetchLegislatorResults = (searchTerm) => (dispatch) => {
     .catch((error) => console.log('request failed', error))
 }
 
-export const fetchCurrentLegislators = (activePage) => (dispatch) => {
-  const url = `https://www.govtrack.us/api/v2/role?current=true&limit=25&offset=${activePage}`
+export const fetchCurrentLegislators = (activePage, offset) => (dispatch) => {
+  const url = `https://www.govtrack.us/api/v2/role?current=true&limit=25&offset=${offset}`
   return fetch(url)
     .then(response => response.json())
-    .then(data => dispatch(setCurrentLegislators(data.objects, activePage)))
+    .then(data => dispatch(setCurrentLegislators(data.objects, data.meta.total_count, activePage)))
     .catch((error) => console.log('request failed', error))
 }
 
@@ -219,7 +220,7 @@ export const fetchCurrentLegislators = (activePage) => (dispatch) => {
 // }
 
 export const fetchVote = (id) => (dispatch) => {
-  const url = `https://www.govtrack.us/api/v2/vote_voter?vote=${id}&limit=500`
+  const url = `https://www.govtrack.us/api/v2/vote_voter?vote=${id}&limit=435`
   return fetch(url)
   .then(response => response.json())
   .then(data => {

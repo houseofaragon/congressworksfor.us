@@ -16,7 +16,7 @@ class Bills extends React.Component {
     this.getSearchResults = this.getSearchResults.bind(this)
     this.getCurrentBills = this.getCurrentBills.bind(this)
     this.handlePageChange = this.handlePageChange.bind(this)
-    if(this.props.showCurrentBills) this.props.fetchCurrentBills(this.props.activePage)
+    if(this.props.showCurrentBills) this.props.fetchCurrentBills(this.props.activePage, 0)
   }
 
   handleSearchTermChange (e) {
@@ -26,11 +26,15 @@ class Bills extends React.Component {
 
   getSearchResults (e) {
     e.preventDefault()
-    this.props.fetchBillResults(this.refs.term.getValue())
+    // send 0 offset
+    this.props.fetchBillResults(this.refs.term.getValue(), 0)
   }
 
   getCurrentBills (pageNumber) {
-    this.props.fetchCurrentBills(1)
+    let offset
+    if(pageNumber === 1) { offset = pageNumber }
+    else { offset = (pageNumber - 1) * 25 }
+    this.props.fetchCurrentBills(pageNumber, offset)
   }
 
   handlePageChange (pageNumber) {

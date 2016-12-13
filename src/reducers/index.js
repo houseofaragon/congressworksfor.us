@@ -81,7 +81,7 @@ const reduceSetCurrentBills = (state, action) => {
 
 const reduceSetBillResults = (state, action) => {
   const newState = {}
-  Object.assign(newState, state, {bills: action.bills, searchTerm: action.searchTerm, showCurrentBills: false})
+  Object.assign(newState, state, {bills: action.bills, searchTerm: action.searchTerm, showCurrentBills: false, activePage: 1})
   return newState
 }
 
@@ -93,7 +93,7 @@ const reduceSetPerson = (state, action) => {
 
 const reduceSetLegislators = (state, action) => {
   const newState = {}
-  Object.assign(newState, state, {legislators: action.legislators, searchTerm: action.searchTerm, showReps: true, showCurrentLegs: false})
+  Object.assign(newState, state, {legislators: action.legislators, total: action.total, searchTerm: action.searchTerm, showReps: true, showCurrentLegs: false})
   return newState
 }
 
