@@ -7,13 +7,16 @@ import { bindActionCreators } from 'redux'
 import { SET_SEARCH_TERM, SET_BILL_RESULTS, fetchBillResults, fetchCurrentBills } from '../actions/index'
 import Browse from './Browse'
 import BillSearchForm from './BillSearchForm'
+import Pagination from 'react-js-pagination'
 
 class Bills extends React.Component {
   constructor (props) {
     super(props)
     this.handleSearchTermChange = this.handleSearchTermChange.bind(this)
     this.getSearchResults = this.getSearchResults.bind(this)
-    if(this.props.showCurrentBills) this.props.fetchCurrentBills()
+    this.getCurrentBills = this.getCurrentBills.bind(this)
+    this.handlePageChange = this.handlePageChange.bind(this)
+    if(this.props.showCurrentBills) this.props.fetchCurrentBills(this.props.activePage)
   }
 
   handleSearchTermChange (e) {
@@ -26,8 +29,12 @@ class Bills extends React.Component {
     this.props.fetchBillResults(this.refs.term.getValue())
   }
 
-  getCurrentBills () {
-    this.props.fetchCurrentBills()
+  getCurrentBills (pageNumber) {
+    this.props.fetchCurrentBills(1)
+  }
+
+  handlePageChange (pageNumber) {
+    this.getCurrentBills(pageNumber)
   }
 
   render () {
@@ -38,13 +45,17 @@ class Bills extends React.Component {
       <div className="container">
         <BillSearchForm />
         <div className="bill-title">
-          <p> Your searched for {this.props.searchTerm} </p>
-          <p> Click on a bill to find more detailed information
-          like who sponsored the bill, which legislators voted for or against it. </p>
-          <button onClick={this.getCurrentBills.bind(this)}>View Current Bills </button>
+          {this.props.showCurrentBills ? <h1> All Current Bills in Congress </h1> : <div><h1> All bills pertaining to:  <em>{this.props.searchTerm}</em> </h1><button className='vote-button' onClick={this.getCurrentBills.bind(this)}>View Current Bills </button></div>}
         </div>
         <div className="bill-details">
-           <Browse bills={bills} searchTerm={searchTerm} />
+          <Pagination
+            className='pagination'
+            activePage={this.props.activePage}
+            itemsCountPerPage={10}
+            totalItemsCount={450}
+            pageRangeDisplayed={5}
+            onChange={this.handlePageChange} />
+          <Browse bills={bills} searchTerm={searchTerm} />
         </div>
       </div>
     )
@@ -55,13 +66,15 @@ Bills.propTypes = {
   setSearchTerm: React.PropTypes.func,
   searchTerm: React.PropTypes.string,
   fetchBillResults: React.PropTypes.func,
-  bills: React.PropTypes.array
+  bills: React.PropTypes.array,
+  activePage: React.PropTypes.number
 }
 
 const mapStateToProps = (state) => ({
   searchTerm: state.searchTerm,
   bills: state.bills,
-  showCurrentBills: state.showCurrentBills
+  showCurrentBills: state.showCurrentBills,
+  activePage: state.activePage
 })
 
 const mapDispatchToProps = (dispatch) => {

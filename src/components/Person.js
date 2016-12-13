@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 
 const Person = (props) => (
   <Link to={`/person/${props.id}`}>
-    <p className="summary">{props.name}</p>
+    {props.name}
   </Link>
 )
 

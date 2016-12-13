@@ -1,36 +1,51 @@
 #legislators {
-    margin-top: 60px;
+    padding-top: $padding * 6;
     .legislator {
-        margin-bottom: 10px;
+        padding: $padding $padding * 2 0 $padding * 2;
         #currentLegislators div {
             display: inline-block;
             margin-right: 40px;
         }
-        & h2 { color: $white; }
-        & h5 { color: $dark-blue; }
-        & p { color: $light-pink; }
-        & .fields { display: inline-block; float: left; padding-right: 60px;}
+
+        & h2 { color: $white; &:hover{ color: $light-pink; } }
+        & h5 { color: $dark-blue; padding-left: 0 }
+        & p { color: $light-pink; padding-left: 0 }
+        & .fields { display: inline-block; float: left; padding-left: 0; padding-right: 60px;}
         & .fields:last-child { padding-right: 0}
         & .social {
-            width: 100vw;
+            width: 50vw;
             clear: both;
             overflow: auto;
-            left: -$padding *3;
+            left: -$padding *2;
+            padding-top: $padding * 2;
             position: relative;
             & div {
                 float: left;
-                background: $light-grey;
-                padding: $padding * 2 $padding * 4;
-                width: 11.7vw;
+                background: $light-blue;
+                padding: $padding 0;
+                width: 24.86%;
                 text-align: center;
                 border-right: 1px solid $blue;
                 color: $blue;
-                margin-bottom: $padding * 4;
+                font-size: 1.5em;
                 &:hover{
                     cursor: pointer;
-                    background: $blue;
+                    background: $dark-blue;
                     color: $white;
                 }
+            }
+        }
+        &:hover{
+            border-left: 4px solid $light-pink;
+            transition: border-left 250ms;
+        }
+
+        & #currentLegislators{
+            & h5 { color: $dark-blue; padding-left: 0; }
+            & p{ margin-bottom: 0; padding-left: 0; }
+            & div h5 {
+                color: $dark-blue;
+                padding-left: 0;
             }
         }
     }

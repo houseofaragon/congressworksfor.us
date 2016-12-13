@@ -35,7 +35,7 @@ const VoteFilterBox = (props) => (
       onToggle={props.handleNoVoteChange}
     />
     <Toggle
-      label={<span><span id="not-voting-filter-label-square"></span>Not Voting</span>}
+      label={<span><span id="not-voting-filter-label-square"></span>Absent</span>}
       defaultToggled={props.selectedNotVoting}
       labelPosition='right'
       onToggle={props.handleNotVotingChange}

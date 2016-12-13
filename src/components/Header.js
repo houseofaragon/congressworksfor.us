@@ -16,6 +16,7 @@ class Header extends React.Component {
         onTitleTouchTap={this.handleTouchTap}
         >
         <div id='routes'>
+
           <Link to={'/bills'}>Bills</Link>
           <Link to={'/legislators'}>Legislators</Link>
         </div>

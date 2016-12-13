@@ -1,8 +1,25 @@
+.bill-drawer{
+	& td{
+		color: $blue !important;
+	}
+	&:first-child{
+		background-color: rgba(29, 50, 56, 0.956863) !important;
+	}
+}
+.bill-drawer-button {
+	position: relative !important;
+	float: right !important;
+	right: -20px !important;
+	top: -50px !important;
+	& span { font-family: 'Montserrat' !important; }
+}
+
 .bill-title{
 	width: 45vw;
-	margin-top: 100px;
+	margin-top: 20vh;
 	padding: $padding * 2;
 	position: fixed;
+	vertical-align: 100vh;
 
 	& h5 {
 		text-transform: uppercase;
@@ -15,6 +32,15 @@
 		margin-bottom: $padding * 2;
 	}
 
+	& a{
+		color: $red;
+		font-family: 'PT Serif';
+		font-size: 1.2em !important;
+		&:hover{
+			color: $light-blue;
+		}
+	}
+
 	& .summary{
 		font-family: 'PT Serif';
 		font-size: 1.2em !important;
@@ -22,60 +48,106 @@
 		font-spacing: 2px;
 		margin-bottom: $padding * 2;
 	}
+	& .social {
+	  width: 50vw;
+	  clear: both;
+	  overflow: auto;
+	  left: -15px;
+	  padding-top: $padding * 2;
+	  position: fixed;
+	  bottom: 0;
+	  & div {
+      float: left;
+      background: $light-blue;
+      padding: $padding 0;
+      width: 24.86%;
+      text-align: center;
+      border-right: 1px solid $blue;
+      color: $blue;
+      font-size: 1.5em;
+      &:hover{
+          cursor: pointer;
+          background: $dark-blue;
+          color: $white;
+      }
+    }
+	}
 }
 .bill-details{
-	margin-top: 60px;
+	margin-top: 80px;
 	background: $blue !important;
 	box-sizing: border-box;
 	width: 50vw;
 	float: right;
 	color: $light-pink !important;
 	overflow-y: auto;
-	padding: $padding * 3;
+	padding: $padding * 3 0;
 	min-height: 100vh;
-
+	z-index: 2;
 	& .vote-button{
-		border:3px solid $light-pink !important;
-		background: transparent !important;
-		margin: -10px auto $padding * 2 auto !important;
-		font-family: 'Montserrat' !important;
-		color: $light-pink !important;
-		font-size: 0.6em !important;
+		border:3px solid $light-pink;
+		background: transparent;
+		margin-left: $padding * 3;
+		font-family: 'Montserrat';
+		color: $light-pink;
+		font-size: 1em;
 		vertical-align: middle;
+		padding: $padding;
+		display: inline-block;
+		text-transform: uppercase;
+
+		&:hover{
+			color: $red;
+			border: 3px solid $red;
+			transition: color 250ms border 250ms;
+		}
+	}
+
+	& span{
+		color: $light-pink;
+		font-size: 1.5em;
 	}
 
 	& hr{
-	    padding: 0;
-	    border: none;
-	    border-top: medium double $white;
-	    color: $white;
-	    text-align: center;
+	    margin: 30px 0 ;
+	    border: 1px solid $light-blue;
 	}
 
 	& hr:after {
-	    content: "*";
-	    display: inline-block;
-	    position: relative;
-	    top: -0.5em;
-	    font-size: 1.5em;
-	    padding: 0 0.25em;
-	    background: $blue;
+    /*
+    content: "*";
+    display: inline-block;
+    position: relative;
+    top: -0.5em;
+    font-size: 1.5em;
+    padding: 0 0.25em;
+    background: $blue;
+    */
 	}
 
 	& h5 {
 		text-transform: uppercase;
 		color: $dark-blue;
+		padding-left: $padding * 3;
 	}
 
 	& h4 {
-		color: $red;
+		color: $light-pink;
+		padding-left: $padding * 3;
 	}
 
 	& p{
 		font-family: 'PT Serif';
-		font-size: 1.1em !important;
+		font-size: 1.2em !important;
 		color: $white;
 		font-spacing: 2px;
-		margin-bottom: $padding * 2;
+		margin-bottom: $padding;
+		padding-left: $padding * 3;
+	}
+
+	& tbody{
+		tr { border-bottom: 1px solid $light-blue !important; }
+		td { font-family: 'Montserrat' !important; font-size: 1em !important; }
+		td:hover { background: $light-blue !important; }
 	}
 }

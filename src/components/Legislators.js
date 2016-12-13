@@ -7,11 +7,17 @@ import { SET_SEARCH_TERM, fetchCurrentLegislators, fetchLegislatorResults, fetch
 import TextField from 'material-ui/TextField'
 import Representatives from './Representatives'
 import LegislatorForm from './LegislatorForm'
+import Pagination from 'react-js-pagination'
 
 class Legislators extends React.Component {
   constructor (props) {
     super(props)
-    if(this.props.showCurrentLegs) this.props.fetchCurrentLegislators()
+    if(this.props.showCurrentLegs) this.props.fetchCurrentLegislators(this.props.activePage)
+    this.handlePageChange = this.handlePageChange.bind(this)
+  }
+
+  handlePageChange (pageNumber) {
+    this.props.fetchCurrentLegislators(pageNumber)
   }
 
   render () {
@@ -22,9 +28,7 @@ class Legislators extends React.Component {
         <Link to={`/person/${legislator.person ? legislator.person.id : legislator.id}`}>
           <h2>{legislator.person ? legislator.person.firstname : legislator.sortname } {legislator.person ? legislator.person.lastname : '' }</h2>
           <div id='currentLegislators'>
-            <h5>{legislator.description ? legislator.description : '' }</h5>
-            {legislator.enddate ? <div><h5>Term Ends </h5><p>{legislator.enddate}</p></div> : <div /> }
-            {legislator.party ? <div><h5>Party </h5><p>{legislator.party}</p></div> : <div /> }
+            {legislator.party ? <h5>{legislator.party} - {legislator.description ? legislator.description : '' }</h5> : '' }
           </div>
         </Link>
       </div>
@@ -39,9 +43,15 @@ class Legislators extends React.Component {
       <div className='container'>
         <LegislatorForm />
         <div className='bill-title'>
-          <h1>These are the people who work for you in </h1>
+          {this.props.showCurrentLegs ? <h1>These are the people who work for you in the Senate and House of Representatives in the 114th Congress.</h1> : <h1> Legislator(s) based on your search for: <em>{this.props.searchTerm}</em></h1>}
         </div>
         <div className='bill-details'>
+          {this.props.showCurrentLegs ? <Pagination
+            activePage={this.props.activePage}
+            itemsCountPerPage={10}
+            totalItemsCount={450}
+            pageRangeDisplayed={5}
+            onChange={this.handlePageChange} /> : '' }
           <div id='legislators'>
             {this.props.showReps ? representatives : currentLegislators}
           </div>
@@ -59,6 +69,7 @@ Legislators.propTypes = {
   fetchLegislators: React.PropTypes.func,
   fetchCurrentLegislators: React.PropTypes.func,
   searchTerm: React.PropTypes.string,
+  activePage: React.PropTypes.number
 }
 
 const mapStateToProps = (state) => ({
@@ -68,7 +79,8 @@ const mapStateToProps = (state) => ({
   currentLegislators: state.currentLegislators,
   searchTerm: state.searchTerm,
   showReps: state.showReps,
-  showCurrentLegs: state.showCurrentLegs
+  showCurrentLegs: state.showCurrentLegs,
+  activePage: state.activePage
 })
 
 const mapDispatchToProps = (dispatch) => {

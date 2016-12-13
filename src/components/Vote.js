@@ -63,7 +63,7 @@ class Vote extends React.Component {
   }
 
   render () {
-    const bill = this.props.voteInfo || {}
+    const bill = this.props.voteBill || {}
     const visibleVoters = this.props.visibleVoters || {}
     const totalBreakDown = this.props.voteTotalBreakDown || {}
     const partyBreakDown = this.props.votePartyBreakDown || {}
@@ -76,6 +76,7 @@ class Vote extends React.Component {
     let BarChart = ReactD3.BarChart
     let PieChart = ReactD3.PieChart
     var sort = null
+
     if(totalBreakDown){
       var data = {
         label: 'Total Votes',
@@ -95,17 +96,17 @@ class Vote extends React.Component {
     let voteList
     if (visibleVoters){
       voteList = Object.keys(visibleVoters).map((v, idx) => (
-        <Link key={idx} to={`/person/${visibleVoters[v].govtrack_id}`}>
+        <Link key={idx} to={`/person/${visibleVoters[v].person.id}`}>
           <Chip
             className='voter-block'
-            backgroundColor={visibleVoters[v].vote === 'Yea' ? '#C5E1A5' : '#f9a9ad'}
+            backgroundColor={visibleVoters[v].option.value === 'Yea' ? '#C5E1A5' : '#f9a9ad'}
           >
           <Avatar
             className='voter-block-avatar'
-            color={visibleVoters[v].party === 'R' ? '#f44336' : '#2196F3'}>
-            {visibleVoters[v].state}
+            color={visibleVoters[v].person_role.party === 'Republican' ? '#f44336' : '#2196F3'}>
+            {visibleVoters[v].person_role.state}
           </Avatar>
-          {visibleVoters[v].first_name} {visibleVoters[v].last_name}
+          {visibleVoters[v].person.firstname} {visibleVoters[v].person.lastname}
           </Chip>
         </Link>
       ))
@@ -115,8 +116,12 @@ class Vote extends React.Component {
       <div className="container">
         <div className="vote-info">
           <h1>{bill.question}</h1>
-          <p>{this.props.title}</p>
           <p id="result">{bill.result} in the {bill.chamber} with {bill.required} required</p>
+          <div className='vote-totals'>
+            <div className='total'><h5>Yes</h5><p>{bill.total_plus}</p></div>
+            <div className='total'><h5>No</h5><p>{bill.total_minus}</p></div>
+            <div className='total'><h5>Absent</h5><p>{bill.total_other}</p></div>
+          </div>
         </div>
 
         <div className='vote-filter-box'>
@@ -201,7 +206,7 @@ Vote.propTypes = {
   first_name: React.PropTypes.string,
 
   D: React.PropTypes.object,
-  R:React.PropTypes.object
+  R: React.PropTypes.object
 }
 
 const mapStateToProps = (state) => ({
@@ -214,7 +219,8 @@ const mapStateToProps = (state) => ({
   selectedRep: state.selectedRep,
   selectedYesVote: state.selectedYesVote,
   selectedNoVote: state.selectedNoVote,
-  selectedNotVoting: state.selectedNotVoting
+  selectedNotVoting: state.selectedNotVoting,
+  voteBill: state.voteBill
 })
 
 const mapDispatchToProps = (dispatch) => {

@@ -5,12 +5,19 @@
 	border-top: 3px solid $light-blue;
 	background: #2196f3 !important; /* fallback for old browsers */
 
+	& button {
+		display: none !important;
+	}
 	& h1{
 		flex: 0.25 0 0% !important;
+		&:hover{
+			color: $light-pink !important;
+			transition: color 250ms;
+			cursor: pointer;
+		}
 	}
 
 	& #routes{
-
 		position: relative;
 		line-height: 60px;
 		top: -1px;

@@ -2,7 +2,7 @@ import promise from 'es6-promise'
 promise.polyfill()
 import fetch from 'isomorphic-fetch'
 import { browserHistory } from 'react-router'
-import { groupBy, sortBy } from 'lodash'
+import { sortBy } from 'lodash'
 
 export const SET_SEARCH_TERM = 'SET_SEARCH_TERM'
 export const SET_BILL = 'SET_BILL'
@@ -32,10 +32,11 @@ export const setBill = (bill, votes, searchTerm) => (
   }
 )
 
-export const setCurrentBills = (bills, searchTerm) => (
+export const setCurrentBills = (bills, activePage) => (
   {
     type: SET_CURRENT_BILLS,
-    bills: bills
+    bills: bills,
+    activePage: activePage
   }
 )
 
@@ -47,17 +48,19 @@ export const setBillResults = (results, searchTerm) => (
   }
 )
 
-export const setPerson = (person) => (
+export const setPerson = (person, searchTerm) => (
   {
     type: SET_PERSON,
-    person: person
+    person: person,
+    searchTerm: searchTerm
   }
 )
 
-export const setLegislators = (legislators) => (
+export const setLegislators = (legislators, searchTerm) => (
   {
     type: 'SET_LEGISLATORS',
-    legislators: legislators
+    legislators: legislators,
+    searchTerm: searchTerm
   }
 )
 
@@ -69,10 +72,11 @@ export const setLegislatorResults = (results, searchTerm) => (
   }
 )
 
-export const setCurrentLegislators = (legislators) => (
+export const setCurrentLegislators = (legislators, activePage) => (
   {
     type: 'SET_CURRENT_LEGISLATORS',
-    currentLegislators: legislators
+    currentLegislators: legislators,
+    activePage: activePage
   }
 )
 
@@ -105,12 +109,15 @@ export const setFilteredVoters = (selectedDem, selectedRep, selectedYesVote, sel
   }
 )
 
+const sortByKey = (array, key) => {
+  let newArray = sortBy(array, key)
+  return newArray
+}
+
 export const fetchBill = (id, searchTerm) => (dispatch) => {
-  console.log(id)
   const billURL = `https://www.govtrack.us/api/v2/bill/${id}`
-  // const billSummaryURL = `https://congress.api.sunlightfoundation.com/bills?bill_id="${id}"&fields=actions,summary,keywords&apikey=a922e6b7b1004c37b7508366cd7500ac`
   const voteURL = `https://www.govtrack.us/api/v2/vote?related_bill=${id}`
-  // const votersURL = `https://www.govtrack.us/api/v2/vote_voter?vote=${vote_id}`
+
   const fetchBill = (url) => {
     return fetch(url)
     .then(response => response.json())
@@ -130,6 +137,7 @@ export const fetchBill = (id, searchTerm) => (dispatch) => {
       // groupByKey(results[1].voters, 'vote')
       // let sortedResults = sortByKey(results[1].voters, 'voter.state_name')
       dispatch(setBill(results[0], results[1], searchTerm))
+      browserHistory.push(`/bill/${id}`)
     }).catch((error) => {
       console.log('request failed', error)
     })
@@ -140,16 +148,16 @@ export const fetchBillResults = (searchTerm) => (dispatch) => {
 
   fetch(url)
     .then(response => response.json())
-    .then(data => dispatch(setBillResults(data.objects)))
+    .then(data => dispatch(setBillResults(data.objects, searchTerm)))
     .catch((error) => console.log('request failed', error))
 }
 
-export const fetchCurrentBills = () => (dispatch) => {
-  const url = 'https://www.govtrack.us/api/v2/bill?congress=114&order_by=-current_status_date'
+export const fetchCurrentBills = (activePage) => (dispatch) => {
+  const url = `https://www.govtrack.us/api/v2/bill?congress=114&limit=25&order_by=-current_status_date&offset=${activePage}`
 
   fetch(url)
     .then(response => response.json())
-    .then(data => dispatch(setCurrentBills(data.objects)))
+    .then(data => dispatch(setCurrentBills(data.objects, activePage)))
     .catch((error) => console.log('request failed', error))
 }
 
@@ -176,7 +184,7 @@ export const fetchLegislators = (address) => (dispatch) => {
           .then(response => response.json())
           .then(data => {
             legislators['senators'] = data
-            dispatch(setLegislators(legislators))
+            dispatch(setLegislators(legislators, address))
             browserHistory.push('/legislators')
           })
         })
@@ -192,57 +200,36 @@ export const fetchLegislatorResults = (searchTerm) => (dispatch) => {
     .then(response => response.json())
     .then(data => {
       console.log(data.objects)
-      dispatch(setLegislatorResults(data.objects))
+      dispatch(setLegislatorResults(data.objects, searchTerm))
     })
     .catch((error) => console.log('request failed', error))
 }
 
-export const fetchCurrentLegislators = () => (dispatch) => {
-  const url = 'https://www.govtrack.us/api/v2/role?current=true'
+export const fetchCurrentLegislators = (activePage) => (dispatch) => {
+  const url = `https://www.govtrack.us/api/v2/role?current=true&limit=25&offset=${activePage}`
   return fetch(url)
     .then(response => response.json())
-    .then(data => dispatch(setCurrentLegislators(data.objects)))
+    .then(data => dispatch(setCurrentLegislators(data.objects, activePage)))
     .catch((error) => console.log('request failed', error))
 }
 
-const groupByKey = (array, key) => {
-  let newArray = groupBy(array, (item) => item.vote)
-  return newArray
-}
-
-const sortByKey = (array, key) => {
-  let newArray = sortBy(array, (item) => item.voter.state_name).map((item) => Object.assign({}, item.voter, {'vote': item.vote}))
-  return newArray
-}
+// const groupByKey = (array, key) => {
+//  let newArray = groupBy(array, (item) => item.vote)
+//  return newArray
+// }
 
 export const fetchVote = (id) => (dispatch) => {
-  // const url = `https://www.govtrack.us/api/v2/vote_voter/?vote=${id}`
-  const voteURL = `https://congress.api.sunlightfoundation.com/votes?roll_id=${id}&apikey=a922e6b7b1004c37b7508366cd7500ac`
-  const voteDetailsURL = `https://congress.api.sunlightfoundation.com/votes?roll_id=${id}&fields=voters,breakdown&apikey=a922e6b7b1004c37b7508366cd7500ac`
-  // const voteURL = `https://www.govtrack.us/api/v2/vote?related_bill=${id}`
-  // const votersURL = `https://www.govtrack.us/api/v2/vote_voter?vote=${vote_id}`
-  const fetchVote = (url) => {
-    return fetch(url)
-    .then(response => response.json())
-    .then(data => data.results[0])
-    .catch((error) => console.log('request failed', error))
-  }
-
-  const fetchVoteDetails = (url) => {
-    return fetch(url)
-    .then(response => response.json())
-    .then(data => data.results[0])
-    .catch((error) => console.log('request failed', error))
-  }
-
-  Promise.all([fetchVote(voteURL), fetchVoteDetails(voteDetailsURL)])
-    .then(results => {
-      groupByKey(results[1].voters, 'vote')
-      let sortedResults = sortByKey(results[1].voters, 'voter.state_name')
-      dispatch(setVotes([results[0], sortedResults, results[1].breakdown.total, results[1].breakdown.party]))
-    }).catch((error) => {
-      console.log('request failed', error)
-    })
+  const url = `https://www.govtrack.us/api/v2/vote_voter?vote=${id}&limit=500`
+  return fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    data.objects
+    // groupByKey(data.objects, 'vote')
+    let sortedResults = sortByKey(data.objects, 'person_role.state')
+    sortedResults = sortByKey(sortedResults, 'person_role.party')
+    dispatch(setVotes(sortedResults))
+  })
+  .catch((error) => console.log('request failed', error))
 }
 
 export const fetchPerson = (id) => (dispatch) => {
@@ -290,28 +277,29 @@ export const fetchOpenSeats = (date) => (dispatch) => {
 export const getFilteredVotes = (filter, selectedDem, selectedRep, selectedYesVote, selectedNoVote, selectedNotVoting, voters) => (dispatch) => {
   let visibleVoters = []
   if (selectedRep && selectedDem && selectedYesVote && selectedNoVote && selectedNotVoting) visibleVoters = voters
-  else if (selectedRep && selectedDem && !selectedYesVote && selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.vote !== 'Yea')
-  else if (selectedRep && selectedDem && selectedYesVote && !selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.vote !== 'Nay')
-  else if (selectedRep && selectedDem && selectedYesVote && selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.vote !== 'Not Voting')
-  else if (selectedRep && selectedDem && selectedYesVote && !selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.vote === 'Yea')
-  else if (selectedRep && selectedDem && !selectedYesVote && !selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.vote === 'Not Voting')
-  else if (selectedRep && selectedDem && !selectedYesVote && selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.vote === 'Nay')
+  else if (selectedRep && selectedDem && !selectedYesVote && selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.option.value !== 'Yea')
+  else if (selectedRep && selectedDem && selectedYesVote && !selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.option.value !== 'Nay')
+  else if (selectedRep && selectedDem && selectedYesVote && selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.option.value !== 'Not Voting')
+  else if (selectedRep && selectedDem && selectedYesVote && !selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.option.value === 'Yea')
+  else if (selectedRep && selectedDem && !selectedYesVote && !selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.option.value === 'Not Voting')
+  else if (selectedRep && selectedDem && !selectedYesVote && selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.option.value === 'Nay')
 
-  else if (!selectedRep && selectedDem && selectedYesVote && selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.party === 'D')
-  else if (!selectedRep && selectedDem && !selectedYesVote && selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.party === 'D' && v.vote !== 'Yea')
-  else if (!selectedRep && selectedDem && selectedYesVote && !selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.party === 'D' && v.vote !== 'Nay')
-  else if (!selectedRep && selectedDem && selectedYesVote && selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.party === 'D' && v.vote !== 'Not Voting')
-  else if (!selectedRep && selectedDem && selectedYesVote && !selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.party === 'D' && v.vote === 'Yea')
-  else if (!selectedRep && selectedDem && !selectedYesVote && !selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.party === 'D' && v.vote === 'Not Voting')
-  else if (!selectedRep && selectedDem && !selectedYesVote && selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.party === 'D' && v.vote === 'Nay')
+  else if (!selectedRep && selectedDem && selectedYesVote && selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.person_role.party === 'Democrat')
+  else if (!selectedRep && selectedDem && !selectedYesVote && selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.person_role.party === 'Democrat' && v.option.value !== 'Yea')
+  else if (!selectedRep && selectedDem && selectedYesVote && !selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.person_role.party === 'Democrat' && v.option.value !== 'Nay')
+  else if (!selectedRep && selectedDem && selectedYesVote && selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.person_role.party === 'Democrat' && v.option.value !== 'Not Voting')
+  else if (!selectedRep && selectedDem && selectedYesVote && !selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.person_role.party === 'Democrat' && v.option.value === 'Yea')
+  else if (!selectedRep && selectedDem && !selectedYesVote && !selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.person_role.party === 'Democrat' && v.option.value === 'Not Voting')
+  else if (!selectedRep && selectedDem && !selectedYesVote && selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.person_role.party === 'Democrat' && v.option.value === 'Nay')
 
-  else if (selectedRep && !selectedDem && selectedYesVote && selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.party === 'R')
-  else if (selectedRep && !selectedDem && !selectedYesVote && selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.party === 'R' && v.vote !== 'Yea')
-  else if (selectedRep && !selectedDem && selectedYesVote && !selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.party === 'R' && v.vote !== 'Nay')
-  else if (selectedRep && !selectedDem && selectedYesVote && selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.party === 'R' && v.vote !== 'Not Voting')
-  else if (selectedRep && !selectedDem && selectedYesVote && !selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.party === 'R' && v.vote === 'Yea')
-  else if (selectedRep && !selectedDem && !selectedYesVote && !selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.party === 'R' && v.vote === 'Not Voting')
-  else if (selectedRep && !selectedDem && !selectedYesVote && selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.party === 'R' && v.vote === 'Nay')
+  else if (selectedRep && !selectedDem && selectedYesVote && selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.person_role.party === 'Republican')
+  else if (selectedRep && !selectedDem && !selectedYesVote && selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.person_role.party === 'Republican' && v.option.value !== 'Yea')
+  else if (selectedRep && !selectedDem && selectedYesVote && !selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.person_role.party === 'Republican' && v.option.value !== 'Nay')
+  else if (selectedRep && !selectedDem && selectedYesVote && selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.person_role.party === 'Republican' && v.option.value !== 'Not Voting')
+  else if (selectedRep && !selectedDem && selectedYesVote && !selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.person_role.party === 'Republican' && v.option.value === 'Yea')
+  else if (selectedRep && !selectedDem && !selectedYesVote && !selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.person_role.party === 'Republican' && v.option.value === 'Not Voting')
+  else if (selectedRep && !selectedDem && !selectedYesVote && selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.person_role.party === 'Republican' && v.option.value === 'Nay')
 
+  console.log(visibleVoters)
   dispatch(setFilteredVoters(selectedDem, selectedRep, selectedYesVote, selectedNoVote, selectedNotVoting, visibleVoters))
 }

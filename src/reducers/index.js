@@ -13,6 +13,7 @@ const initialState = {
   selectedYesVote: true,
   selectedNoVote: true,
   selectedNotVoting: true,
+  votes: [],
   voters: [],
   voteInfo: {},
   voteTotalBreakDown: {},
@@ -24,7 +25,9 @@ const initialState = {
   legislators: {},
   bills: [],
   showCurrentLegs: true,
-  showCurrentBills: true
+  showCurrentBills: true,
+  activePage: 1,
+  major_actions: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -66,13 +69,13 @@ const reduceSearchTerm = (state, action) => {
 
 const reduceSetBill = (state, action) => {
   const newState = {}
-  Object.assign(newState, state, {bill: action.bill, votes: action.votes})
+  Object.assign(newState, state, {bill: action.bill, major_actions: action.bill.major_actions, votes: action.votes, searchTerm: action.searchTerm})
   return newState
 }
 
 const reduceSetCurrentBills = (state, action) => {
   const newState = {}
-  Object.assign(newState, state, {bills: action.bills, showCurrentBills: true})
+  Object.assign(newState, state, {bills: action.bills, showCurrentBills: true, activePage: action.activePage})
   return newState
 }
 
@@ -84,13 +87,13 @@ const reduceSetBillResults = (state, action) => {
 
 const reduceSetPerson = (state, action) => {
   const newState = {}
-  Object.assign(newState, state, {person: action.person})
+  Object.assign(newState, state, {person: action.person, searchTerm: action.searchTerm})
   return newState
 }
 
 const reduceSetLegislators = (state, action) => {
   const newState = {}
-  Object.assign(newState, state, {legislators: action.legislators, showReps: true, showCurrentLegs: false})
+  Object.assign(newState, state, {legislators: action.legislators, searchTerm: action.searchTerm, showReps: true, showCurrentLegs: false})
   return newState
 }
 
@@ -102,13 +105,13 @@ const reduceLegislatorResults = (state, action) => {
 
 const reduceSetCurrentLegislators = (state, action) => {
   const newState = {}
-  Object.assign(newState, state, {currentLegislators: action.currentLegislators, showReps: false, showCurrentLegs: true})
+  Object.assign(newState, state, {currentLegislators: action.currentLegislators, showReps: false, showCurrentLegs: true, activePage: action.activePage})
   return newState
 }
 
 const reduceSetVotes = (state, action) => {
   const newState = {}
-  Object.assign(newState, state, {voteInfo: action.votes[0], visibleVoters: action.votes[1], voters: action.votes[1], voteTotalBreakDown: action.votes[2], votePartyBreakDown: action.votes[3]})
+  Object.assign(newState, state, {voteInfo: action.votes[0], voteBill: action.votes[0].vote, visibleVoters: action.votes, voters: action.votes, voteTotalBreakDown: action.votes[2], votePartyBreakDown: action.votes[3]})
   return newState
 }
 
@@ -124,8 +127,7 @@ const reduceMergeEntities = (state, action) => {
 
 const reduceSetFilteredVoters = (state, action) => {
   const newState = {}
-  console.log('action', action)
-  Object.assign(newState, state, {visibleVoters: action.visibleVoters, selectedDem: action.selectedDem, selectedRep: action.selectedRep, selectedYesVote: action.selectedYesVote, selectedNoVote: action.selectedNoVote, selectedNotVoting: action.selectedNotVoting})
+  Object.assign(newState, state, {visibleVoters: action.visibleVoters, voteBill: action.visibleVoters[0].vote, selectedDem: action.selectedDem, selectedRep: action.selectedRep, selectedYesVote: action.selectedYesVote, selectedNoVote: action.selectedNoVote, selectedNotVoting: action.selectedNotVoting})
   return newState
 }
 

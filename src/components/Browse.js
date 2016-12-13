@@ -1,11 +1,12 @@
 import React from 'react'
-import { browserHistory } from 'react-router'
 import { Table, TableBody, TableRowColumn, TableRow } from 'material-ui/Table'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { fetchBill } from '../actions/index'
 
 class Browse extends React.Component {
   constructor (props) {
     super(props)
-
     this.state = {
       fixedHeader: true,
       fixedFooter: true,
@@ -18,21 +19,21 @@ class Browse extends React.Component {
       showRowHover: true,
       width: '50%'
     }
+    this.handleBillRowClick = this.handleBillRowClick.bind(this)
+  }
+
+  handleBillRowClick (key) {
+    const billId = this.props.bills[key].id
+    this.props.fetchBill(billId)
   }
 
   render () {
-    const handleBillRowClick = (key) => {
-      console.log('hello')
-      const billId = this.props.bills[key].id
-      browserHistory.push(`/bill/${billId}`)
-    }
-
     const { bills } = this.props
     let billResults
     if (bills) {
       billResults = bills.map((item, idx) => (
-        <TableRow key={idx} ref={item.bill_id}>
-          <TableRowColumn style={{ width: '100%' }}>{item.title}</TableRowColumn>
+        <TableRow key={item.id} ref={item.bill_id}>
+          <TableRowColumn key={item.id} style={{width: '100%'}}>{item.title}</TableRowColumn>
         </TableRow>
       ))
     } else {
@@ -46,7 +47,7 @@ class Browse extends React.Component {
           height={this.state.height}
           fixedHeader={this.state.fixedHeader}
           fixedFooter={this.state.fixedFooter}
-          onRowSelection={handleBillRowClick}
+          onRowSelection={this.handleBillRowClick}
         >
           <TableBody
             selectable={this.state.selectable}
@@ -67,7 +68,16 @@ class Browse extends React.Component {
 Browse.propTypes = {
   searchTerm: React.PropTypes.string,
   bills: React.PropTypes.array,
-  billId: React.PropTypes.string
+  billId: React.PropTypes.string,
+  fetchBill: React.PropTypes.func,
+  pageChange: React.PropTypes.func,
+  title: React.PropTypes.string
 }
 
-export default Browse
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchBill: bindActionCreators(fetchBill, dispatch)
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Browse)

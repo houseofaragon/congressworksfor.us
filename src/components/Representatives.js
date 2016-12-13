@@ -24,9 +24,10 @@ const Representatives = (props) => {
         <p style={{maxWidth: '300px'}}>{representative.extra.address}</p>
       </div>
       <div className='social'>
-        <a href={`tel:+${representative.phone}`}><div id='call'>call</div></a>
-        <a href={representative.website}><div id='website'>website</div></a>
-        <a href={representative.extra.contact_form}><div id='email'>email</div></a>
+        <a target="_blank" href={`tel:+${representative.phone}`}><div id='call'><i className="fa fa-phone" aria-hidden="true" /></div></a>
+        <a target="_blank" href={representative.website}><div id='website'><i className="fa fa-globe" aria-hidden="true" /></div></a>
+        <a target="_blank" href={representative.extra.contact_form}><div id='email'><i className="fa fa-envelope-o" aria-hidden="true" /></div></a>
+        <a target="_blank" href={`https://twitter.com/${representative.person.twitterid}`}><div id='twitter'><i className="fa fa-twitter" aria-hidden="true" /></div></a>
       </div>
     </div>
   ))
@@ -36,16 +37,23 @@ const Representatives = (props) => {
       <div className='legislator' id='representative'>
         <h5> Representative </h5>
         <h2>{rep.person.name}</h2><br />
-        <h5>term ends </h5>
-        <p>{rep.enddate}</p>
-        <h5>Party </h5>
-        <p>{rep.party}</p>
-        <h5>Address </h5>
-        <p style={{maxWidth: '300px'}}>{rep.extra.address}</p>
+        <div className='fields'>
+          <h5>Term Ends </h5>
+          <p>{rep.enddate}</p>
+        </div>
+        <div className='fields'>
+          <h5>Party </h5>
+          <p>{rep.party}</p>
+        </div>
+        <div className='fields'>
+          <h5>Address </h5>
+          <p style={{maxWidth: '300px'}}>{rep.extra.address}</p>
+        </div>
         <div className='social'>
-          <a href={`tel:+${rep.phone}`}><div id='call'>call</div></a>
-          <a href={rep.website}><div id='website'>website</div></a>
-          <a href={rep.extra.contact_form}><div id='email'>email</div></a>
+          <a target="_blank" href={`tel:+${rep.phone}`}><div id='call'><i className="fa fa-phone" aria-hidden="true" /></div></a>
+          <a target="_blank" href={rep.website}><div id='website'><i className="fa fa-globe" aria-hidden="true" /></div></a>
+          <a target="_blank" href={rep.extra.contact_form}><div id='email'><i className="fa fa-envelope-o" aria-hidden="true" /></div></a>
+          <a target="_blank" href={`https://twitter.com/${rep.person.twitterid}`}><div id='twitter'><i className="fa fa-twitter" aria-hidden="true" /></div></a>
         </div>
       </div>
     </Link>

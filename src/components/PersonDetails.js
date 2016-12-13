@@ -4,10 +4,11 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { fetchPerson } from '../actions/index'
-import { Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn } from 'material-ui/Table'
+import { Table, TableBody, TableRow, TableRowColumn, TableHeaderColumn } from 'material-ui/Table'
 import FlatButton from 'material-ui/FlatButton'
 import { Link } from 'react-router'
 import LegislatorForm from './LegislatorForm'
+import Browse from './Browse'
 
 class PersonDetails extends React.Component {
   constructor(props) {
@@ -37,22 +38,30 @@ class PersonDetails extends React.Component {
     const { name, roles } = person
     let roleList
     if(roles){
-      roleList = roles.map((role, idx) => (
-        <div key={idx} className='person-roles'>
-          <p>{role.party} {role.description}</p>
+      const role = roles[roles.length - 1]
+      console.log(role)
+      roleList = (
+        <div key={role.id}>
+          <h5> Party </h5>
+          <p className='summary'>{role.party}</p>
+          <h5> Current Role </h5>
+          <p className='summary'>{role.description}</p>
           {role.extra ? (
             <div>
-              <p>{role.extra.address}</p>
-              <p>{role.extra.rss_url}</p>
+              <h5> Address </h5>
+              <p className='summary'>{role.extra.address}</p>
             </div>
             ) : null }
-                    <p>{role.startdate} - {role.enddate}</p>
-
+          <h5> Term Ends </h5>
+          <p className='summary'>{role.enddate}</p>
+          <div className='social'>
+            <a target="_blank" href={`tel:+${role.phone}`}><div id='call'><i className="fa fa-phone" aria-hidden="true" /></div></a>
+            <a target="_blank" href={role.website}><div id='website'><i className="fa fa-globe" aria-hidden="true" /></div></a>
+            <a target="_blank" href={role.extra.contact_form}><div id='email'><i className="fa fa-envelope-o" aria-hidden="true" /></div></a>
+            <a target="_blank" href={`https://twitter.com/${person.twitterid}`}><div id='twitter'><i className="fa fa-twitter" aria-hidden="true" /></div></a>
+          </div>
         </div>
-      ))
-    }
-    const handleRowClick = (key) => {
-      browserHistory.push(`/bill/${personSponsorHistory[key].id}`)
+      )
     }
 
     return (
@@ -60,51 +69,13 @@ class PersonDetails extends React.Component {
         <LegislatorForm />
         <div className="bill-title">
             <h1>{person.name}</h1>
-            <a href={`https://twitter.com/${person.twitterid}`}>Twitter</a>
-
             <br/>
-            <h5>Born</h5>
-            <p className='summary'>{person.birthday}</p>
-            <h5> roles </h5>
             {roleList}
         </div>
 
         <div className="bill-details">
-          <h4 style={{marginTop: '40px'}}>Sponsored {personSponsorHistory.length} Bills</h4>
-          <Table
-            style={{width: '100%', background: 'transparent'}}
-            height={this.state.height}
-            fixedHeader={this.state.fixedHeader}
-            fixedFooter={this.state.fixedFooter}
-            selectable={this.state.selectable}
-            multiSelectable={this.state.multiSelectable}
-            onRowSelection={handleRowClick}
-            >
-              <TableHeader
-                displaySelectAll={this.state.showCheckboxes}
-                adjustForCheckbox={this.state.showCheckboxes}
-                enableSelectAll={this.state.enableSelectAll}
-              >
-                <TableRow>
-                  <TableHeaderColumn style={{width: '80%'}} tooltip="The Name"><h5>Bill Name</h5></TableHeaderColumn>
-                  <TableHeaderColumn style={{width: '20%'}} tooltip="The Status"><h5>Date</h5></TableHeaderColumn>
-                </TableRow>
-              </TableHeader>
-              <TableBody
-                style={{width: '100% !important'}}
-                displayRowCheckbox={this.state.showCheckboxes}
-                deselectOnClickaway={this.state.deselectOnClickaway}
-                showRowHover={this.state.showRowHover}
-                stripedRows={this.state.stripedRows}
-              >
-                {personSponsorHistory.map((row, idx) => (
-                    <TableRow key={idx}>
-                      <TableRowColumn style={{width: '80%'}}><h5>{row.title}</h5></TableRowColumn>
-                      <TableRowColumn style={{width: '20%'}}><h5>{row.introduced_date}</h5></TableRowColumn>
-                    </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+          <h4 style={{marginTop: '40px'}}>Sponsored {personSponsorHistory.length}+ Bills</h4>
+          <Browse bills={personSponsorHistory} />
           </div>
       </div>
     )

@@ -1,12 +1,10 @@
 /*eslint-disable */
 import React from 'react'
-import FlatButton from 'material-ui/FlatButton'
 
 const VoteCard = (props) => (
   <div className='vote-card'>
-    <h4> # {props.number} - {props.result} in the {props.chamber_label}</h4>
-    <p> {props.question_details} </p>
-    <FlatButton className="vote-button" label="view votes" href={`/bill/${props.bill_id}/votes/${props.id}`} />
+    <p><span># {props.number}</span> - {props.question_details} <br /> {props.result} in the {props.chamber_label}</p>
+    <a className="vote-button" href={`/bill/${props.bill_id}/votes/${props.id}`}>view votes</a><br />
   </div>
 )
 
@@ -19,7 +17,6 @@ VoteCard.propTypes = {
   chamber_label: React.PropTypes.string,
   category_label: React.PropTypes.string,
   created: React.PropTypes.string,
-  number: React.PropTypes.number,
   params: React.PropTypes.object
 }
 
