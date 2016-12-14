@@ -138,7 +138,7 @@ export const fetchBill = (id, searchTerm) => (dispatch) => {
       // groupByKey(results[1].voters, 'vote')
       // let sortedResults = sortByKey(results[1].voters, 'voter.state_name')
       dispatch(setBill(results[0], results[1], searchTerm))
-      browserHistory.push(`/bill/${id}`)
+      hashHistory.push(`/bill/${id}`)
     }).catch((error) => {
       console.log('request failed', error)
     })
