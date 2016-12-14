@@ -17,14 +17,14 @@ injectTapEventPlugin()
 
 require('./styles/index.scss')
 
-const { Router, Route, IndexRoute, browserHistory } = require('react-router')
+const { Router, Route, IndexRoute, hashHistory } = require('react-router')
 
 const store = configureStore()
 
 render(
   <Provider store={store}>
     <MuiThemeProvider>
-      <Router history={browserHistory}>
+      <Router history={hashHistory}>
         <Route path='/' component={Layout} >
           <IndexRoute component={Landing} />
           <Route path='/browse' component={Browse} />
