@@ -55,10 +55,10 @@ class PersonDetails extends React.Component {
           <h5> Term Ends </h5>
           <p className='summary'>{role.enddate}</p>
           <div className='social'>
-            <a target="_blank" href={`tel:+${role.phone}`}><div id='call'><i className="fa fa-phone" aria-hidden="true" /></div></a>
-            <a target="_blank" href={role.website}><div id='website'><i className="fa fa-globe" aria-hidden="true" /></div></a>
-            <a target="_blank" href={role.extra.contact_form}><div id='email'><i className="fa fa-envelope-o" aria-hidden="true" /></div></a>
-            <a target="_blank" href={`https://twitter.com/${person.twitterid}`}><div id='twitter'><i className="fa fa-twitter" aria-hidden="true" /></div></a>
+            {role.phone ? <a target="_blank" href={`tel:+${role.phone}`}><div className='show-social' id='call'><i className="fa fa-phone" aria-hidden="true" /></div></a> : <div className='disable-social' id='call'><i className="fa fa-phone" aria-hidden="true" /></div> }
+            {role.extra ? <a target="_blank" href={role.website}><div className='show-social' id='website'><i className="fa fa-globe" aria-hidden="true" /></div></a> : <div className='disable-social' id='call'><i className="fa fa-globe" aria-hidden="true" /></div> }
+            {role.extra ? <a target="_blank" href={role.extra.contact_form}><div className='show-social' id='email'><i className="fa fa-envelope-o" aria-hidden="true" /></div></a> : <div className='disable-social' id='email'><i className="fa fa-envelope-o" aria-hidden="true" /></div> }
+            {person.twitterid ? <a target="_blank" href={`https://twitter.com/${person.twitterid}`}><div className='show-social' id='twitter'><i className="fa fa-twitter" aria-hidden="true" /></div></a> : <div className='disable-social' id='twitter'><i className="fa fa-twitter" aria-hidden="true" /></div> }
           </div>
         </div>
       )

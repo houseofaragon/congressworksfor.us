@@ -21,6 +21,12 @@
 	position: fixed;
 	vertical-align: 100vh;
 
+	& button {
+		background: $light-blue;
+		padding: $padding $padding * 2;
+		border: none;
+	}
+
 	& h5 {
 		text-transform: uppercase;
 	}
@@ -70,6 +76,21 @@
           background: $dark-blue;
           color: $white;
       }
+    }
+    & .disable-social{
+       float: left;
+	      background: $light-blue;
+	      padding: $padding 0;
+	      width: 24.35%;
+	      text-align: center;
+	      border-right: 1px solid $blue;
+	      color: $blue;
+	      font-size: 1.5em;
+        &:hover{
+        	background: $light-blue;
+        	cursor: not-allowed;
+        	color: $blue;
+        }
     }
 	}
 }

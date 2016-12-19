@@ -117,7 +117,7 @@ const sortByKey = (array, key) => {
 
 export const fetchBill = (id, searchTerm) => (dispatch) => {
   const billURL = `https://www.govtrack.us/api/v2/bill/${id}`
-  const voteURL = `https://www.govtrack.us/api/v2/vote?related_bill=${id}`
+  const voteURL = `https://www.govtrack.us/api/v2/vote?related_bill=${id}&order_by=-created`
 
   const fetchBill = (url) => {
     return fetch(url)
@@ -135,8 +135,6 @@ export const fetchBill = (id, searchTerm) => (dispatch) => {
 
   Promise.all([fetchBill(billURL), fetchVotes(voteURL)])
     .then(results => {
-      // groupByKey(results[1].voters, 'vote')
-      // let sortedResults = sortByKey(results[1].voters, 'voter.state_name')
       dispatch(setBill(results[0], results[1], searchTerm))
       browserHistory.push(`/bill/${id}`)
     }).catch((error) => {
@@ -145,7 +143,7 @@ export const fetchBill = (id, searchTerm) => (dispatch) => {
 }
 
 export const fetchBillResults = (searchTerm) => (dispatch) => {
-  const url = `https://www.govtrack.us/api/v2/bill?q=${searchTerm}`
+  const url = `https://www.govtrack.us/api/v2/bill?q=${searchTerm}&order_by=-current_status_date`
 
   fetch(url)
     .then(response => response.json())
@@ -158,7 +156,9 @@ export const fetchCurrentBills = (activePage, offset) => (dispatch) => {
 
   fetch(url)
     .then(response => response.json())
-    .then(data => dispatch(setCurrentBills(data.objects, activePage)))
+    .then(data => {
+      dispatch(setCurrentBills(data.objects, activePage))
+    })
     .catch((error) => console.log('request failed', error))
 }
 

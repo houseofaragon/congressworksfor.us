@@ -68,7 +68,7 @@
 	clear: both;
 	padding: 0 !important;
 	margin-top: 57px !important;
-	border-left: 3px solid  $white;
+	border-left: 3px solid  $light-blue;
 	box-sizing: border-box;
 	overflow-y: auto;
 	position: absolute;
@@ -79,7 +79,7 @@
 		min-height: 250px;
 	  transition: background-color 300ms ease-in 100ms, color 300ms ease-in 10ms;
 	  padding: $padding;
-		border-top: 3px solid  $white;
+		border-top: 3px solid  $light-blue;
 		color: $white;
 
 		& .tile-info{
@@ -96,24 +96,42 @@
   			}
 
 			& #terror{
-				background: url(images/congress-sprites.png) 0 0;
+				background: url(images/congress-sprites.png) -8px 0;
 				width: 105px;
 				height: 105px;
 			}
 
 			& #women{
-				background: url(images/congress-sprites.png) 0 -115px;
+				background: url(images/congress-sprites.png) -12px -120px;
 				width: 105px;
 				height: 105px;
 			}
 
 			& #health{
-				background: url(images/congress-sprites.png) 0 -235px;
+				background: url(images/congress-sprites.png) -5px -245px;
 				width: 105px;
 				height: 105px;
 			}
 
+			& #cybersecurity{
+				background: url(images/congress-sprites.png) -5px -370px;
+				width: 105px;
+				height: 105px;
+			}
+
+			& #water{
+				background: url(images/congress-sprites.png) -15px -485px;
+				width: 105px;
+				height: 105px;
+			}
+
+			& #budget{
+				background: url(images/congress-sprites.png) -15px -590px;
+				width: 105px;
+				height: 105px;
+			}
 			& .tile-pre-title{
+				margin-top: 20px;
 				text-transform: uppercase;
 				padding-bottom: 10px;
 				font-weight: bold;

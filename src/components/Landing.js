@@ -19,15 +19,6 @@ class Landing extends React.Component {
           <Gauge />
         </div>
         <div className="landing-side-grid">
-          <Link to='bill/341702'>
-            <div className="landing-side-grid-tile">
-              <div className='tile-info'>
-                <div className='landing-sprites' id="terror" />
-                <h5 className='tile-pre-title'> TERROR</h5>
-                <h4 className='tile-title'> Justice Against Sponsors of Terrorism</h4>
-              </div>
-            </div>
-          </Link>
           <Link to='bill/340979'>
             <div className="landing-side-grid-tile">
               <div className='tile-info'>
@@ -46,30 +37,39 @@ class Landing extends React.Component {
               </div>
             </div>
           </Link>
-          <Link to='bill/340979'>
+          <Link to='bill/337766'>
             <div className="landing-side-grid-tile">
               <div className='tile-info'>
-                <div className='landing-sprites' id="health" />
-                <h5 className='tile-pre-title'> HEALTH</h5>
-                <h4 className='tile-title'> OBAMACARE </h4>
+                <div className='landing-sprites' id="cybersecurity" />
+                <h5 className='tile-pre-title'> CYBERSECURITY</h5>
+                <h4 className='tile-title'> Cybersecurity Information Sharing Act </h4>
               </div>
             </div>
           </Link>
-          <Link to='bill/hr3590-111'>
+          <Link to='bill/345019'>
             <div className="landing-side-grid-tile">
               <div className='tile-info'>
-                <div className='landing-sprites' id="health" />
-                <h5 className='tile-pre-title'> HEALTH</h5>
-                <h4 className='tile-title'> OBAMACARE </h4>
+                <div className='landing-sprites' id="budget" />
+                <h5 className='tile-pre-title'> BUDGET</h5>
+                <h4 className='tile-title'> National Defense Authorization Act </h4>
               </div>
             </div>
           </Link>
-          <Link to='bill/hr3590-111'>
+          <Link to='bill/343474'>
             <div className="landing-side-grid-tile">
               <div className='tile-info'>
-                <div className='landing-sprites' id="health" />
-                <h5 className='tile-pre-title'> HEALTH</h5>
-                <h4 className='tile-title'> OBAMACARE </h4>
+                <div className='landing-sprites' id="water" />
+                <h5 className='tile-pre-title'> WATER</h5>
+                <h4 className='tile-title'> Safe Drinking Water Act (Flint) </h4>
+              </div>
+            </div>
+          </Link>
+          <Link to='bill/341702'>
+            <div className="landing-side-grid-tile">
+              <div className='tile-info'>
+                <div className='landing-sprites' id="terror" />
+                <h5 className='tile-pre-title'> TERROR</h5>
+                <h4 className='tile-title'> Justice Against Sponsors of Terrorism</h4>
               </div>
             </div>
           </Link>
