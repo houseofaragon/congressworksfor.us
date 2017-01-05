@@ -1,5 +1,4 @@
 .vote-container{
-  column-width: 160px;
   width: 80%;
   float:left;
   & a{
@@ -31,7 +30,6 @@
   width: 15%;
   float: left;
   margin-right: $padding * 3;
-
 
   & .filter-box {
     padding: $padding;
@@ -80,8 +78,6 @@
     background-color: $red;
   }
 
-
-
   & label{
     font-family: 'Montserrat' !important;
     color: $blue !important;
@@ -103,18 +99,22 @@
 }
 
 .voter-block{
-  min-width: 160px;
+  min-width: 180px;
+  max-width: 180px;
   margin-bottom: 5px !important;
+  margin-right: 10px !important;
+  overflow: hidden;
   font-size: 0.8em;
   font-family: 'Montserrat' !important;
-
-
+  float: left;
   &:hover{
     background: yellow !important;
     cursor: pointer !important;
   }
 
   & .voter-block-avatar{
+    max-width: 32px;
+    min-width: 32px;
     background-color: $light-grey !important;
     font-size: 0.7em !important;
   }
@@ -191,3 +191,14 @@
   }
 }
 
+.vote-card{
+  clear: both;
+  margin-botom: $padding;
+  &:hover {
+    border-left: 3px solid $light-blue;
+  }
+  p { float: left; left: -20px; max-width: 70%; }
+  a { float: right; display: inline-block; }
+  & a.vote-button { margin-right: $padding; margin-bottom: 5px; cursor: pointer;}
+
+}

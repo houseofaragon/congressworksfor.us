@@ -21,12 +21,12 @@ const Representatives = (props) => {
       </div>
       <div className='fields'>
         <h5>Address </h5>
-        <p style={{maxWidth: '300px'}}>{representative.extra.address}</p>
+        <p style={{maxWidth: '300px'}}>{representative.extra ? representative.extra.address : '-'}</p>
       </div>
       <div className='social'>
         <a target="_blank" href={`tel:+${representative.phone}`}><div id='call'><i className="fa fa-phone" aria-hidden="true" /></div></a>
         <a target="_blank" href={representative.website}><div id='website'><i className="fa fa-globe" aria-hidden="true" /></div></a>
-        <a target="_blank" href={representative.extra.contact_form}><div id='email'><i className="fa fa-envelope-o" aria-hidden="true" /></div></a>
+        <a target="_blank" href={representative.extra ? representative.extra.contact_form : ''}><div id='email'><i className="fa fa-envelope-o" aria-hidden="true" /></div></a>
         <a target="_blank" href={`https://twitter.com/${representative.person.twitterid}`}><div id='twitter'><i className="fa fa-twitter" aria-hidden="true" /></div></a>
       </div>
     </div>
@@ -47,12 +47,12 @@ const Representatives = (props) => {
         </div>
         <div className='fields'>
           <h5>Address </h5>
-          <p style={{maxWidth: '300px'}}>{rep.extra.address}</p>
+          <p style={{maxWidth: '300px'}}>{rep.extra ? rep.extra.address : '-' }</p>
         </div>
         <div className='social'>
           <a target="_blank" href={`tel:+${rep.phone}`}><div id='call'><i className="fa fa-phone" aria-hidden="true" /></div></a>
           <a target="_blank" href={rep.website}><div id='website'><i className="fa fa-globe" aria-hidden="true" /></div></a>
-          <a target="_blank" href={rep.extra.contact_form}><div id='email'><i className="fa fa-envelope-o" aria-hidden="true" /></div></a>
+          <a target="_blank" href={rep.extra ? rep.extra.contact_form : ''}><div id='email'><i className="fa fa-envelope-o" aria-hidden="true" /></div></a>
           <a target="_blank" href={`https://twitter.com/${rep.person.twitterid}`}><div id='twitter'><i className="fa fa-twitter" aria-hidden="true" /></div></a>
         </div>
       </div>

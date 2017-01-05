@@ -2,39 +2,78 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import configureStore from './stores'
-
 import Layout from './components/Layout'
-import Landing from './components/Landing'
-import Browse from './components/Browse'
-import Bills from './components/Bills'
-import BillDetails from './components/BillDetails'
-import Vote from './components/Vote'
-import PersonDetails from './components/PersonDetails'
-import Legislators from './components/Legislators'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
 require('./styles/index.scss')
-
-const { Router, Route, IndexRoute, browserHistory } = require('react-router')
-
+const { Router, browserHistory } = require('react-router')
 const store = configureStore()
+
+if (typeof require.ensure !== 'function') require.ensure = (d, c) => c(require)
+
+const rootRoute = {
+  component: Layout,
+  childRoutes: [
+    {
+      path: '/',
+      getComponent (location, cb) {
+        require.ensure([], () => {
+          cb(null, require('./components/Landing').default)
+        })
+      }
+    },
+    {
+      path: '/browse',
+      getComponent (location, cb) {
+        require.ensure([], () => {
+          cb(null, require('./components/Browse').default)
+        })
+      }
+    }, {
+      path: '/legislators',
+      getComponent (location, cb) {
+        require.ensure([], () => {
+          cb(null, require('./components/Legislators').default)
+        })
+      }
+    }, {
+      path: '/bills',
+      getComponent (location, cb) {
+        require.ensure([], () => {
+          cb(null, require('./components/Bills').default)
+        })
+      }
+    }, {
+      path: '/bill/:id',
+      getComponent (location, cb) {
+        require.ensure([], () => {
+          cb(null, require('./components/BillDetails').default)
+        })
+      }
+    }, {
+      path: '/bill/:id/votes/:number',
+      getComponent (location, cb) {
+        require.ensure([], () => {
+          cb(null, require('./components/Vote').default)
+        })
+      }
+    }, {
+      path: '/person/:id',
+      getComponent (location, cb) {
+        require.ensure([], () => {
+          cb(null, require('./components/PersonDetails').default)
+        })
+      }
+    }
+  ]
+}
 
 render(
   <Provider store={store}>
     <MuiThemeProvider>
-      <Router history={browserHistory}>
-        <Route path='/' component={Layout} >
-          <IndexRoute component={Landing} />
-          <Route path='/browse' component={Browse} />
-          <Route path='/legislators' component={Legislators} />
-          <Route path='/bills' component={Bills} />
-          <Route path='/bill/:id' component={BillDetails} />
-          <Route path='/bill/:id/votes/:number' component={Vote} />
-          <Route path='/person/:id' component={PersonDetails} />
-        </Route>
-      </Router>
+      <Router history={browserHistory} routes={rootRoute} />
     </MuiThemeProvider>
   </Provider>,
   document.getElementById('app')

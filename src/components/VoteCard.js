@@ -3,8 +3,8 @@ import React from 'react'
 
 const VoteCard = (props) => (
   <div className='vote-card'>
-    <p><span># {props.number}</span> - {props.question_details} <br /> {props.result} in the {props.chamber_label}</p>
-    <a className="vote-button" href={`/bill/${props.bill_id}/votes/${props.id}`}>view votes</a><br />
+    <a className="vote-button" href={`/bill/${props.bill_id}/votes/${props.id}`}>view votes</a>
+    <p>#{props.number} - {props.result} in the {props.chamber_label}</p><br />
   </div>
 )
 

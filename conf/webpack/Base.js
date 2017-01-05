@@ -5,6 +5,9 @@
  */
 const path = require('path');
 const npmBase = path.join(__dirname, '../../node_modules');
+const CompressionPlugin = require('compression-webpack-plugin');
+const CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
+const webpack = require('webpack');
 
 class WebpackBaseConfig {
 
@@ -80,7 +83,12 @@ class WebpackBaseConfig {
         inline: true,
         port: 8000
       },
-      entry: './index.js',
+      entry:
+        './index.js'
+      ,
+      stats: {
+        chunks: true
+      },
       module: {
         preLoaders: [
           {
@@ -171,11 +179,17 @@ class WebpackBaseConfig {
         ]
       },
       output: {
-        path: path.resolve('./dist/assets'),
+        path: path.resolve(__dirname,'./dist/assets'),
+        chunkFilename: '[name].js',
         filename: 'app.js',
-        publicPath: './assets/'
+        publicPath: '/assets/'
       },
-      plugins: [],
+      plugins: [
+        new webpack.optimize.CommonsChunkPlugin({
+          name: 'vendor',
+          minChunks: Infinity,
+          filename: 'vendor.app.js'
+        }),      ],
       resolve: {
         alias: {
           actions: `${this.srcPathAbsolute}/actions/`,
