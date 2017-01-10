@@ -37,5 +37,5 @@ This is a passion project that was created in response to the 2016 primary and p
 
 ## Credits
 
-Designed and Developer by Karen C. Aragon
+Designed and Developed by Karen C. Aragon
 
