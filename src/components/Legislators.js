@@ -47,7 +47,7 @@ class Legislators extends React.Component {
       <div className='container'>
         <LegislatorForm />
         <div className='bill-title'>
-          {this.props.showCurrentLegs ? <h1>These are the people who work for you in the Senate and House of Representatives in the 114th Congress.</h1> : <h1> Legislator(s) based on your search for: <em>{this.props.searchTerm}</em></h1>}
+          {this.props.showCurrentLegs ? <h1>These are the people who work for you in the Senate and House of Representatives in the 115th Congress.</h1> : <h1> Legislator(s) based on your search for: <em>{this.props.searchTerm}</em></h1>}
         </div>
         <div className='bill-details'>
           {this.props.showCurrentLegs ? <Pagination

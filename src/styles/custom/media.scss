@@ -1,0 +1,60 @@
+@media screen and (max-width: 70em) {
+  .landing{
+    & svg{ display: none;}
+    & .form { width: 50vw !important;}
+  }
+}
+@media screen and (max-width: 30em) {
+  .header-bar h1 {
+    font-size: 1.8em !important;
+  }
+  .landing{
+    position: relative !important;
+    display: block;
+    & h1 { font-size: 1.2em; }
+    & h2 { font-size: 1.1em; }
+    & svg{ display: none;}
+    & .form { width: 80vw !important;}
+  }
+  .container .form{
+    z-index: 10 !important;
+    & form.legislator { display: none !important; }
+    & h5 { display: none; }
+  }
+  .landing-side-grid {
+    position: relative !important;
+    display: block;
+    float: left;
+    width: 100% !important;
+    margin-top: 0 !important;
+  }
+
+  .bill-title{
+    position: relative !important;
+    width: 90vw !important;
+    & h1 { font-size: 1.2em; }
+    & h1.title { font-size: 1.2em !important; }
+    & h2 { font-size: 1.1em; }
+    & .social {
+      width: 100vw !important;
+      & div { width: 24.65% !important; }
+    }
+  }
+
+  .bill-details {
+    position: relative !important;
+    display: block;
+    float: left;
+    width: 100% !important;
+    margin-top: 19vh !important;
+
+    & .pagination {
+      width: 100vw;
+      margin: -30px auto 20px auto;
+    }
+
+    & #legislators {
+      padding-top: 30px;
+    }
+  }
+}

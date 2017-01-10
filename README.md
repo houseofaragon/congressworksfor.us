@@ -1,28 +1,38 @@
-Project that answers questions regarding how legislators voted on bills presented in the House and Senate.
+# Project
 
-Built in React + Redux + D3 with the help of Open Data
+CONGRESSWORKSFOR.US is a search and discovery tool to encourage users to be more informed and proactive in politics. Search for bills, legislators, and representatives. Discover the voting history on bills and how legislators vote on those bills.
 
-Tools:
-
-react/redux/d3?/cartodb?
+Built in React + Redux + D3 + GovTrack API
 
 
-MVP:
+## Installation
 
-        show list of bills
-        show how every member voted on each bill
-        show list of member in senate and house for every state
-                - show party
+npm install
+see package.json and webpack config if you have issues
 
+## Usage
 
-2ND:
-        show upcoming elections for every state
+start: npm start
+build: npm run build
 
+## Contributing
 
+1. Fork it!
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin my-new-feature`
+5. Submit a pull request :D
 
-Query Bill JASTA
-https://congress.api.sunlightfoundation.com/bills/search?bill_id=%22s2040-114%22&apikey=a922e6b7b1004c37b7508366cd7500ac
+## API
 
-Vote History
-https://congress.api.sunlightfoundation.com/votes?bill_id=%22s2040-114%22&apikey=a922e6b7b1004c37b7508366cd7500ac
-query=guns
+Data is pulled from GovTrack.us API
+https://www.govtrack.us/developers
+
+## History
+
+This is a passion project that was created in response to the 2016 primary and presidential election.
+
+## Credits
+
+Designed and Developer by Karen C. Aragon
+

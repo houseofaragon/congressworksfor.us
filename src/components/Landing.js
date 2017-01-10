@@ -28,7 +28,7 @@ class Landing extends React.Component {
               </div>
             </div>
           </Link>
-          <Link to='bill/hr3590-111'>
+          <Link to='bill/12700'>
             <div className="landing-side-grid-tile">
               <div className='tile-info'>
                 <div className='landing-sprites' id="health" />

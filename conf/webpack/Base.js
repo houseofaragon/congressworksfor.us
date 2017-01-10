@@ -179,7 +179,7 @@ class WebpackBaseConfig {
         ]
       },
       output: {
-        path: path.resolve(__dirname,'./dist/assets'),
+        path: path.resolve('./dist/assets'),
         chunkFilename: '[name].js',
         filename: 'app.js',
         publicPath: '/assets/'

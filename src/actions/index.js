@@ -152,7 +152,7 @@ export const fetchBillResults = (searchTerm) => (dispatch) => {
 }
 
 export const fetchCurrentBills = (activePage, offset) => (dispatch) => {
-  const url = `https://www.govtrack.us/api/v2/bill?congress=114&limit=25&order_by=-current_status_date&offset=${offset}`
+  const url = `https://www.govtrack.us/api/v2/bill?congress=115&limit=25&order_by=-current_status_date&offset=${offset}`
 
   fetch(url)
     .then(response => response.json())

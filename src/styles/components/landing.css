@@ -17,6 +17,7 @@
 		& .header-bar-search.legislator{
 		 display: none;
 		}
+
 		& .form{
 			& h5 { display: none;}
 			width: 25vw;
@@ -28,6 +29,7 @@
 			padding: 0 $padding;
 			content: 'Enter your address'
 		}
+
 		& a{
 			border: 3px solid $dark-blue;
 			color: $dark-blue;
@@ -39,6 +41,7 @@
 				transition: color 250ms, border 250ms;
 			}
 		}
+
 		& h1.landing-header {
 			color: $white;
 			font-size: 2.2em;
@@ -51,13 +54,12 @@
 		}
 	}
 
-
-
 	& #fillgauge{
 		width:100%;
 		height:400px;
 		position: absolute;
 		top: 30vh;
+		left: 2vw;
 	}
 }
 .landing-side-grid{
@@ -67,14 +69,16 @@
 	height: 100%;
 	clear: both;
 	padding: 0 !important;
-	margin-top: 57px !important;
+	margin-top: 57px;
 	border-left: 3px solid  $light-blue;
 	box-sizing: border-box;
 	overflow-y: auto;
 	position: absolute;
 	top: 0;
 	background: $blue;
-
+	&::-webkit-scrollbar {
+    display: none;
+	}
 	& a .landing-side-grid-tile{
 		min-height: 250px;
 	  transition: background-color 300ms ease-in 100ms, color 300ms ease-in 10ms;
