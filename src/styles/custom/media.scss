@@ -3,9 +3,8 @@
     & svg{ display: none;}
     & .form { width: 50vw !important;}
   }
-  & .social {
-      width: 50.4vw !important;
-      & div { width: 24.6% !important; }
+      & #legislators .legislator .social {
+     & div { width: 24.7% !important; }
     }
 }
 @media screen and (max-width: 50em) {
@@ -39,7 +38,8 @@
     & h1 { font-size: 1.2em; }
     & h1.title { font-size: 1.2em !important; }
     & h2 { font-size: 1.1em; }
-    & .social {
+
+    & .social, #legislators .legislator .social {
       width: 100vw !important;
       position: relative !important;
       left: -19px !important;
@@ -59,6 +59,10 @@
     width: 100% !important;
     margin-top: 19vh !important;
 
+    & #legislators .legislator .social {
+     width: 100vw !important;
+     & div { width: 24.6% !important; }
+    }
     &#bill-list{
       margin-top: 16vh !important;
     }
