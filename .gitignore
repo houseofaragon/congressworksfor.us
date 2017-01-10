@@ -1,4 +1,6 @@
 .DS_Store.
+.htaccess
+
 # Logs
 logs
 *.log
