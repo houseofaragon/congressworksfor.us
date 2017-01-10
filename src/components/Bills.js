@@ -48,10 +48,10 @@ class Bills extends React.Component {
     return (
       <div className="container">
         <BillSearchForm />
-        <div className="bill-title">
+        <div className="bill-title" id="bill-description">
           {this.props.showCurrentBills ? <h1> All Current Bills in Congress </h1> : <div><h1> All bills pertaining to:  <em>{this.props.searchTerm}</em> </h1><button className='vote-button' onClick={this.getCurrentBills.bind(this)}>View Current Bills </button></div>}
         </div>
-        <div className="bill-details">
+        <div className="bill-details" id="bill-list">
           <Pagination
             className='pagination'
             activePage={this.props.activePage}

@@ -73,7 +73,7 @@ class PersonDetails extends React.Component {
             {roleList}
         </div>
 
-        <div className="bill-details">
+        <div className="bill-details" id='legislator'>
           <h4 style={{marginTop: '40px'}}>Sponsored {personSponsorHistory.length}+ Bills</h4>
           <Browse bills={personSponsorHistory} />
           </div>

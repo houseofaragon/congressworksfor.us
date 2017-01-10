@@ -30,6 +30,7 @@
 	& h5 {
 		text-transform: uppercase;
 	}
+
 	& .title{
 		text-align: left;
 		font-size: 2em !important;
@@ -55,7 +56,7 @@
 		margin-bottom: $padding * 2;
 	}
 	& .social {
-	  width: 50vw;
+	  width: 50.2vw;
 	  clear: both;
 	  overflow: auto;
 	  left: -0px;
@@ -66,7 +67,7 @@
       float: left;
       background: $light-blue;
       padding: $padding 0;
-      width: 24.35%;
+      width: 24.8%;
       text-align: center;
       border-right: 1px solid $blue;
       color: $blue;
@@ -92,8 +93,12 @@
         	color: $blue;
         }
     }
+    &:last{
+      border-right: none;
+    }
 	}
 }
+
 .bill-details{
 	margin-top: 80px;
 	background: $blue !important;
