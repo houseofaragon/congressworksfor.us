@@ -8,11 +8,13 @@ Built in React + Redux + D3 + GovTrack API
 ## Installation
 
 `run: npm install`
+
 see package.json and webpack config if you have issues
 
 ## Usage
 
 `start: npm start`
+
 `build: npm run build`
 
 ## Contributing
@@ -26,6 +28,7 @@ see package.json and webpack config if you have issues
 ## API
 
 Data is pulled from GovTrack.us API
+
 https://www.govtrack.us/developers
 
 ## History
