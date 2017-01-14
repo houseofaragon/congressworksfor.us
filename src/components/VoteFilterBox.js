@@ -3,24 +3,6 @@ import React from 'react'
 import Toggle from 'material-ui/Toggle'
 import Paper from 'material-ui/Paper'
 
-const styles = {
-  thumbOff: {
-    backgroundColor: '#ffcccc',
-  },
-  trackOff: {
-    backgroundColor: 'red !important',
-  },
-  thumbSwitched: {
-    backgroundColor: 'red !important',
-  },
-  trackSwitched: {
-    backgroundColor: 'red !important',
-  },
-  labelStyle: {
-    color: 'red',
-  },
-}
-
 const VoteFilterBox = (props) => (
   <Paper className='filter-box' zDepth={1}>
     <Toggle
@@ -72,6 +54,24 @@ const VoteFilterBox = (props) => (
     />
   </Paper>
 )
+
+const styles = {
+  thumbOff: {
+    backgroundColor: '#ffcccc',
+  },
+  trackOff: {
+    backgroundColor: 'red !important',
+  },
+  thumbSwitched: {
+    backgroundColor: 'red !important',
+  },
+  trackSwitched: {
+    backgroundColor: 'red !important',
+  },
+  labelStyle: {
+    color: 'red',
+  },
+}
 
 VoteFilterBox.propTypes = {
   label: React.PropTypes.object,

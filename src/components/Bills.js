@@ -91,7 +91,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     fetchBillResults: bindActionCreators(fetchBillResults, dispatch),
     fetchCurrentBills: bindActionCreators(fetchCurrentBills, dispatch)
-
   }
 }
 

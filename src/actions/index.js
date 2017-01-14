@@ -196,11 +196,9 @@ export const fetchLegislators = (address) => (dispatch) => {
 
 export const fetchLegislatorResults = (searchTerm) => (dispatch) => {
   const url = `https://www.govtrack.us/api/v2/person?q=${searchTerm}`
-  console.log(searchTerm)
   fetch(url)
     .then(response => response.json())
     .then(data => {
-      console.log(data.objects)
       dispatch(setLegislatorResults(data.objects, searchTerm))
     })
     .catch((error) => console.log('request failed', error))
@@ -301,6 +299,5 @@ export const getFilteredVotes = (filter, selectedDem, selectedRep, selectedYesVo
   else if (selectedRep && !selectedDem && !selectedYesVote && !selectedNoVote && selectedNotVoting) visibleVoters = voters.filter((v) => v.person_role.party === 'Republican' && v.option.value === 'Not Voting')
   else if (selectedRep && !selectedDem && !selectedYesVote && selectedNoVote && !selectedNotVoting) visibleVoters = voters.filter((v) => v.person_role.party === 'Republican' && v.option.value === 'Nay')
 
-  console.log(visibleVoters)
   dispatch(setFilteredVoters(selectedDem, selectedRep, selectedYesVote, selectedNoVote, selectedNotVoting, visibleVoters))
 }

@@ -34,7 +34,6 @@ class BillDetails extends React.Component {
     const { major_actions} = this.props || {}
     let voteLinks
     if (this.props.votes) {
-      console.log('votes', votes)
       if (votes.length) {
         voteLinks = votes.map((vote, idx) => (
           <VoteCard title={this.props.title} key={idx} number={vote.number} bill_id={id} {...vote} />
