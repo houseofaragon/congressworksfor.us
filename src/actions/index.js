@@ -15,6 +15,13 @@ export const SET_LEGISLATOR_RESULTS = 'SET_LEGISLATOR_RESULTS'
 export const SET_OPEN_SEATS = 'SET_OPEN_SEATS'
 export const SET_VOTES = 'SET_VOTES'
 export const SET_FILTER_VOTERS = 'SET_FILTER_VOTERS'
+export const SET_USER = 'SET_USER'
+
+export const setUser = () => (
+  {
+    type: SET_USER
+  }
+)
 
 export const setSearchTerm = (searchTerm) => (
   {
@@ -113,6 +120,11 @@ export const setFilteredVoters = (selectedDem, selectedRep, selectedYesVote, sel
 const sortByKey = (array, key) => {
   let newArray = sortBy(array, key)
   return newArray
+}
+
+export const postUser = () => (dispatch) => {
+  console.log('posted user')
+  dispatch(setUser())
 }
 
 export const fetchBill = (id, searchTerm) => (dispatch) => {

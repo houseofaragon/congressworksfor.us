@@ -66,6 +66,13 @@ const rootRoute = {
           cb(null, require('./components/PersonDetails').default)
         })
       }
+    }, {
+      path: '/sms',
+      getComponent (location, cb) {
+        require.ensure([], () => {
+          cb(null, require('./components/Registration').default)
+        })
+      }
     }
   ]
 }
