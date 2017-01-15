@@ -73,6 +73,13 @@ const rootRoute = {
           cb(null, require('./components/Registration').default)
         })
       }
+    }, {
+      path: '/DNC',
+      getComponent (location, cb) {
+        require.ensure([], () => {
+          cb(null, require('./components/DNC').default)
+        })
+      }
     }
   ]
 }

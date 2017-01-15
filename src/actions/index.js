@@ -16,6 +16,14 @@ export const SET_OPEN_SEATS = 'SET_OPEN_SEATS'
 export const SET_VOTES = 'SET_VOTES'
 export const SET_FILTER_VOTERS = 'SET_FILTER_VOTERS'
 export const SET_USER = 'SET_USER'
+export const SET_DNC = 'SET_DNC'
+
+export const setDNC = (delegates) => (
+  {
+    type: SET_DNC,
+    delegates: delegates
+  }
+)
 
 export const setUser = () => (
   {
@@ -122,9 +130,35 @@ const sortByKey = (array, key) => {
   return newArray
 }
 
+export const fetchDNC = () => (dispatch) => {
+  const url = 'http://192.168.1.126:5000/delegates/'
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      dispatch(setDNC(data))
+    })
+    .catch((error) => console.log('request failed', error))
+}
+
 export const postUser = () => (dispatch) => {
-  console.log('posted user')
-  dispatch(setUser())
+  const url = 'http://192.168.1.126:5000/users/'
+
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      phone_number: '+16462570286',
+      zipcode: '11222'
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data)
+    dispatch(setUser())
+  })
 }
 
 export const fetchBill = (id, searchTerm) => (dispatch) => {

@@ -28,6 +28,7 @@ class Registration extends React.Component {
               hintText="Phone Number"
               ref="phone_number"
               className="search-field"
+              onChange={this.handlePhoneChange}
             />
             <TextField
               hintText="Zipcode"

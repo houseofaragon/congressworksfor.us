@@ -1,5 +1,5 @@
 // import { combineReducers } from 'redux'
-import { SET_USER, SET_SEARCH_TERM, SET_BILL_RESULTS, SET_LEGISLATOR_RESULTS, MERGE_ENTITIES, SET_BILL, SET_VOTES, SET_PERSON, SET_OPEN_SEATS, SET_FILTER_VOTERS, SET_LEGISLATORS, SET_CURRENT_LEGISLATORS, SET_CURRENT_BILLS } from '../actions/index'
+import { SET_DNC, SET_USER, SET_SEARCH_TERM, SET_BILL_RESULTS, SET_LEGISLATOR_RESULTS, MERGE_ENTITIES, SET_BILL, SET_VOTES, SET_PERSON, SET_OPEN_SEATS, SET_FILTER_VOTERS, SET_LEGISLATORS, SET_CURRENT_LEGISLATORS, SET_CURRENT_BILLS } from '../actions/index'
 import merge from 'lodash/fp/merge'
 import statesData from '../data/states-data'
 
@@ -58,9 +58,17 @@ const reducer = (state = initialState, action) => {
       return reduceSetCurrentBills(state, action)
     case SET_USER:
       return reduceSetUser(state, action)
+    case SET_DNC:
+      return reduceSetDNC(state, action)
     default:
       return state
   }
+}
+
+const reduceSetDNC = (state, action) => {
+  const newState = {}
+  Object.assign(newState, state, {delegates: action.delegates})
+  return newState
 }
 
 const reduceSetUser = (state, action) => {

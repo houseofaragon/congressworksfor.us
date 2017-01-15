@@ -1,0 +1,70 @@
+.DNC {
+	background: $blue; /* fallback for old browsers */
+	box-sizing: border-box;
+	margin: 0 auto;
+	height: 100%;
+	padding-top: 20vh;
+	text-align: center;
+	color: $white;
+	clear: both;
+	padding-bottom: $padding *10;
+	& h3 {
+		padding: $padding * 2;
+		color: $light-pink;
+	}
+	& #candidate-wrapper{
+		background: $blue;
+		& .candidate {
+			display: flex;
+			justify-content: flex-start;
+			background: $light-blue;
+			margin: $padding;
+			display: inline-block;
+			padding: $padding $padding*2;
+			height: 40vh;
+			max-width: 40vh;
+			box-sizing: border-box;
+			vertical-align: top;
+			& h1.candidate-name{
+				font-size: 1.3em;
+				color: $dark-blue;
+				display: block;
+			}
+			& ul {
+				text-align: left;
+				padding-left: 0;
+				& li{
+					font-size: 0.8em;
+					padding-bottom: $padding;
+				}
+			}
+			&:last-child{
+				margin-right: 0;
+			}
+		}
+	}
+	& #delegate-wrapper {
+		background: $blue;
+  		position: relative;
+  		margin: 0 auto;
+  		width: 80%;
+		& .delegate{
+			text-align: left;
+			float: left;
+			width: 20vw;
+			max-width: 20vw;
+			-ms-word-break: break-all;
+			    word-break: break-all;
+				word-break: break-word;
+				-webkit-hyphens: auto;
+				-moz-hyphens: auto;
+				-ms-hyphens: auto;
+				hyphens: auto;
+			& h4 { color: $dark-blue; }
+			& h3 { 
+				color: $white;    
+				
+			}
+		}
+	}
+}
