@@ -5,7 +5,7 @@
 	border-top: 3px solid $light-blue;
 	top: 0;
 	background: #2196f3 !important; /* fallback for old browsers */
-
+	display: flex;
 	& button {
 		display: none !important;
 	}

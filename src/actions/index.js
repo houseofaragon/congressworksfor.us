@@ -134,31 +134,24 @@ export const fetchDNC = () => (dispatch) => {
   const url = 'http://192.168.1.126:5000/delegates/'
   fetch(url)
     .then(response => response.json())
-    .then(data => {
-      console.log(data)
-      dispatch(setDNC(data))
-    })
+    .then(data => dispatch(setDNC(data)))
     .catch((error) => console.log('request failed', error))
 }
 
-export const postUser = () => (dispatch) => {
+export const postUser = (phone, zip) => (dispatch) => {
   const url = 'http://192.168.1.126:5000/users/'
-
   fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      phone_number: '+16462570286',
-      zipcode: '11222'
+      phone_number: `+1${phone}`,
+      zipcode: `${zip}`
     })
   })
   .then(response => response.json())
-  .then(data => {
-    console.log(data)
-    dispatch(setUser())
-  })
+  .then(data => dispatch(setUser()))
 }
 
 export const fetchBill = (id, searchTerm) => (dispatch) => {
