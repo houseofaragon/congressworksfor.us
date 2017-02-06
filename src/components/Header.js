@@ -16,9 +16,10 @@ class Header extends React.Component {
         onTitleTouchTap={this.handleTouchTap}
         >
         <div id='routes'>
-
           <Link to={'/bills'}>Bills</Link>
           <Link to={'/legislators'}>Legislators</Link>
+          <Link to={'/sms'}>APP</Link>
+          <Link to={'/DNC'}>Latest: DNC CONVENTION</Link>
         </div>
       </AppBar>
     )

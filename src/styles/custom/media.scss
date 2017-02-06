@@ -3,9 +3,12 @@
     & svg{ display: none;}
     & .form { width: 50vw !important;}
   }
-      & #legislators .legislator .social {
+  & #legislators .legislator .social {
      & div { width: 24.7% !important; }
-    }
+  }
+  .DNC #delegate-wrapper .delegate #delegate-list{
+    width: 20vw !important;
+  }
 }
 @media screen and (max-width: 50em) {
   .header-bar h1 {
@@ -88,6 +91,31 @@
   .form form .search-field.bill{
     font-size: 0.8em !important;
   }
+  .DNC #delegate-wrapper .delegate #delegate-list{
+    width: 60vw !important;
+  }
+  .DNC #dnc-wrapper {
+    top: 20vh;
+    position: relative;
+    width: 90vw;
+    display: inline-block;
+    .dnc-header{ text-align: center;}
+    & #faq-wrapper {
+      & h2 { font-size: 1.2em; }
+      & h3 { font-size: 1em; }
+    } 
+    & #candidate-wrapper {
+      & .candidate{
+        width: 90vw;
+        margin: 0;
+        padding: 0;
+        & ul li{
+          width: 90vw;
+        }
+      }
+    }
+  }
+
 }
 
 

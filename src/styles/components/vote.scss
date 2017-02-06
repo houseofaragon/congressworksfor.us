@@ -5,7 +5,6 @@
     color: inherit;
     text-decoration: none;
     font-family: 'Montserrat' !important;
-
   }
 }
 
@@ -193,7 +192,7 @@
 
 .vote-card{
   clear: both;
-  margin-botom: $padding;
+  margin-bottom: $padding;
   &:hover {
     border-left: 3px solid $light-blue;
   }

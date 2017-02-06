@@ -20,7 +20,7 @@ const rootRoute = {
       path: '/',
       getComponent (location, cb) {
         require.ensure([], () => {
-          cb(null, require('./components/Landing').default)
+          cb(null, require('./components/DNC').default)
         })
       }
     },
@@ -64,6 +64,20 @@ const rootRoute = {
       getComponent (location, cb) {
         require.ensure([], () => {
           cb(null, require('./components/PersonDetails').default)
+        })
+      }
+    }, {
+      path: '/sms',
+      getComponent (location, cb) {
+        require.ensure([], () => {
+          cb(null, require('./components/Registration').default)
+        })
+      }
+    }, {
+      path: '/DNC',
+      getComponent (location, cb) {
+        require.ensure([], () => {
+          cb(null, require('./components/DNC').default)
         })
       }
     }

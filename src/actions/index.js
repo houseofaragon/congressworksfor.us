@@ -15,6 +15,21 @@ export const SET_LEGISLATOR_RESULTS = 'SET_LEGISLATOR_RESULTS'
 export const SET_OPEN_SEATS = 'SET_OPEN_SEATS'
 export const SET_VOTES = 'SET_VOTES'
 export const SET_FILTER_VOTERS = 'SET_FILTER_VOTERS'
+export const SET_USER = 'SET_USER'
+export const SET_DNC = 'SET_DNC'
+
+export const setDNC = (delegates) => (
+  {
+    type: SET_DNC,
+    delegates: delegates
+  }
+)
+
+export const setUser = () => (
+  {
+    type: SET_USER
+  }
+)
 
 export const setSearchTerm = (searchTerm) => (
   {
@@ -113,6 +128,36 @@ export const setFilteredVoters = (selectedDem, selectedRep, selectedYesVote, sel
 const sortByKey = (array, key) => {
   let newArray = sortBy(array, key)
   return newArray
+}
+
+export const fetchDNC = (state) => (dispatch) => {
+  console.log(state)
+  let url
+  if (state === 'ALL') {
+    url = 'http://192.168.1.126:5000/delegates/'
+  } else {
+    url = `http://192.168.1.126:5000/delegates?state=${state}`
+  }
+  fetch(url)
+    .then(response => response.json())
+    .then(data => dispatch(setDNC(data)))
+    .catch((error) => console.log('request failed', error))
+}
+
+export const postUser = (phone, zip) => (dispatch) => {
+  const url = 'http://192.168.1.126:5000/users/'
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      phone_number: `+1${phone}`,
+      zipcode: `${zip}`
+    })
+  })
+  .then(response => response.json())
+  .then(data => dispatch(setUser()))
 }
 
 export const fetchBill = (id, searchTerm) => (dispatch) => {

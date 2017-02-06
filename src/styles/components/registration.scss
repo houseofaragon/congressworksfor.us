@@ -1,0 +1,42 @@
+.registration {
+	background: $blue; /* fallback for old browsers */
+	height: 100vh;
+	width: 100vw;
+	box-sizing: border-box;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	color: $white;
+
+	& .form.invisible {
+		display: none;
+	}
+	& .form{
+		position: relative;
+		margin-top: 20vh;
+		background: $blue;
+		h1 { font-size: 2.5em; }
+		h4 { color: $dark-blue; }
+		& form{
+			margin-top: $padding;
+			& .search-field{
+				& div {
+					margin-bottom: $padding !important;
+				}
+				background: $light-blue !important;
+				display: block !important;
+				padding: $padding;
+				margin-bottom: $padding;
+				border-radius: 10px;
+			}
+		}
+	}
+	& .welcome-msg {
+		position: relative;
+		margin: 20vh auto 0 auto;
+		background: $blue;
+		text-align: center;
+		& h2 {
+			color: $white;
+		}
+	}
+}

@@ -1,15 +1,16 @@
 @import 'custom/variables';
 @import 'custom/main';
-@import 'custom/media';
+@import 'components/statesSelect.scss';
 @import 'components/landing';
 @import 'components/vote';
 @import 'components/header';
 @import 'components/browse';
 @import 'components/bill';
 @import 'components/person';
-@import 'components/senate-race';
 @import 'components/legislators';
 @import 'components/form';
-@import 'components/pagination';
+@import 'components/registration';
+@import 'components/DNC';
+@import 'custom/media';
 
 
