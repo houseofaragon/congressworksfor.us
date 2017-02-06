@@ -9,7 +9,7 @@ import DNCDelegates from './DNCDelegates'
 
 class DNC extends React.Component {
   componentWillMount () {
-    this.props.fetchDNC()
+    this.props.fetchDNC('ALL')
   }
   render () {
     const { delegates } = this.props || {}

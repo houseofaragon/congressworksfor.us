@@ -20,7 +20,7 @@ const rootRoute = {
       path: '/',
       getComponent (location, cb) {
         require.ensure([], () => {
-          cb(null, require('./components/Landing').default)
+          cb(null, require('./components/DNC').default)
         })
       }
     },

@@ -130,8 +130,14 @@ const sortByKey = (array, key) => {
   return newArray
 }
 
-export const fetchDNC = () => (dispatch) => {
-  const url = 'http://192.168.1.126:5000/delegates/'
+export const fetchDNC = (state) => (dispatch) => {
+  console.log(state)
+  let url
+  if (state === 'ALL') {
+    url = 'http://192.168.1.126:5000/delegates/'
+  } else {
+    url = `http://192.168.1.126:5000/delegates?state=${state}`
+  }
   fetch(url)
     .then(response => response.json())
     .then(data => dispatch(setDNC(data)))

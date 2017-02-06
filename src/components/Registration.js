@@ -33,7 +33,7 @@ class Registration extends React.Component {
       <div className='registration'>
         <div className={this.props.success ? 'form invisible' : 'form'}>
           <h1> Sign Up </h1>
-          <h4> Get texts about upcoming elections <br /> and strategies for taking civic-action.</h4>
+          <h4> Get weekly texts about upcoming elections <br /> and strategies for taking civic action.</h4>
           <form
             className="header-bar-search"
             onSubmit={this.handleSubmit}>
@@ -56,7 +56,7 @@ class Registration extends React.Component {
             <button onClick={this.handleSubmit}> Submit </button>
           </form>
         </div>
-        {this.props.success ? <div className='registration-msg'> <h2>Thank you for signing up!</h2> </div> : ''}
+        {this.props.success ? <div className='welcome-msg'> <h2>Thank you for signing up!</h2> </div> : ''}
       </div>
     )
   }
