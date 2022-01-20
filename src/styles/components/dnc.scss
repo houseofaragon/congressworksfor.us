@@ -1,0 +1,164 @@
+.DNC {
+	background: $blue; /* fallback for old browsers */
+	box-sizing: border-box;
+	padding-top: 20vh;
+	text-align: center;
+	color: $white;
+	padding-bottom: $padding *10;
+	clear: both;
+	overflow-x: hidden;
+	&::-webkit-scrollbar { 
+		display: none; 
+	}
+	& h3{ padding: $padding * 2; }
+	& .dnc-header {
+		padding: $padding * 2 0;
+		color: $light-pink;
+		font-size: 1.5em;
+		text-align: left;
+	}
+
+	& #dnc-description{
+		padding-top: 15vh;
+		margin: 0 auto;
+
+		& #menu a{
+			background-color: $light-blue;
+			color: $white;
+			display: inline-block;
+			padding: $padding $padding*2;
+			margin-right: $padding;
+			border-radius: 15px;
+			font-size: 0.8em;
+			bottom: 0;
+			&:hover{
+				background-color: $dark-blue;
+				transition: background-color 250ms;
+			}
+		}
+	}
+	& #dnc-wrapper {
+		top: 20vh;
+		position: relative;
+		width: 70vw;
+		display: inline-block;
+	}
+
+	& #faq-wrapper {
+		position: relative;
+		text-align: left;
+		margin: 3em auto;
+		& h2 { color: $dark-blue; }
+		& h3 { 
+			font-family: 'Open Sans' , sans-serif !important; 
+			font-weight: 300;
+			color: $dark-blue;
+			& a { cursor: pointer; font-family: 'Montserrat', sans-serif !important; color: $dark-blue;}
+		}
+	}
+
+	& #candidate-wrapper{
+		display: inline-block;
+		position: relative;
+		& .candidate {
+			display: inline-block;
+			margin-right: $padding;
+			padding: $padding $padding*2;
+			box-sizing: border-box;
+			vertical-align: top;
+			width: 19vw;
+			cursor: pointer;
+			&:hover{
+				background: $light-blue;
+				transition: background 500ms;
+			}
+			&:last-child{ margin-right: 0 }
+			& div{
+  				margin: 0 auto;
+  				border: 0;
+  				margin-bottom: 1em;
+  				&#keith-ellison {
+  					background: url(images/dnc-sprites.png) 0 -600px;
+					width: 200px;
+					height: 200px;
+  				}
+  				&#tom-perez{
+  					background: url(images/dnc-sprites.png) 0 0;
+					width: 200px;
+					height: 200px;
+  				}
+  				&#ray-buckley{
+    				background: url(images/dnc-sprites.png) 0 -400px;
+					width: 200px;
+					height: 200px;
+  				}
+  				&#jaime-harrison{
+  					background: url(images/dnc-sprites.png) 0 -200px;
+					width: 200px;
+					height: 200px;
+  				}
+  				&#sally-brown{
+  					background: url(images/dnc-sprites.png) 0 -800px;
+					width: 200px;
+					height: 200px;
+  				}
+			}
+			& h1.candidate-name{
+				font-size: 1.3em;
+				color: $white;
+			}
+			& ul {
+				padding: $padding 0;
+				margin: 0;
+				& li{
+					text-align: left;
+					font-size: 1em;
+					padding-bottom: $padding;
+					color: $dark-blue;
+					font-family: 'Open Sans', sans-serif !important; font-weight: 300;
+				}
+			}
+		}
+	}
+	& #delegate-wrapper {
+  		margin: 2em auto;
+  		clear: both;
+  		display: inline-block;
+  		position: relative;
+  		text-align: center;
+  		width: 80vw;
+
+		& .delegate:nth-child(5n){
+			margin-right: 0;
+		}
+		& .delegate{
+			padding: $padding*3;
+			float: left;
+			text-align: left;
+			height: 100%;
+			width: 15vw;
+
+			& #delegate-list {
+				overflow-y: auto;
+				height: 40vh;
+				&::-webkit-scrollbar {
+					background: $light-blue;
+					border-radius: 10px;
+				}
+				&::-webkit-scrollbar-thumb {
+				  background-color: $blue;
+				  border: 3px solid $light-blue;
+				  border-radius: 10px;
+				}
+				& h6{
+					text-indent: 10px;
+					font-size: 0.8em;
+					color: #97cdf9;
+					font-family: 'Open Sans', sans-serif !important; font-weight: 300;
+				}
+			}
+			& h4 { color: $dark-blue; }
+			& h3 { color: $white; padding: 0  0 $padding*2  0 }
+		}
+	}
+}
